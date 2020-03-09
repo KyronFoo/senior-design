@@ -28,8 +28,10 @@
 //high range of the sensor (this will be red on the screen)
 #define MAXTEMP 27
 
+#define DETECTEMP 23
+
 struct Thermal_SizeTemp_Struct{
-	int high_temp, size; 
+	int max_temp, size; 
 };
 
 //the colors we will be using

@@ -46,21 +46,45 @@ int Thermal_setup(){
 
 }
 
+int Print_raw_data = false;
+int Temp_print_delay;
 
 Thermal_SizeTemp_Struct Thermal_read(){
 	amg.readPixels(pixels);
 	struct Thermal_SizeTemp_Struct Size_temp_read;
 	//int cold = 40;
+	Size_temp_read.max_temp = 0;
+	Size_temp_read.size = 0;
 
 	//Parse raw reads for info
-
-	for(int i=0; i<AMG88xx_PIXEL_ARRAY_SIZE; i++){
-		if(pixels[i] > Size_temp_read.high_temp){
-			Size_temp_read.high_temp = pixels[i];
+	
+	Temp_print_delay++;
+	
+	if (Temp_print_delay >= 25){
+		Print_raw_data = true;
+		Temp_print_delay = 0;
+		} 
+		if(Print_raw_data == true) {
+		Serial.print("[");
+		for(int i=1; i<=AMG88xx_PIXEL_ARRAY_SIZE; i++){
+			Serial.print(pixels[i-1]);
+			Serial.print(", ");
+			if( i%8 == 0 ) Serial.println();
 		}
-		if(pixels[i] >= MAXTEMP - 2){
+		Serial.println("]");
+		Serial.println();
+		Print_raw_data = false;
+	}
+
+	
+	for(int i=0; i<AMG88xx_PIXEL_ARRAY_SIZE; i++){
+		if(pixels[i] > Size_temp_read.max_temp){
+			Size_temp_read.max_temp = pixels[i];
+		}
+		if(pixels[i] >= DETECTEMP){
 			Size_temp_read.size++;
 		}
+		
 
 	}
 	//modify array for display
