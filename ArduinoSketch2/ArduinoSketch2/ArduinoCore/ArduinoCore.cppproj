@@ -1,0 +1,550 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="14.0">
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>7.0</ProjectVersion>
+    <ToolchainName>com.Atmel.AVRGCC8.CPP</ToolchainName>
+    <ProjectGuid>469f6f0e-d9a8-46ba-b0f7-87d6d52483ca</ProjectGuid>
+    <avrdevice>atmega2560</avrdevice>
+    <avrdeviceseries>none</avrdeviceseries>
+    <OutputType>StaticLibrary</OutputType>
+    <Language>CPP</Language>
+    <OutputFileName>lib$(MSBuildProjectName)</OutputFileName>
+    <OutputFileExtension>.a</OutputFileExtension>
+    <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
+    <Name>ArduinoCore</Name>
+    <ArduinoIdeDir>C:\Users\syngr\OneDrive\Desktop\arduino-1.8.11</ArduinoIdeDir>
+    <ArduinoProjectType>Core</ArduinoProjectType>
+    <ToolchainFlavour>Native</ToolchainFlavour>
+    <AssemblyName>ArduinoCore</AssemblyName>
+    <RootNamespace>ArduinoCore</RootNamespace>
+    <KeepTimersRunning>true</KeepTimersRunning>
+    <OverrideVtor>false</OverrideVtor>
+    <CacheFlash>true</CacheFlash>
+    <ProgFlashFromRam>true</ProgFlashFromRam>
+    <RamSnippetAddress />
+    <UncachedRange />
+    <preserveEEPROM>true</preserveEEPROM>
+    <OverrideVtorValue />
+    <BootSegment>2</BootSegment>
+    <ResetRule>0</ResetRule>
+    <eraseonlaunchrule>0</eraseonlaunchrule>
+    <EraseKey />
+    <AsfFrameworkConfig>
+      <framework-data xmlns="">
+  <options />
+  <configurations />
+  <files />
+  <documentation help="" />
+  <offline-documentation help="" />
+  <dependencies>
+    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.47.0" />
+  </dependencies>
+</framework-data>
+    </AsfFrameworkConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <ToolchainSettings>
+      <AvrGccCpp>
+  <avrgcc.common.Device>-mmcu=atmega2560 -B "%24(PackRepoDir)\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega2560"</avrgcc.common.Device>
+  <avrgcc.common.optimization.RelaxBranches>True</avrgcc.common.optimization.RelaxBranches>
+  <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+  <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+  <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+  <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
+  <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
+  <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+  <avrgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>NDEBUG</Value>
+      <Value>F_CPU=16000000L</Value>
+      <Value>ARDUINO=108011</Value>
+      <Value>ARDUINO_AVR_MEGA2560</Value>
+      <Value>ARDUINO_ARCH_AVR</Value>
+      <Value>USB_VID=0x2341</Value>
+      <Value>USB_PID=0x0010</Value>
+      <Value>USB_MANUFACTURER="\"Arduino LLC\""</Value>
+    </ListValues>
+  </avrgcc.compiler.symbols.DefSymbols>
+  <avrgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.3.300\include</Value>
+      <Value>..\include\libraries\Parse_Arduino_SDK</Value>
+      <Value>..\include\libraries\Parse_Arduino_SDK\external\FlashStorage</Value>
+      <Value>..\include\libraries\Parse_Arduino_SDK\internal</Value>
+      <Value>..\include\libraries\Bridge</Value>
+      <Value>..\include\core</Value>
+      <Value>..\include\variants\mega</Value>
+    </ListValues>
+  </avrgcc.compiler.directories.IncludePaths>
+  <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
+  <avrgcc.compiler.optimization.OtherFlags>-fno-threadsafe-statics</avrgcc.compiler.optimization.OtherFlags>
+  <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+  <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+  <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
+  <avrgcc.compiler.warnings.InhibitAllWarnings>True</avrgcc.compiler.warnings.InhibitAllWarnings>
+  <avrgcc.compiler.miscellaneous.OtherFlags>-std=gnu99 -std=gnu11</avrgcc.compiler.miscellaneous.OtherFlags>
+  <avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>
+  <avrgcccpp.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>NDEBUG</Value>
+      <Value>F_CPU=16000000L</Value>
+      <Value>ARDUINO=108011</Value>
+      <Value>ARDUINO_AVR_MEGA2560</Value>
+      <Value>ARDUINO_ARCH_AVR</Value>
+      <Value>USB_VID=0x2341</Value>
+      <Value>USB_PID=0x0010</Value>
+      <Value>USB_MANUFACTURER="\"Arduino LLC\""</Value>
+    </ListValues>
+  </avrgcccpp.compiler.symbols.DefSymbols>
+  <avrgcccpp.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.3.300\include</Value>
+      <Value>..\include\libraries\Parse_Arduino_SDK</Value>
+      <Value>..\include\libraries\Parse_Arduino_SDK\external\FlashStorage</Value>
+      <Value>..\include\libraries\Parse_Arduino_SDK\internal</Value>
+      <Value>..\include\libraries\Bridge</Value>
+      <Value>..\include\core</Value>
+      <Value>..\include\variants\mega</Value>
+    </ListValues>
+  </avrgcccpp.compiler.directories.IncludePaths>
+  <avrgcccpp.compiler.optimization.level>Optimize for size (-Os)</avrgcccpp.compiler.optimization.level>
+  <avrgcccpp.compiler.optimization.OtherFlags>-fno-threadsafe-statics</avrgcccpp.compiler.optimization.OtherFlags>
+  <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
+  <avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>
+  <avrgcccpp.compiler.optimization.DebugLevel>Default (-g2)</avrgcccpp.compiler.optimization.DebugLevel>
+  <avrgcccpp.compiler.warnings.InhibitAllWarnings>True</avrgcccpp.compiler.warnings.InhibitAllWarnings>
+  <avrgcccpp.compiler.miscellaneous.OtherFlags>-std=gnu++11</avrgcccpp.compiler.miscellaneous.OtherFlags>
+  <avrgcccpp.linker.libraries.Libraries>
+    <ListValues>
+      <Value>libm</Value>
+    </ListValues>
+  </avrgcccpp.linker.libraries.Libraries>
+  <avrgcccpp.linker.miscellaneous.LinkerFlags>-Os</avrgcccpp.linker.miscellaneous.LinkerFlags>
+  <avrgcccpp.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.3.300\include</Value>
+    </ListValues>
+  </avrgcccpp.assembler.general.IncludePaths>
+  <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
+</AvrGccCpp>
+    </ToolchainSettings>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <ToolchainSettings>
+      <AvrGccCpp>
+  <avrgcc.common.Device>-mmcu=atmega2560 -B "%24(PackRepoDir)\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega2560"</avrgcc.common.Device>
+  <avrgcc.common.optimization.RelaxBranches>True</avrgcc.common.optimization.RelaxBranches>
+  <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+  <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+  <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+  <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
+  <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
+  <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+  <avrgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>DEBUG</Value>
+      <Value>F_CPU=16000000L</Value>
+      <Value>ARDUINO=108011</Value>
+      <Value>ARDUINO_AVR_MEGA2560</Value>
+      <Value>ARDUINO_ARCH_AVR</Value>
+      <Value>USB_VID=0x2341</Value>
+      <Value>USB_PID=0x0010</Value>
+      <Value>USB_MANUFACTURER="\"Arduino LLC\""</Value>
+    </ListValues>
+  </avrgcc.compiler.symbols.DefSymbols>
+  <avrgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.3.300\include</Value>
+      <Value>..\include\libraries\Parse_Arduino_SDK</Value>
+      <Value>..\include\libraries\Parse_Arduino_SDK\external\FlashStorage</Value>
+      <Value>..\include\libraries\Parse_Arduino_SDK\internal</Value>
+      <Value>..\include\libraries\Bridge</Value>
+      <Value>..\include\core</Value>
+      <Value>..\include\variants\mega</Value>
+    </ListValues>
+  </avrgcc.compiler.directories.IncludePaths>
+  <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
+  <avrgcc.compiler.optimization.OtherFlags>-fno-threadsafe-statics</avrgcc.compiler.optimization.OtherFlags>
+  <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+  <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+  <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
+  <avrgcc.compiler.warnings.InhibitAllWarnings>True</avrgcc.compiler.warnings.InhibitAllWarnings>
+  <avrgcc.compiler.miscellaneous.OtherFlags>-std=gnu99 -std=gnu11</avrgcc.compiler.miscellaneous.OtherFlags>
+  <avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>
+  <avrgcccpp.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>DEBUG</Value>
+      <Value>F_CPU=16000000L</Value>
+      <Value>ARDUINO=108011</Value>
+      <Value>ARDUINO_AVR_MEGA2560</Value>
+      <Value>ARDUINO_ARCH_AVR</Value>
+      <Value>USB_VID=0x2341</Value>
+      <Value>USB_PID=0x0010</Value>
+      <Value>USB_MANUFACTURER="\"Arduino LLC\""</Value>
+    </ListValues>
+  </avrgcccpp.compiler.symbols.DefSymbols>
+  <avrgcccpp.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.3.300\include</Value>
+      <Value>..\include\libraries\Parse_Arduino_SDK</Value>
+      <Value>..\include\libraries\Parse_Arduino_SDK\external\FlashStorage</Value>
+      <Value>..\include\libraries\Parse_Arduino_SDK\internal</Value>
+      <Value>..\include\libraries\Bridge</Value>
+      <Value>..\include\core</Value>
+      <Value>..\include\variants\mega</Value>
+    </ListValues>
+  </avrgcccpp.compiler.directories.IncludePaths>
+  <avrgcccpp.compiler.optimization.level>Optimize for size (-Os)</avrgcccpp.compiler.optimization.level>
+  <avrgcccpp.compiler.optimization.OtherFlags>-fno-threadsafe-statics</avrgcccpp.compiler.optimization.OtherFlags>
+  <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
+  <avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>
+  <avrgcccpp.compiler.optimization.DebugLevel>Default (-g2)</avrgcccpp.compiler.optimization.DebugLevel>
+  <avrgcccpp.compiler.warnings.InhibitAllWarnings>True</avrgcccpp.compiler.warnings.InhibitAllWarnings>
+  <avrgcccpp.compiler.miscellaneous.OtherFlags>-std=gnu++11</avrgcccpp.compiler.miscellaneous.OtherFlags>
+  <avrgcccpp.linker.libraries.Libraries>
+    <ListValues>
+      <Value>libm</Value>
+    </ListValues>
+  </avrgcccpp.linker.libraries.Libraries>
+  <avrgcccpp.linker.miscellaneous.LinkerFlags>-Os</avrgcccpp.linker.miscellaneous.LinkerFlags>
+  <avrgcccpp.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.3.300\include</Value>
+    </ListValues>
+  </avrgcccpp.assembler.general.IncludePaths>
+  <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
+</AvrGccCpp>
+    </ToolchainSettings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="include\core\Arduino.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\core\binary.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\core\Client.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\core\HardwareSerial.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\core\HardwareSerial_private.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\core\IPAddress.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\core\new.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\core\PluggableUSB.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\core\Print.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\core\Printable.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\core\Server.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\core\Stream.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\core\Udp.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\core\USBAPI.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\core\USBCore.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\core\USBDesc.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\core\WCharacter.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\core\wiring_private.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\core\WString.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Bridge\Bridge.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Bridge\BridgeClient.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Bridge\BridgeServer.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Bridge\BridgeSSLClient.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Bridge\BridgeUdp.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Bridge\Console.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Bridge\FileIO.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Bridge\HttpClient.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Bridge\Mailbox.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Bridge\Process.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Bridge\YunClient.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Bridge\YunServer.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Parse_Arduino_SDK\external\FlashStorage\FlashStorage.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Parse_Arduino_SDK\internal\ConnectionClient.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Parse_Arduino_SDK\internal\ParseClient.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Parse_Arduino_SDK\internal\ParseCloudFunction.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Parse_Arduino_SDK\internal\ParseInternal.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Parse_Arduino_SDK\internal\ParseObjectCreate.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Parse_Arduino_SDK\internal\ParseObjectDelete.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Parse_Arduino_SDK\internal\ParseObjectGet.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Parse_Arduino_SDK\internal\ParseObjectUpdate.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Parse_Arduino_SDK\internal\ParsePlatformSupport.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Parse_Arduino_SDK\internal\ParsePush.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Parse_Arduino_SDK\internal\ParseQuery.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Parse_Arduino_SDK\internal\ParseRequest.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Parse_Arduino_SDK\internal\ParseResponse.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Parse_Arduino_SDK\internal\ParseTrackEvent.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Parse_Arduino_SDK\internal\ParseUtils.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\libraries\Parse_Arduino_SDK\Parse.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\variants\mega\pins_arduino.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\abi.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\CDC.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\HardwareSerial.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\HardwareSerial0.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\HardwareSerial1.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\HardwareSerial2.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\HardwareSerial3.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\hooks.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\IPAddress.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\main.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\new.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\PluggableUSB.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\PreprocessingAssembly\wiring_pulse.S">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\Print.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\Stream.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\Tone.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\USBCore.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\WInterrupts.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\wiring.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\wiring_analog.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\wiring_digital.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\wiring_pulse.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\wiring_shift.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\WMath.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\core\WString.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Bridge\Bridge.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Bridge\BridgeClient.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Bridge\BridgeServer.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Bridge\BridgeSSLClient.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Bridge\BridgeUdp.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Bridge\Console.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Bridge\FileIO.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Bridge\HttpClient.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Bridge\Mailbox.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Bridge\Process.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Parse_Arduino_SDK\external\FlashStorage\FlashStorage.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Parse_Arduino_SDK\internal\ParseCloudFunction.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Parse_Arduino_SDK\internal\ParseObjectCreate.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Parse_Arduino_SDK\internal\ParseObjectDelete.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Parse_Arduino_SDK\internal\ParseObjectGet.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Parse_Arduino_SDK\internal\ParseObjectUpdate.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Parse_Arduino_SDK\internal\ParseQuery.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Parse_Arduino_SDK\internal\ParseRequest.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Parse_Arduino_SDK\internal\ParseTrackEvent.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Parse_Arduino_SDK\internal\yun\ParseClient.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Parse_Arduino_SDK\internal\yun\ParsePlatformSupport.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Parse_Arduino_SDK\internal\yun\ParsePush.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Parse_Arduino_SDK\internal\yun\ParseResponse.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Parse_Arduino_SDK\internal\zero\ParseClient.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Parse_Arduino_SDK\internal\zero\ParsePush.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\libraries\Parse_Arduino_SDK\internal\zero\ParseResponse.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="include\" />
+    <Folder Include="include\core\" />
+    <Folder Include="include\libraries\" />
+    <Folder Include="include\libraries\Bridge\" />
+    <Folder Include="include\libraries\Parse_Arduino_SDK\" />
+    <Folder Include="include\libraries\Parse_Arduino_SDK\external\" />
+    <Folder Include="include\libraries\Parse_Arduino_SDK\external\FlashStorage\" />
+    <Folder Include="include\libraries\Parse_Arduino_SDK\internal\" />
+    <Folder Include="include\variants\" />
+    <Folder Include="include\variants\mega\" />
+    <Folder Include="src\" />
+    <Folder Include="src\core\" />
+    <Folder Include="src\core\PreprocessingAssembly\" />
+    <Folder Include="src\libraries\" />
+    <Folder Include="src\libraries\Bridge\" />
+    <Folder Include="src\libraries\Parse_Arduino_SDK\" />
+    <Folder Include="src\libraries\Parse_Arduino_SDK\external\" />
+    <Folder Include="src\libraries\Parse_Arduino_SDK\external\FlashStorage\" />
+    <Folder Include="src\libraries\Parse_Arduino_SDK\internal\" />
+    <Folder Include="src\libraries\Parse_Arduino_SDK\internal\yun\" />
+    <Folder Include="src\libraries\Parse_Arduino_SDK\internal\zero\" />
+  </ItemGroup>
+  <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
+</Project>

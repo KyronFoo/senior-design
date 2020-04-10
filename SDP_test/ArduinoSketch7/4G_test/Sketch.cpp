@@ -83,7 +83,7 @@ void setup() {
 
 void loop() {
 	// put your main code here, to run repeatedly:
-	updateSerial(); //Telecom module read
+	//updateSerial(); //Telecom module read
 	
 	//Camera_read(); //IR camera read
 	

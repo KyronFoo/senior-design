@@ -11,7 +11,7 @@
 void Camera_setup(Adafruit_AMG88xx amg){
 	bool status;
 	
-	digitalWrite(Camera_enable_pin, HIGH);
+	digitalWrite(Camera_enable_pin, LOW); //shut off NPN switch
 	delay(100);
 	
 	// default settings
@@ -29,6 +29,10 @@ void Camera_setup(Adafruit_AMG88xx amg){
 }
 
 void Camera_read(Adafruit_AMG88xx amg, float *pixels){
+	//turn on camera
+	digitalWrite(Camera_enable_pin, LOW); //shut off NPN switch
+	delay(100);
+	
 	//read all the pixels
 	amg.readPixels(pixels);
 
@@ -41,7 +45,7 @@ void Camera_read(Adafruit_AMG88xx amg, float *pixels){
 	Serial.println("]");
 	Serial.println();
 	
-	digitalWrite(Camera_enable_pin, LOW);
+	digitalWrite(Camera_enable_pin, HIGH); //turn on NPN and sink current
 
 	//delay a second
 	delay(1000);

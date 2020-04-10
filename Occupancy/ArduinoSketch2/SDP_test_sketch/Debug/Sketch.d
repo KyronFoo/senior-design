@@ -39,7 +39,7 @@ Sketch.d Sketch.o: .././Sketch.cpp \
  ..\\..\ArduinoCore\include\libraries\Wire/Wire.h \
  ..\\..\ArduinoCore\include\core/Stream.h \
  ..\\..\ArduinoCore\include\libraries\SoftwareSerial/SoftwareSerial.h \
- .././Camera.h
+ .././Camera.h .././Pins.h
 
 ..\\..\ArduinoCore\include\core/Arduino.h:
 
@@ -122,3 +122,5 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ..\\..\ArduinoCore\include\libraries\SoftwareSerial/SoftwareSerial.h:
 
 .././Camera.h:
+
+.././Pins.h:

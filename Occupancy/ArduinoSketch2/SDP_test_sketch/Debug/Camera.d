@@ -36,7 +36,7 @@ Camera.d Camera.o: .././Camera.cpp .././Camera.h \
  ..\\..\ArduinoCore\include\core/Arduino.h \
  ..\\..\ArduinoCore\include\variants\mega/pins_arduino.h \
  ..\\..\ArduinoCore\include\libraries\Wire/Wire.h \
- ..\\..\ArduinoCore\include\core/Stream.h \
+ ..\\..\ArduinoCore\include\core/Stream.h .././Pins.h \
  ..\\..\ArduinoCore\include\libraries\SoftwareSerial/SoftwareSerial.h
 
 .././Camera.h:
@@ -116,5 +116,7 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ..\\..\ArduinoCore\include\libraries\Wire/Wire.h:
 
 ..\\..\ArduinoCore\include\core/Stream.h:
+
+.././Pins.h:
 
 ..\\..\ArduinoCore\include\libraries\SoftwareSerial/SoftwareSerial.h:

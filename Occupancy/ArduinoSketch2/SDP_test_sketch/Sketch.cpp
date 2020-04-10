@@ -8,6 +8,7 @@
 #include <SoftwareSerial.h> //Serial communication library
 #include <Wire.h> //Used by infrared camera library for I2C communication
 #include "Camera.h"
+#include "Pins.h"
 //#include "Telecom_module.h" //4g helper functions
 //Beginning of Auto generated function prototypes by Atmel Studio
 void updateSerial();
@@ -17,31 +18,21 @@ void updateSerial();
 Adafruit_AMG88xx amg; //define thermal camera
 float pixels[AMG88xx_PIXEL_ARRAY_SIZE]; //create array for incoming pixels
 
-#define Telecom_TX 50 //connects to rx pin on telecom module
-#define Telecom_RX 51 //connects to tx pin on telecom module
-#define Power_pin 53 //connects to power pin on telecom module
-#define Status_pin 49 //connects to status pin on telecom module
-#define TRIG_PIN 4
-#define ECHO_PIN 5
-#define PIR_read_pin 10
-#define Ping_PIR_enable_pin 11
-#define Camera_enable_pin 9
 
 #define Detect_range 100 //detection threshold for ping sensor, dummy value
 #define Detect_temp 5 //degrees celcius above background needed for IR camera detect, dummy value
 #define Detect_pixels 3 //amount of pixels needed for IR camera detect, dummy value
 
 
-SoftwareSerial Telecom_serial(Telecom_RX, Telecom_TX); //set up serial port for telecom module
+//SoftwareSerial Telecom_serial(Telecom_RX, Telecom_TX); //set up serial port for telecom module
+#define Telecom_serial Serial1
 HCSR04 hcsr04(TRIG_PIN, ECHO_PIN, 20, 4000); //setup ping sensor
 
-void Enable_pin_init();
+void Pins_assign();
 //void Camera_setup();
 //void Camera_read();
-void PIR_setup();
+void Pins_assign();
 int Setup_4G();
-
-
 int Occupancy_detect();
 
 void setup() {
@@ -51,19 +42,20 @@ void setup() {
 	Serial.begin(9600); //setup USB
 	while (!Serial);
 	
-	Enable_pin_init();
+	Pins_assign();
 	
 	//Setup_4G(); //setup telecom unit
 	
 	Camera_setup(amg); //setup IR camera
 	
-	PIR_setup(); //setup PIR pin
+	Pins_assign(); //setup PIR pin
 	
 	delay (100);
 	
 	Camera_read(amg, pixels); //IR camera read, fills array pixels with 64 temperature values.
 	
-	digitalWrite(Ping_PIR_enable_pin, HIGH); //turn on sensors for read
+	digitalWrite(Ping_enable_pin, LOW); //turn on sensors for read
+	digitalWrite(PIR_enable_pin,LOW);
 	delay(100);
 	Serial.println(hcsr04.ToString()); //read ping sensor
 	if( digitalRead(PIR_read_pin) != 0){ //read PIR sensor
@@ -78,7 +70,8 @@ void setup() {
 	Serial.print("Setup time: ");
 	Serial.println(Setup_time);
 	
-	digitalWrite(Ping_PIR_enable_pin, LOW);
+	digitalWrite(Ping_enable_pin, HIGH);
+	digitalWrite(PIR_enable_pin, HIGH);
 }
 
 void loop() {
@@ -90,15 +83,18 @@ void loop() {
 }
 
 int Occupancy_detect(){
-	//int Distance;
-	char PIR;
+	int Distance;
+	int PIR;
 	int Temperature;
 	int j;
 	
-	digitalWrite(Ping_PIR_enable_pin, HIGH); //turn on sensors for read
+	digitalWrite(Ping_enable_pin, LOW); //turn on sensors for read
+	digitalWrite(PIR_enable_pin, LOW);
 	delay(100);
-	//Distance = hcsr04.ToString()); //read ping sensor
+	Distance = hcsr04.distanceInMillimeters(); //read ping sensor
+	Serial.println(digitalRead(PIR_read_pin)); //read PIR sensor
 	PIR = digitalRead(PIR_read_pin); //read PIR sensor
+	Serial.println(PIR); //read PIR sensor
 	
 	Temperature = amg.readThermistor();
 	Camera_read(amg, pixels);
@@ -113,6 +109,9 @@ int Occupancy_detect(){
 			return 0;
 		}
 	}
+	
+	digitalWrite(Ping_enable_pin, HIGH);
+	digitalWrite(PIR_enable_pin, HIGH);
 }
 
 void updateSerial() {
@@ -182,16 +181,17 @@ int Setup_4G(){
 	return success;
 }
 
-void Enable_pin_init(){
+void Pins_assign(){
 	//pinMode(Telecom_enable_pin, OUTPUT);
-	pinMode(Ping_PIR_enable_pin, OUTPUT);
+	pinMode(Ping_enable_pin, OUTPUT);
 	pinMode(Camera_enable_pin, OUTPUT);
-	//digitalWrite(Telecom_enable_pin, HIGH);
-	digitalWrite(Ping_PIR_enable_pin, LOW);
-	digitalWrite(Camera_enable_pin, LOW);
-}
-
-
-void PIR_setup(){
+	pinMode(PIR_enable_pin, OUTPUT);
 	pinMode(PIR_read_pin, INPUT);
+	//digitalWrite(Telecom_enable_pin, HIGH);
+	digitalWrite(Ping_enable_pin, LOW); //low turn on
+	digitalWrite(Camera_enable_pin, LOW); //low turn on
+	digitalWrite(PIR_enable_pin, LOW);
 }
+
+
+
