@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  00001c20  00000000  00000000  000233fc  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00003e35  00000000  00000000  0002501c  2**0
+ 10 .debug_str    00003e16  00000000  00000000  0002501c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000a0ab  00000000  00000000  00028e51  2**0
+ 11 .debug_loc    0000a0ab  00000000  00000000  00028e32  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000898  00000000  00000000  00032efc  2**0
+ 12 .debug_ranges 00000898  00000000  00000000  00032edd  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -922,14 +922,7 @@ void setup() {
      5de:	08 95       	ret
 
 000005e0 <_ZN14HardwareSerial9availableEv>:
-  // clear any received data
-  _rx_buffer_head = _rx_buffer_tail;
-}
-
-int HardwareSerial::available(void)
-{
      5e0:	fc 01       	movw	r30, r24
-  return ((unsigned int)(SERIAL_RX_BUFFER_SIZE + _rx_buffer_head - _rx_buffer_tail)) % SERIAL_RX_BUFFER_SIZE;
      5e2:	91 8d       	ldd	r25, Z+25	; 0x19
      5e4:	22 8d       	ldd	r18, Z+26	; 0x1a
      5e6:	89 2f       	mov	r24, r25
@@ -938,123 +931,66 @@ int HardwareSerial::available(void)
      5ec:	9f 4f       	sbci	r25, 0xFF	; 255
      5ee:	82 1b       	sub	r24, r18
      5f0:	91 09       	sbc	r25, r1
-}
      5f2:	8f 73       	andi	r24, 0x3F	; 63
      5f4:	99 27       	eor	r25, r25
      5f6:	08 95       	ret
 
 000005f8 <_ZN14HardwareSerial4peekEv>:
-
-int HardwareSerial::peek(void)
-{
      5f8:	fc 01       	movw	r30, r24
-  if (_rx_buffer_head == _rx_buffer_tail) {
      5fa:	91 8d       	ldd	r25, Z+25	; 0x19
      5fc:	82 8d       	ldd	r24, Z+26	; 0x1a
      5fe:	98 17       	cp	r25, r24
      600:	31 f0       	breq	.+12     	; 0x60e <_ZN14HardwareSerial4peekEv+0x16>
-    return -1;
-  } else {
-    return _rx_buffer[_rx_buffer_tail];
      602:	82 8d       	ldd	r24, Z+26	; 0x1a
      604:	e8 0f       	add	r30, r24
      606:	f1 1d       	adc	r31, r1
      608:	85 8d       	ldd	r24, Z+29	; 0x1d
      60a:	90 e0       	ldi	r25, 0x00	; 0
      60c:	08 95       	ret
-}
-
-int HardwareSerial::peek(void)
-{
-  if (_rx_buffer_head == _rx_buffer_tail) {
-    return -1;
      60e:	8f ef       	ldi	r24, 0xFF	; 255
      610:	9f ef       	ldi	r25, 0xFF	; 255
-  } else {
-    return _rx_buffer[_rx_buffer_tail];
-  }
-}
      612:	08 95       	ret
 
 00000614 <_ZN14HardwareSerial4readEv>:
-
-int HardwareSerial::read(void)
-{
      614:	fc 01       	movw	r30, r24
-  // if the head isn't ahead of the tail, we don't have any characters
-  if (_rx_buffer_head == _rx_buffer_tail) {
      616:	91 8d       	ldd	r25, Z+25	; 0x19
      618:	82 8d       	ldd	r24, Z+26	; 0x1a
      61a:	98 17       	cp	r25, r24
      61c:	61 f0       	breq	.+24     	; 0x636 <_ZN14HardwareSerial4readEv+0x22>
-    return -1;
-  } else {
-    unsigned char c = _rx_buffer[_rx_buffer_tail];
      61e:	82 8d       	ldd	r24, Z+26	; 0x1a
      620:	df 01       	movw	r26, r30
      622:	a8 0f       	add	r26, r24
      624:	b1 1d       	adc	r27, r1
      626:	5d 96       	adiw	r26, 0x1d	; 29
      628:	8c 91       	ld	r24, X
-    _rx_buffer_tail = (rx_buffer_index_t)(_rx_buffer_tail + 1) % SERIAL_RX_BUFFER_SIZE;
      62a:	92 8d       	ldd	r25, Z+26	; 0x1a
      62c:	9f 5f       	subi	r25, 0xFF	; 255
      62e:	9f 73       	andi	r25, 0x3F	; 63
      630:	92 8f       	std	Z+26, r25	; 0x1a
-    return c;
      632:	90 e0       	ldi	r25, 0x00	; 0
      634:	08 95       	ret
-
-int HardwareSerial::read(void)
-{
-  // if the head isn't ahead of the tail, we don't have any characters
-  if (_rx_buffer_head == _rx_buffer_tail) {
-    return -1;
      636:	8f ef       	ldi	r24, 0xFF	; 255
      638:	9f ef       	ldi	r25, 0xFF	; 255
-  } else {
-    unsigned char c = _rx_buffer[_rx_buffer_tail];
-    _rx_buffer_tail = (rx_buffer_index_t)(_rx_buffer_tail + 1) % SERIAL_RX_BUFFER_SIZE;
-    return c;
-  }
-}
      63a:	08 95       	ret
 
 0000063c <_ZN14HardwareSerial17availableForWriteEv>:
-{
-  tx_buffer_index_t head;
-  tx_buffer_index_t tail;
-
-  TX_BUFFER_ATOMIC {
-    head = _tx_buffer_head;
      63c:	fc 01       	movw	r30, r24
      63e:	53 8d       	ldd	r21, Z+27	; 0x1b
-    tail = _tx_buffer_tail;
      640:	44 8d       	ldd	r20, Z+28	; 0x1c
      642:	25 2f       	mov	r18, r21
      644:	30 e0       	ldi	r19, 0x00	; 0
      646:	84 2f       	mov	r24, r20
      648:	90 e0       	ldi	r25, 0x00	; 0
-  }
-  if (head >= tail) return SERIAL_TX_BUFFER_SIZE - 1 - head + tail;
      64a:	82 1b       	sub	r24, r18
      64c:	93 0b       	sbc	r25, r19
      64e:	54 17       	cp	r21, r20
      650:	10 f0       	brcs	.+4      	; 0x656 <_ZN14HardwareSerial17availableForWriteEv+0x1a>
      652:	cf 96       	adiw	r24, 0x3f	; 63
      654:	08 95       	ret
-  return tail - head - 1;
      656:	01 97       	sbiw	r24, 0x01	; 1
-}
      658:	08 95       	ret
 
 0000065a <_Z14serialEventRunv>:
-#endif
-
-void serialEventRun(void)
-{
-#if defined(HAVE_HWSERIAL0)
-  if (Serial0_available && serialEvent && Serial0_available()) serialEvent();
      65a:	8f eb       	ldi	r24, 0xBF	; 191
      65c:	94 e0       	ldi	r25, 0x04	; 4
      65e:	89 2b       	or	r24, r25
@@ -1066,9 +1002,6 @@ void serialEventRun(void)
      66a:	89 d1       	rcall	.+786    	; 0x97e <_Z17Serial0_availablev>
      66c:	81 11       	cpse	r24, r1
      66e:	25 c0       	rjmp	.+74     	; 0x6ba <_Z14serialEventRunv+0x60>
-#endif
-#if defined(HAVE_HWSERIAL1)
-  if (Serial1_available && serialEvent1 && Serial1_available()) serialEvent1();
      670:	80 e0       	ldi	r24, 0x00	; 0
      672:	90 e0       	ldi	r25, 0x00	; 0
      674:	89 2b       	or	r24, r25
@@ -1080,9 +1013,6 @@ void serialEventRun(void)
      680:	0e 94 00 00 	call	0	; 0x0 <__vectors>
      684:	81 11       	cpse	r24, r1
      686:	1c c0       	rjmp	.+56     	; 0x6c0 <_Z14serialEventRunv+0x66>
-#endif
-#if defined(HAVE_HWSERIAL2)
-  if (Serial2_available && serialEvent2 && Serial2_available()) serialEvent2();
      688:	80 e0       	ldi	r24, 0x00	; 0
      68a:	90 e0       	ldi	r25, 0x00	; 0
      68c:	89 2b       	or	r24, r25
@@ -1094,9 +1024,6 @@ void serialEventRun(void)
      698:	0e 94 00 00 	call	0	; 0x0 <__vectors>
      69c:	81 11       	cpse	r24, r1
      69e:	13 c0       	rjmp	.+38     	; 0x6c6 <_Z14serialEventRunv+0x6c>
-#endif
-#if defined(HAVE_HWSERIAL3)
-  if (Serial3_available && serialEvent3 && Serial3_available()) serialEvent3();
      6a0:	80 e0       	ldi	r24, 0x00	; 0
      6a2:	90 e0       	ldi	r25, 0x00	; 0
      6a4:	89 2b       	or	r24, r25
@@ -1109,41 +1036,17 @@ void serialEventRun(void)
      6b4:	81 11       	cpse	r24, r1
      6b6:	0a c0       	rjmp	.+20     	; 0x6cc <_Z14serialEventRunv+0x72>
      6b8:	08 95       	ret
-#endif
-
-void serialEventRun(void)
-{
-#if defined(HAVE_HWSERIAL0)
-  if (Serial0_available && serialEvent && Serial0_available()) serialEvent();
      6ba:	0e 94 00 00 	call	0	; 0x0 <__vectors>
      6be:	d8 cf       	rjmp	.-80     	; 0x670 <_Z14serialEventRunv+0x16>
-#endif
-#if defined(HAVE_HWSERIAL1)
-  if (Serial1_available && serialEvent1 && Serial1_available()) serialEvent1();
      6c0:	0e 94 00 00 	call	0	; 0x0 <__vectors>
      6c4:	e1 cf       	rjmp	.-62     	; 0x688 <_Z14serialEventRunv+0x2e>
-#endif
-#if defined(HAVE_HWSERIAL2)
-  if (Serial2_available && serialEvent2 && Serial2_available()) serialEvent2();
      6c6:	0e 94 00 00 	call	0	; 0x0 <__vectors>
      6ca:	ea cf       	rjmp	.-44     	; 0x6a0 <_Z14serialEventRunv+0x46>
-#endif
-#if defined(HAVE_HWSERIAL3)
-  if (Serial3_available && serialEvent3 && Serial3_available()) serialEvent3();
      6cc:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
      6d0:	08 95       	ret
 
 000006d2 <_ZN14HardwareSerial17_tx_udr_empty_irqEv>:
-#endif
-
-// Actual interrupt handlers //////////////////////////////////////////////////////////////
-
-void HardwareSerial::_tx_udr_empty_irq(void)
-{
      6d2:	fc 01       	movw	r30, r24
-  // If interrupts are enabled, there must be more data in the output
-  // buffer. Send the next byte
-  unsigned char c = _tx_buffer[_tx_buffer_tail];
      6d4:	84 8d       	ldd	r24, Z+28	; 0x1c
      6d6:	df 01       	movw	r26, r30
      6d8:	a8 0f       	add	r26, r24
@@ -1151,41 +1054,25 @@ void HardwareSerial::_tx_udr_empty_irq(void)
      6dc:	a3 5a       	subi	r26, 0xA3	; 163
      6de:	bf 4f       	sbci	r27, 0xFF	; 255
      6e0:	2c 91       	ld	r18, X
-  _tx_buffer_tail = (_tx_buffer_tail + 1) % SERIAL_TX_BUFFER_SIZE;
      6e2:	84 8d       	ldd	r24, Z+28	; 0x1c
      6e4:	90 e0       	ldi	r25, 0x00	; 0
      6e6:	01 96       	adiw	r24, 0x01	; 1
      6e8:	8f 73       	andi	r24, 0x3F	; 63
      6ea:	99 27       	eor	r25, r25
      6ec:	84 8f       	std	Z+28, r24	; 0x1c
-
-  *_udr = c;
      6ee:	a6 89       	ldd	r26, Z+22	; 0x16
      6f0:	b7 89       	ldd	r27, Z+23	; 0x17
      6f2:	2c 93       	st	X, r18
-  // location". This makes sure flush() won't return until the bytes
-  // actually got written. Other r/w bits are preserved, and zeroes
-  // written to the rest.
-
-#ifdef MPCM0
-  *_ucsra = ((*_ucsra) & ((1 << U2X0) | (1 << MPCM0))) | (1 << TXC0);
      6f4:	a0 89       	ldd	r26, Z+16	; 0x10
      6f6:	b1 89       	ldd	r27, Z+17	; 0x11
      6f8:	8c 91       	ld	r24, X
      6fa:	83 70       	andi	r24, 0x03	; 3
      6fc:	80 64       	ori	r24, 0x40	; 64
      6fe:	8c 93       	st	X, r24
-#else
-  *_ucsra = ((*_ucsra) & ((1 << U2X0) | (1 << TXC0)));
-#endif
-
-  if (_tx_buffer_head == _tx_buffer_tail) {
      700:	93 8d       	ldd	r25, Z+27	; 0x1b
      702:	84 8d       	ldd	r24, Z+28	; 0x1c
      704:	98 13       	cpse	r25, r24
      706:	06 c0       	rjmp	.+12     	; 0x714 <_ZN14HardwareSerial17_tx_udr_empty_irqEv+0x42>
-    // Buffer empty, so disable interrupts
-    cbi(*_ucsrb, UDRIE0);
      708:	02 88       	ldd	r0, Z+18	; 0x12
      70a:	f3 89       	ldd	r31, Z+19	; 0x13
      70c:	e0 2d       	mov	r30, r0
@@ -1195,12 +1082,6 @@ void HardwareSerial::_tx_udr_empty_irq(void)
      714:	08 95       	ret
 
 00000716 <_ZN14HardwareSerial5writeEh>:
-  // If we get here, nothing is queued anymore (DRIE is disabled) and
-  // the hardware finished tranmission (TXC is set).
-}
-
-size_t HardwareSerial::write(uint8_t c)
-{
      716:	ef 92       	push	r14
      718:	ff 92       	push	r15
      71a:	0f 93       	push	r16
@@ -1208,14 +1089,8 @@ size_t HardwareSerial::write(uint8_t c)
      71e:	cf 93       	push	r28
      720:	df 93       	push	r29
      722:	ec 01       	movw	r28, r24
-  _written = true;
      724:	81 e0       	ldi	r24, 0x01	; 1
      726:	88 8f       	std	Y+24, r24	; 0x18
-  // If the buffer and the data register is empty, just write the byte
-  // to the data register and be done. This shortcut helps
-  // significantly improve the effective datarate at high (>
-  // 500kbit/s) bitrates, where interrupt overhead becomes a slowdown.
-  if (_tx_buffer_head == _tx_buffer_tail && bit_is_set(*_ucsra, UDRE0)) {
      728:	9b 8d       	ldd	r25, Y+27	; 0x1b
      72a:	8c 8d       	ldd	r24, Y+28	; 0x1c
      72c:	98 13       	cpse	r25, r24
@@ -1226,12 +1101,6 @@ size_t HardwareSerial::write(uint8_t c)
      736:	85 fd       	sbrc	r24, 5
      738:	25 c0       	rjmp	.+74     	; 0x784 <_ZN14HardwareSerial5writeEh+0x6e>
      73a:	f6 2e       	mov	r15, r22
-      *_ucsra = ((*_ucsra) & ((1 << U2X0) | (1 << TXC0)));
-#endif
-    }
-    return 1;
-  }
-  tx_buffer_index_t i = (_tx_buffer_head + 1) % SERIAL_TX_BUFFER_SIZE;
      73c:	0b 8d       	ldd	r16, Y+27	; 0x1b
      73e:	10 e0       	ldi	r17, 0x00	; 0
      740:	0f 5f       	subi	r16, 0xFF	; 255
@@ -1239,37 +1108,20 @@ size_t HardwareSerial::write(uint8_t c)
      744:	0f 73       	andi	r16, 0x3F	; 63
      746:	11 27       	eor	r17, r17
      748:	e0 2e       	mov	r14, r16
-	
-  // If the output buffer is full, there's nothing for it other than to 
-  // wait for the interrupt handler to empty it a bit
-  while (i == _tx_buffer_tail) {
      74a:	8c 8d       	ldd	r24, Y+28	; 0x1c
      74c:	e8 12       	cpse	r14, r24
      74e:	0b c0       	rjmp	.+22     	; 0x766 <_ZN14HardwareSerial5writeEh+0x50>
-    if (bit_is_clear(SREG, SREG_I)) {
      750:	0f b6       	in	r0, 0x3f	; 63
      752:	07 fc       	sbrc	r0, 7
      754:	fa cf       	rjmp	.-12     	; 0x74a <_ZN14HardwareSerial5writeEh+0x34>
-      // Interrupts are disabled, so we'll have to poll the data
-      // register empty flag ourselves. If it is set, pretend an
-      // interrupt has happened and call the handler to free up
-      // space for us.
-      if(bit_is_set(*_ucsra, UDRE0))
      756:	e8 89       	ldd	r30, Y+16	; 0x10
      758:	f9 89       	ldd	r31, Y+17	; 0x11
      75a:	80 81       	ld	r24, Z
      75c:	85 ff       	sbrs	r24, 5
      75e:	f5 cf       	rjmp	.-22     	; 0x74a <_ZN14HardwareSerial5writeEh+0x34>
-	_tx_udr_empty_irq();
      760:	ce 01       	movw	r24, r28
      762:	b7 df       	rcall	.-146    	; 0x6d2 <_ZN14HardwareSerial17_tx_udr_empty_irqEv>
      764:	f2 cf       	rjmp	.-28     	; 0x74a <_ZN14HardwareSerial5writeEh+0x34>
-    } else {
-      // nop, the interrupt handler will free up space for us
-    }
-  }
-
-  _tx_buffer[_tx_buffer_head] = c;
      766:	8b 8d       	ldd	r24, Y+27	; 0x1b
      768:	fe 01       	movw	r30, r28
      76a:	e8 0f       	add	r30, r24
@@ -1277,11 +1129,6 @@ size_t HardwareSerial::write(uint8_t c)
      76e:	e3 5a       	subi	r30, 0xA3	; 163
      770:	ff 4f       	sbci	r31, 0xFF	; 255
      772:	f0 82       	st	Z, r15
-
-  // make atomic to prevent execution of ISR between setting the
-  // head pointer and setting the interrupt flag resulting in buffer
-  // retransmission
-  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
      774:	9f b7       	in	r25, 0x3f	; 63
     return 1;
 }
@@ -1290,28 +1137,17 @@ static __inline__ uint8_t __iCliRetVal(void)
 {
     cli();
      776:	f8 94       	cli
-    _tx_buffer_head = i;
      778:	0b 8f       	std	Y+27, r16	; 0x1b
-    sbi(*_ucsrb, UDRIE0);
      77a:	ea 89       	ldd	r30, Y+18	; 0x12
      77c:	fb 89       	ldd	r31, Y+19	; 0x13
      77e:	80 81       	ld	r24, Z
      780:	80 62       	ori	r24, 0x20	; 32
      782:	0a c0       	rjmp	.+20     	; 0x798 <_ZN14HardwareSerial5writeEh+0x82>
-    // So writing UDR must happen first.
-    // Writing UDR and clearing TC must be done atomically, otherwise
-    // interrupts might delay the TXC clear so the byte written to UDR
-    // is transmitted (setting TXC) before clearing TXC. Then TXC will
-    // be cleared when no bytes are left, causing flush() to hang
-    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
      784:	9f b7       	in	r25, 0x3f	; 63
      786:	f8 94       	cli
-      *_udr = c;
      788:	ee 89       	ldd	r30, Y+22	; 0x16
      78a:	ff 89       	ldd	r31, Y+23	; 0x17
      78c:	60 83       	st	Z, r22
-#ifdef MPCM0
-      *_ucsra = ((*_ucsra) & ((1 << U2X0) | (1 << MPCM0))) | (1 << TXC0);
      78e:	e8 89       	ldd	r30, Y+16	; 0x10
      790:	f9 89       	ldd	r31, Y+17	; 0x11
      792:	80 81       	ld	r24, Z
@@ -1325,12 +1161,6 @@ static __inline__ void __iRestore(const  uint8_t *__s)
 {
     SREG = *__s;
      79a:	9f bf       	out	0x3f, r25	; 63
-    _tx_buffer_head = i;
-    sbi(*_ucsrb, UDRIE0);
-  }
-  
-  return 1;
-}
      79c:	81 e0       	ldi	r24, 0x01	; 1
      79e:	90 e0       	ldi	r25, 0x00	; 0
      7a0:	df 91       	pop	r29
@@ -1342,25 +1172,12 @@ static __inline__ void __iRestore(const  uint8_t *__s)
      7ac:	08 95       	ret
 
 000007ae <_ZN14HardwareSerial5flushEv>:
-  if (head >= tail) return SERIAL_TX_BUFFER_SIZE - 1 - head + tail;
-  return tail - head - 1;
-}
-
-void HardwareSerial::flush()
-{
      7ae:	cf 93       	push	r28
      7b0:	df 93       	push	r29
      7b2:	ec 01       	movw	r28, r24
-  // If we have never written a byte, no need to flush. This special
-  // case is needed since there is no way to force the TXC (transmit
-  // complete) bit to 1 during initialization
-  if (!_written)
      7b4:	88 8d       	ldd	r24, Y+24	; 0x18
      7b6:	88 23       	and	r24, r24
      7b8:	c1 f0       	breq	.+48     	; 0x7ea <_ZN14HardwareSerial5flushEv+0x3c>
-    return;
-
-  while (bit_is_set(*_ucsrb, UDRIE0) || bit_is_clear(*_ucsra, TXC0)) {
      7ba:	ea 89       	ldd	r30, Y+18	; 0x12
      7bc:	fb 89       	ldd	r31, Y+19	; 0x13
      7be:	80 81       	ld	r24, Z
@@ -1371,41 +1188,25 @@ void HardwareSerial::flush()
      7c8:	8c 91       	ld	r24, X
      7ca:	86 fd       	sbrc	r24, 6
      7cc:	0e c0       	rjmp	.+28     	; 0x7ea <_ZN14HardwareSerial5flushEv+0x3c>
-    if (bit_is_clear(SREG, SREG_I) && bit_is_set(*_ucsrb, UDRIE0))
      7ce:	0f b6       	in	r0, 0x3f	; 63
      7d0:	07 fc       	sbrc	r0, 7
      7d2:	f5 cf       	rjmp	.-22     	; 0x7be <_ZN14HardwareSerial5flushEv+0x10>
      7d4:	80 81       	ld	r24, Z
      7d6:	85 ff       	sbrs	r24, 5
      7d8:	f2 cf       	rjmp	.-28     	; 0x7be <_ZN14HardwareSerial5flushEv+0x10>
-	// Interrupts are globally disabled, but the DR empty
-	// interrupt should be enabled, so poll the DR empty flag to
-	// prevent deadlock
-	if (bit_is_set(*_ucsra, UDRE0))
      7da:	a8 89       	ldd	r26, Y+16	; 0x10
      7dc:	b9 89       	ldd	r27, Y+17	; 0x11
      7de:	8c 91       	ld	r24, X
      7e0:	85 ff       	sbrs	r24, 5
      7e2:	ed cf       	rjmp	.-38     	; 0x7be <_ZN14HardwareSerial5flushEv+0x10>
-	  _tx_udr_empty_irq();
      7e4:	ce 01       	movw	r24, r28
      7e6:	75 df       	rcall	.-278    	; 0x6d2 <_ZN14HardwareSerial17_tx_udr_empty_irqEv>
      7e8:	e8 cf       	rjmp	.-48     	; 0x7ba <_ZN14HardwareSerial5flushEv+0xc>
-  }
-  // If we get here, nothing is queued anymore (DRIE is disabled) and
-  // the hardware finished tranmission (TXC is set).
-}
      7ea:	df 91       	pop	r29
      7ec:	cf 91       	pop	r28
      7ee:	08 95       	ret
 
 000007f0 <_ZN14HardwareSerial5beginEmh>:
-}
-
-// Public Methods //////////////////////////////////////////////////////////////
-
-void HardwareSerial::begin(unsigned long baud, byte config)
-{
      7f0:	cf 92       	push	r12
      7f2:	df 92       	push	r13
      7f4:	ef 92       	push	r14
@@ -1417,30 +1218,15 @@ void HardwareSerial::begin(unsigned long baud, byte config)
      800:	6a 01       	movw	r12, r20
      802:	7b 01       	movw	r14, r22
      804:	12 2f       	mov	r17, r18
-  // Try u2x mode first
-  uint16_t baud_setting = (F_CPU / 4 / baud - 1) / 2;
-  *_ucsra = 1 << U2X0;
      806:	e8 89       	ldd	r30, Y+16	; 0x10
      808:	f9 89       	ldd	r31, Y+17	; 0x11
      80a:	82 e0       	ldi	r24, 0x02	; 2
      80c:	80 83       	st	Z, r24
-  // hardcoded exception for 57600 for compatibility with the bootloader
-  // shipped with the Duemilanove and previous boards and the firmware
-  // on the 8U2 on the Uno and Mega 2560. Also, The baud_setting cannot
-  // be > 4095, so switch back to non-u2x mode if the baud rate is too
-  // low.
-  if (((F_CPU == 16000000UL) && (baud == 57600)) || (baud_setting >4095))
      80e:	41 15       	cp	r20, r1
      810:	51 4e       	sbci	r21, 0xE1	; 225
      812:	61 05       	cpc	r22, r1
      814:	71 05       	cpc	r23, r1
      816:	b1 f0       	breq	.+44     	; 0x844 <_ZN14HardwareSerial5beginEmh+0x54>
-// Public Methods //////////////////////////////////////////////////////////////
-
-void HardwareSerial::begin(unsigned long baud, byte config)
-{
-  // Try u2x mode first
-  uint16_t baud_setting = (F_CPU / 4 / baud - 1) / 2;
      818:	60 e0       	ldi	r22, 0x00	; 0
      81a:	79 e0       	ldi	r23, 0x09	; 9
      81c:	8d e3       	ldi	r24, 0x3D	; 61
@@ -1458,22 +1244,13 @@ void HardwareSerial::begin(unsigned long baud, byte config)
      836:	97 95       	ror	r25
      838:	87 95       	ror	r24
      83a:	9c 01       	movw	r18, r24
-  // hardcoded exception for 57600 for compatibility with the bootloader
-  // shipped with the Duemilanove and previous boards and the firmware
-  // on the 8U2 on the Uno and Mega 2560. Also, The baud_setting cannot
-  // be > 4095, so switch back to non-u2x mode if the baud rate is too
-  // low.
-  if (((F_CPU == 16000000UL) && (baud == 57600)) || (baud_setting >4095))
      83c:	21 15       	cp	r18, r1
      83e:	80 e1       	ldi	r24, 0x10	; 16
      840:	38 07       	cpc	r19, r24
      842:	a8 f0       	brcs	.+42     	; 0x86e <_ZN14HardwareSerial5beginEmh+0x7e>
-  {
-    *_ucsra = 0;
      844:	e8 89       	ldd	r30, Y+16	; 0x10
      846:	f9 89       	ldd	r31, Y+17	; 0x11
      848:	10 82       	st	Z, r1
-    baud_setting = (F_CPU / 8 / baud - 1) / 2;
      84a:	60 e8       	ldi	r22, 0x80	; 128
      84c:	74 e8       	ldi	r23, 0x84	; 132
      84e:	8e e1       	ldi	r24, 0x1E	; 30
@@ -1491,55 +1268,36 @@ void HardwareSerial::begin(unsigned long baud, byte config)
      868:	97 95       	ror	r25
      86a:	87 95       	ror	r24
      86c:	9c 01       	movw	r18, r24
-  }
-
-  // assign the baud_setting, a.k.a. ubrr (USART Baud Rate Register)
-  *_ubrrh = baud_setting >> 8;
      86e:	ec 85       	ldd	r30, Y+12	; 0x0c
      870:	fd 85       	ldd	r31, Y+13	; 0x0d
      872:	30 83       	st	Z, r19
-  *_ubrrl = baud_setting;
      874:	ee 85       	ldd	r30, Y+14	; 0x0e
      876:	ff 85       	ldd	r31, Y+15	; 0x0f
      878:	20 83       	st	Z, r18
-
-  _written = false;
      87a:	18 8e       	std	Y+24, r1	; 0x18
-
-  //set the data bits, parity, and stop bits
-#if defined(__AVR_ATmega8__)
-  config |= 0x80; // select UCSRC register (shared with UBRRH)
-#endif
-  *_ucsrc = config;
      87c:	ec 89       	ldd	r30, Y+20	; 0x14
      87e:	fd 89       	ldd	r31, Y+21	; 0x15
      880:	10 83       	st	Z, r17
-  
-  sbi(*_ucsrb, RXEN0);
      882:	ea 89       	ldd	r30, Y+18	; 0x12
      884:	fb 89       	ldd	r31, Y+19	; 0x13
      886:	80 81       	ld	r24, Z
      888:	80 61       	ori	r24, 0x10	; 16
      88a:	80 83       	st	Z, r24
-  sbi(*_ucsrb, TXEN0);
      88c:	ea 89       	ldd	r30, Y+18	; 0x12
      88e:	fb 89       	ldd	r31, Y+19	; 0x13
      890:	80 81       	ld	r24, Z
      892:	88 60       	ori	r24, 0x08	; 8
      894:	80 83       	st	Z, r24
-  sbi(*_ucsrb, RXCIE0);
      896:	ea 89       	ldd	r30, Y+18	; 0x12
      898:	fb 89       	ldd	r31, Y+19	; 0x13
      89a:	80 81       	ld	r24, Z
      89c:	80 68       	ori	r24, 0x80	; 128
      89e:	80 83       	st	Z, r24
-  cbi(*_ucsrb, UDRIE0);
      8a0:	ea 89       	ldd	r30, Y+18	; 0x12
      8a2:	fb 89       	ldd	r31, Y+19	; 0x13
      8a4:	80 81       	ld	r24, Z
      8a6:	8f 7d       	andi	r24, 0xDF	; 223
      8a8:	80 83       	st	Z, r24
-}
      8aa:	df 91       	pop	r29
      8ac:	cf 91       	pop	r28
      8ae:	1f 91       	pop	r17
@@ -1550,23 +1308,11 @@ void HardwareSerial::begin(unsigned long baud, byte config)
      8b8:	08 95       	ret
 
 000008ba <_ZN5Print17availableForWriteEv>:
-    size_t println(unsigned long, int = DEC);
-    size_t println(double, int = 2);
-    size_t println(const Printable&);
-    size_t println(void);
-
-    virtual void flush() { /* Empty implementation for backward compatibility */ }
      8ba:	80 e0       	ldi	r24, 0x00	; 0
      8bc:	90 e0       	ldi	r25, 0x00	; 0
      8be:	08 95       	ret
 
 000008c0 <__vector_25>:
-#elif defined(USART_RXC_vect)
-  ISR(USART_RXC_vect) // ATmega8
-#else
-  #error "Don't know what the Data Received vector is called for Serial"
-#endif
-  {
      8c0:	1f 92       	push	r1
      8c2:	0f 92       	push	r0
      8c4:	0f b6       	in	r0, 0x3f	; 63
@@ -1579,12 +1325,6 @@ void HardwareSerial::begin(unsigned long baud, byte config)
      8d2:	9f 93       	push	r25
      8d4:	ef 93       	push	r30
      8d6:	ff 93       	push	r31
-
-// Actual interrupt handlers //////////////////////////////////////////////////////////////
-
-void HardwareSerial::_rx_complete_irq(void)
-{
-  if (bit_is_clear(*_ucsra, UPE0)) {
      8d8:	e0 91 f3 04 	lds	r30, 0x04F3	; 0x8004f3 <Serial+0x10>
      8dc:	f0 91 f4 04 	lds	r31, 0x04F4	; 0x8004f4 <Serial+0x11>
      8e0:	80 81       	ld	r24, Z
@@ -1592,39 +1332,21 @@ void HardwareSerial::_rx_complete_irq(void)
      8e6:	f0 91 fa 04 	lds	r31, 0x04FA	; 0x8004fa <Serial+0x17>
      8ea:	82 fd       	sbrc	r24, 2
      8ec:	12 c0       	rjmp	.+36     	; 0x912 <__vector_25+0x52>
-    // No Parity error, read byte and store it in the buffer if there is
-    // room
-    unsigned char c = *_udr;
      8ee:	90 81       	ld	r25, Z
-    rx_buffer_index_t i = (unsigned int)(_rx_buffer_head + 1) % SERIAL_RX_BUFFER_SIZE;
      8f0:	80 91 fc 04 	lds	r24, 0x04FC	; 0x8004fc <Serial+0x19>
      8f4:	8f 5f       	subi	r24, 0xFF	; 255
      8f6:	8f 73       	andi	r24, 0x3F	; 63
-
-    // if we should be storing the received character into the location
-    // just before the tail (meaning that the head would advance to the
-    // current location of the tail), we're about to overflow the buffer
-    // and so we don't write the character or advance the head.
-    if (i != _rx_buffer_tail) {
      8f8:	20 91 fd 04 	lds	r18, 0x04FD	; 0x8004fd <Serial+0x1a>
      8fc:	82 17       	cp	r24, r18
      8fe:	51 f0       	breq	.+20     	; 0x914 <__vector_25+0x54>
-      _rx_buffer[_rx_buffer_head] = c;
      900:	e0 91 fc 04 	lds	r30, 0x04FC	; 0x8004fc <Serial+0x19>
      904:	f0 e0       	ldi	r31, 0x00	; 0
      906:	ed 51       	subi	r30, 0x1D	; 29
      908:	fb 4f       	sbci	r31, 0xFB	; 251
      90a:	95 8f       	std	Z+29, r25	; 0x1d
-      _rx_buffer_head = i;
      90c:	80 93 fc 04 	sts	0x04FC, r24	; 0x8004fc <Serial+0x19>
      910:	01 c0       	rjmp	.+2      	; 0x914 <__vector_25+0x54>
-    }
-  } else {
-    // Parity error, read byte but discard it
-    *_udr;
      912:	80 81       	ld	r24, Z
-    Serial._rx_complete_irq();
-  }
      914:	ff 91       	pop	r31
      916:	ef 91       	pop	r30
      918:	9f 91       	pop	r25
@@ -1639,12 +1361,6 @@ void HardwareSerial::_rx_complete_irq(void)
      92a:	18 95       	reti
 
 0000092c <__vector_26>:
-#elif defined(USART_UDRE_vect)
-ISR(USART_UDRE_vect)
-#else
-  #error "Don't know what the Data Register Empty vector is called for Serial"
-#endif
-{
      92c:	1f 92       	push	r1
      92e:	0f 92       	push	r0
      930:	0f b6       	in	r0, 0x3f	; 63
@@ -1664,11 +1380,9 @@ ISR(USART_UDRE_vect)
      94c:	bf 93       	push	r27
      94e:	ef 93       	push	r30
      950:	ff 93       	push	r31
-  Serial._tx_udr_empty_irq();
      952:	83 ee       	ldi	r24, 0xE3	; 227
      954:	94 e0       	ldi	r25, 0x04	; 4
      956:	bd de       	rcall	.-646    	; 0x6d2 <_ZN14HardwareSerial17_tx_udr_empty_irqEv>
-}
      958:	ff 91       	pop	r31
      95a:	ef 91       	pop	r30
      95c:	bf 91       	pop	r27
@@ -1690,12 +1404,6 @@ ISR(USART_UDRE_vect)
      97c:	18 95       	reti
 
 0000097e <_Z17Serial0_availablev>:
-#endif
-
-// Function that can be weakly referenced by serialEventRun to prevent
-// pulling in this file if it's not otherwise used.
-bool Serial0_available() {
-  return Serial.available();
      97e:	83 ee       	ldi	r24, 0xE3	; 227
      980:	94 e0       	ldi	r25, 0x04	; 4
      982:	2e de       	rcall	.-932    	; 0x5e0 <_ZN14HardwareSerial9availableEv>
@@ -1703,27 +1411,14 @@ bool Serial0_available() {
      986:	89 2b       	or	r24, r25
      988:	09 f4       	brne	.+2      	; 0x98c <_Z17Serial0_availablev+0xe>
      98a:	20 e0       	ldi	r18, 0x00	; 0
-}
      98c:	82 2f       	mov	r24, r18
      98e:	08 95       	ret
 
 00000990 <_GLOBAL__sub_I___vector_25>:
-    size_t printNumber(unsigned long, uint8_t);
-    size_t printFloat(double, uint8_t);
-  protected:
-    void setWriteError(int err = 1) { write_error = err; }
-  public:
-    Print() : write_error(0) {}
      990:	e3 ee       	ldi	r30, 0xE3	; 227
      992:	f4 e0       	ldi	r31, 0x04	; 4
      994:	13 82       	std	Z+3, r1	; 0x03
      996:	12 82       	std	Z+2, r1	; 0x02
-  public:
-    virtual int available() = 0;
-    virtual int read() = 0;
-    virtual int peek() = 0;
-
-    Stream() {_timeout=1000;}
      998:	88 ee       	ldi	r24, 0xE8	; 232
      99a:	93 e0       	ldi	r25, 0x03	; 3
      99c:	a0 e0       	ldi	r26, 0x00	; 0
@@ -1732,12 +1427,6 @@ bool Serial0_available() {
      9a2:	95 83       	std	Z+5, r25	; 0x05
      9a4:	a6 83       	std	Z+6, r26	; 0x06
      9a6:	b7 83       	std	Z+7, r27	; 0x07
-  volatile uint8_t *ucsrc, volatile uint8_t *udr) :
-    _ubrrh(ubrrh), _ubrrl(ubrrl),
-    _ucsra(ucsra), _ucsrb(ucsrb), _ucsrc(ucsrc),
-    _udr(udr),
-    _rx_buffer_head(0), _rx_buffer_tail(0),
-    _tx_buffer_head(0), _tx_buffer_tail(0)
      9a8:	84 ef       	ldi	r24, 0xF4	; 244
      9aa:	92 e0       	ldi	r25, 0x02	; 2
      9ac:	91 83       	std	Z+1, r25	; 0x01
@@ -1776,37 +1465,12 @@ bool Serial0_available() {
      9ea:	08 95       	ret
 
 000009ec <main>:
-void setupUSB() __attribute__((weak));
-void setupUSB() { }
-
-int main(void)
-{
-	init();
      9ec:	cc d2       	rcall	.+1432   	; 0xf86 <init>
-
-	initVariant();
      9ee:	fd df       	rcall	.-6      	; 0x9ea <initVariant>
-
-#if defined(USBCON)
-	USBDevice.attach();
-#endif
-	
-	setup();
      9f0:	8d dd       	rcall	.-1254   	; 0x50c <setup>
-    
-	for (;;) {
-		loop();
-		if (serialEventRun) serialEventRun();
      9f2:	cd e2       	ldi	r28, 0x2D	; 45
      9f4:	d3 e0       	ldi	r29, 0x03	; 3
-#endif
-	
-	setup();
-    
-	for (;;) {
-		loop();
      9f6:	02 dd       	rcall	.-1532   	; 0x3fc <loop>
-		if (serialEventRun) serialEventRun();
      9f8:	20 97       	sbiw	r28, 0x00	; 0
      9fa:	e9 f3       	breq	.-6      	; 0x9f6 <main+0xa>
      9fc:	2e de       	rcall	.-932    	; 0x65a <_Z14serialEventRunv>
@@ -1814,12 +1478,6 @@ int main(void)
 
 00000a00 <_ZN5Print5writeEPKhj>:
      a00:	cf 92       	push	r12
-size_t Print::println(long num, int base)
-{
-  size_t n = print(num, base);
-  n += println();
-  return n;
-}
      a02:	df 92       	push	r13
      a04:	ef 92       	push	r14
      a06:	ff 92       	push	r15
@@ -2146,12 +1804,6 @@ size_t Print::println(long num, int base)
      c56:	08 95       	ret
 
 00000c58 <_ZN5Print10printFloatEdh>:
-
-  return write(str);
-}
-
-size_t Print::printFloat(double number, uint8_t digits) 
-{ 
      c58:	7f 92       	push	r7
      c5a:	8f 92       	push	r8
      c5c:	9f 92       	push	r9
@@ -2169,9 +1821,6 @@ size_t Print::printFloat(double number, uint8_t digits)
      c74:	6a 01       	movw	r12, r20
      c76:	7b 01       	movw	r14, r22
      c78:	72 2e       	mov	r7, r18
-  size_t n = 0;
-  
-  if (isnan(number)) return print("nan");
      c7a:	9a 01       	movw	r18, r20
      c7c:	ab 01       	movw	r20, r22
      c7e:	c7 01       	movw	r24, r14
@@ -2179,21 +1828,9 @@ size_t Print::printFloat(double number, uint8_t digits)
      c82:	0e 94 2e 15 	call	0x2a5c	; 0x2a5c <__unordsf2>
      c86:	88 23       	and	r24, r24
      c88:	19 f0       	breq	.+6      	; 0xc90 <_ZN5Print10printFloatEdh+0x38>
-  return write(s.c_str(), s.length());
-}
-
-size_t Print::print(const char str[])
-{
-  return write(str);
      c8a:	65 e0       	ldi	r22, 0x05	; 5
      c8c:	73 e0       	ldi	r23, 0x03	; 3
      c8e:	27 c0       	rjmp	.+78     	; 0xcde <_ZN5Print10printFloatEdh+0x86>
-size_t Print::printFloat(double number, uint8_t digits) 
-{ 
-  size_t n = 0;
-  
-  if (isnan(number)) return print("nan");
-  if (isinf(number)) return print("inf");
      c90:	46 01       	movw	r8, r12
      c92:	57 01       	movw	r10, r14
      c94:	e8 94       	clt
@@ -2216,21 +1853,9 @@ size_t Print::printFloat(double number, uint8_t digits)
      cb8:	0e 94 78 13 	call	0x26f0	; 0x26f0 <__cmpsf2>
      cbc:	18 16       	cp	r1, r24
      cbe:	1c f4       	brge	.+6      	; 0xcc6 <_ZN5Print10printFloatEdh+0x6e>
-  return write(s.c_str(), s.length());
-}
-
-size_t Print::print(const char str[])
-{
-  return write(str);
      cc0:	69 e0       	ldi	r22, 0x09	; 9
      cc2:	73 e0       	ldi	r23, 0x03	; 3
      cc4:	0c c0       	rjmp	.+24     	; 0xcde <_ZN5Print10printFloatEdh+0x86>
-{ 
-  size_t n = 0;
-  
-  if (isnan(number)) return print("nan");
-  if (isinf(number)) return print("inf");
-  if (number > 4294967040.0) return print ("ovf");  // constant determined empirically
      cc6:	2f ef       	ldi	r18, 0xFF	; 255
      cc8:	3f ef       	ldi	r19, 0xFF	; 255
      cca:	4f e7       	ldi	r20, 0x7F	; 127
@@ -2240,21 +1865,9 @@ size_t Print::print(const char str[])
      cd2:	0e 94 c7 14 	call	0x298e	; 0x298e <__gesf2>
      cd6:	18 16       	cp	r1, r24
      cd8:	8c f4       	brge	.+34     	; 0xcfc <_ZN5Print10printFloatEdh+0xa4>
-  return write(s.c_str(), s.length());
-}
-
-size_t Print::print(const char str[])
-{
-  return write(str);
      cda:	6d e0       	ldi	r22, 0x0D	; 13
      cdc:	73 e0       	ldi	r23, 0x03	; 3
      cde:	c8 01       	movw	r24, r16
-    n += print(toPrint);
-    remainder -= toPrint; 
-  } 
-  
-  return n;
-}
      ce0:	df 91       	pop	r29
      ce2:	cf 91       	pop	r28
      ce4:	1f 91       	pop	r17
@@ -2268,19 +1881,7 @@ size_t Print::print(const char str[])
      cf4:	9f 90       	pop	r9
      cf6:	8f 90       	pop	r8
      cf8:	7f 90       	pop	r7
-  return write(s.c_str(), s.length());
-}
-
-size_t Print::print(const char str[])
-{
-  return write(str);
      cfa:	ac ce       	rjmp	.-680    	; 0xa54 <_ZN5Print5writeEPKc>
-  size_t n = 0;
-  
-  if (isnan(number)) return print("nan");
-  if (isinf(number)) return print("inf");
-  if (number > 4294967040.0) return print ("ovf");  // constant determined empirically
-  if (number <-4294967040.0) return print ("ovf");  // constant determined empirically
      cfc:	2f ef       	ldi	r18, 0xFF	; 255
      cfe:	3f ef       	ldi	r19, 0xFF	; 255
      d00:	4f e7       	ldi	r20, 0x7F	; 127
@@ -2290,9 +1891,6 @@ size_t Print::print(const char str[])
      d08:	0e 94 78 13 	call	0x26f0	; 0x26f0 <__cmpsf2>
      d0c:	87 fd       	sbrc	r24, 7
      d0e:	e5 cf       	rjmp	.-54     	; 0xcda <_ZN5Print10printFloatEdh+0x82>
-  
-  // Handle negative numbers
-  if (number < 0.0)
      d10:	20 e0       	ldi	r18, 0x00	; 0
      d12:	30 e0       	ldi	r19, 0x00	; 0
      d14:	a9 01       	movw	r20, r18
@@ -2301,104 +1899,48 @@ size_t Print::print(const char str[])
      d1a:	0e 94 78 13 	call	0x26f0	; 0x26f0 <__cmpsf2>
      d1e:	87 ff       	sbrs	r24, 7
      d20:	09 c0       	rjmp	.+18     	; 0xd34 <_ZN5Print10printFloatEdh+0xdc>
-  {
-     n += print('-');
      d22:	6d e2       	ldi	r22, 0x2D	; 45
      d24:	c8 01       	movw	r24, r16
      d26:	ba de       	rcall	.-652    	; 0xa9c <_ZN5Print5printEc>
      d28:	ec 01       	movw	r28, r24
-     number = -number;
      d2a:	f7 fa       	bst	r15, 7
      d2c:	f0 94       	com	r15
      d2e:	f7 f8       	bld	r15, 7
      d30:	f0 94       	com	r15
      d32:	02 c0       	rjmp	.+4      	; 0xd38 <_ZN5Print10printFloatEdh+0xe0>
-  return write(str);
-}
-
-size_t Print::printFloat(double number, uint8_t digits) 
-{ 
-  size_t n = 0;
      d34:	c0 e0       	ldi	r28, 0x00	; 0
      d36:	d0 e0       	ldi	r29, 0x00	; 0
-     number = -number;
-  }
-
-  // Round correctly so that print(1.999, 2) prints as "2.00"
-  double rounding = 0.5;
-  for (uint8_t i=0; i<digits; ++i)
      d38:	b1 2c       	mov	r11, r1
-     n += print('-');
-     number = -number;
-  }
-
-  // Round correctly so that print(1.999, 2) prints as "2.00"
-  double rounding = 0.5;
      d3a:	60 e0       	ldi	r22, 0x00	; 0
      d3c:	70 e0       	ldi	r23, 0x00	; 0
      d3e:	80 e0       	ldi	r24, 0x00	; 0
      d40:	9f e3       	ldi	r25, 0x3F	; 63
-  for (uint8_t i=0; i<digits; ++i)
      d42:	7b 14       	cp	r7, r11
      d44:	41 f0       	breq	.+16     	; 0xd56 <_ZN5Print10printFloatEdh+0xfe>
-    rounding /= 10.0;
      d46:	20 e0       	ldi	r18, 0x00	; 0
      d48:	30 e0       	ldi	r19, 0x00	; 0
      d4a:	40 e2       	ldi	r20, 0x20	; 32
      d4c:	51 e4       	ldi	r21, 0x41	; 65
      d4e:	0e 94 7c 13 	call	0x26f8	; 0x26f8 <__divsf3>
-     number = -number;
-  }
-
-  // Round correctly so that print(1.999, 2) prints as "2.00"
-  double rounding = 0.5;
-  for (uint8_t i=0; i<digits; ++i)
      d52:	b3 94       	inc	r11
      d54:	f6 cf       	rjmp	.-20     	; 0xd42 <_ZN5Print10printFloatEdh+0xea>
-    rounding /= 10.0;
-  
-  number += rounding;
      d56:	a7 01       	movw	r20, r14
      d58:	96 01       	movw	r18, r12
      d5a:	0e 94 14 13 	call	0x2628	; 0x2628 <__addsf3>
      d5e:	6b 01       	movw	r12, r22
      d60:	7c 01       	movw	r14, r24
-
-  // Extract the integer part of the number and print it
-  unsigned long int_part = (unsigned long)number;
      d62:	0e 94 e9 13 	call	0x27d2	; 0x27d2 <__fixunssfsi>
      d66:	4b 01       	movw	r8, r22
      d68:	5c 01       	movw	r10, r24
-}
-
-size_t Print::print(unsigned long n, int base)
-{
-  if (base == 0) return write(n);
-  else return printNumber(n, base);
      d6a:	2a e0       	ldi	r18, 0x0A	; 10
      d6c:	ab 01       	movw	r20, r22
      d6e:	bc 01       	movw	r22, r24
      d70:	c8 01       	movw	r24, r16
      d72:	be de       	rcall	.-644    	; 0xaf0 <_ZN5Print11printNumberEmh>
-  number += rounding;
-
-  // Extract the integer part of the number and print it
-  unsigned long int_part = (unsigned long)number;
-  double remainder = number - (double)int_part;
-  n += print(int_part);
      d74:	c8 0f       	add	r28, r24
      d76:	d9 1f       	adc	r29, r25
-
-  // Print the decimal point, but only if there are digits beyond
-  if (digits > 0) {
      d78:	77 20       	and	r7, r7
      d7a:	a9 f1       	breq	.+106    	; 0xde6 <_ZN5Print10printFloatEdh+0x18e>
-  
-  number += rounding;
-
-  // Extract the integer part of the number and print it
-  unsigned long int_part = (unsigned long)number;
-  double remainder = number - (double)int_part;
      d7c:	c5 01       	movw	r24, r10
      d7e:	b4 01       	movw	r22, r8
      d80:	0e 94 15 14 	call	0x282a	; 0x282a <__floatunsisf>
@@ -2408,23 +1950,12 @@ size_t Print::print(unsigned long n, int base)
      d8a:	b6 01       	movw	r22, r12
      d8c:	0e 94 13 13 	call	0x2626	; 0x2626 <__subsf3>
      d90:	6b 01       	movw	r12, r22
-  n += print(int_part);
-
-  // Print the decimal point, but only if there are digits beyond
-  if (digits > 0) {
-    n += print('.'); 
      d92:	7c 01       	movw	r14, r24
      d94:	6e e2       	ldi	r22, 0x2E	; 46
      d96:	c8 01       	movw	r24, r16
      d98:	81 de       	rcall	.-766    	; 0xa9c <_ZN5Print5printEc>
      d9a:	c8 0f       	add	r28, r24
      d9c:	d9 1f       	adc	r29, r25
-  }
-
-  // Extract digits from the remainder one at a time
-  while (digits-- > 0)
-  {
-    remainder *= 10.0;
      d9e:	20 e0       	ldi	r18, 0x00	; 0
      da0:	30 e0       	ldi	r19, 0x00	; 0
      da2:	40 e2       	ldi	r20, 0x20	; 32
@@ -2434,10 +1965,8 @@ size_t Print::print(unsigned long n, int base)
      daa:	0e 94 cb 14 	call	0x2996	; 0x2996 <__mulsf3>
      dae:	4b 01       	movw	r8, r22
      db0:	5c 01       	movw	r10, r24
-    unsigned int toPrint = (unsigned int)(remainder);
      db2:	0e 94 e9 13 	call	0x27d2	; 0x27d2 <__fixunssfsi>
      db6:	6b 01       	movw	r12, r22
-    n += print(toPrint);
      db8:	7c 01       	movw	r14, r24
      dba:	4a e0       	ldi	r20, 0x0A	; 10
      dbc:	50 e0       	ldi	r21, 0x00	; 0
@@ -2445,7 +1974,6 @@ size_t Print::print(unsigned long n, int base)
      dc0:	eb de       	rcall	.-554    	; 0xb98 <_ZN5Print5printEji>
      dc2:	c8 0f       	add	r28, r24
      dc4:	d9 1f       	adc	r29, r25
-    remainder -= toPrint; 
      dc6:	b6 01       	movw	r22, r12
      dc8:	80 e0       	ldi	r24, 0x00	; 0
      dca:	90 e0       	ldi	r25, 0x00	; 0
@@ -2458,27 +1986,9 @@ size_t Print::print(unsigned long n, int base)
      ddc:	6b 01       	movw	r12, r22
      dde:	7c 01       	movw	r14, r24
      de0:	7a 94       	dec	r7
-  if (digits > 0) {
-    n += print('.'); 
-  }
-
-  // Extract digits from the remainder one at a time
-  while (digits-- > 0)
      de2:	71 10       	cpse	r7, r1
      de4:	dc cf       	rjmp	.-72     	; 0xd9e <_ZN5Print10printFloatEdh+0x146>
-  number += rounding;
-
-  // Extract the integer part of the number and print it
-  unsigned long int_part = (unsigned long)number;
-  double remainder = number - (double)int_part;
-  n += print(int_part);
      de6:	ce 01       	movw	r24, r28
-    n += print(toPrint);
-    remainder -= toPrint; 
-  } 
-  
-  return n;
-}
      de8:	df 91       	pop	r29
      dea:	cf 91       	pop	r28
      dec:	1f 91       	pop	r17
@@ -2495,21 +2005,9 @@ size_t Print::print(unsigned long n, int base)
      e02:	08 95       	ret
 
 00000e04 <_ZN5Print5printEdi>:
-  else return printNumber(n, base);
-}
-
-size_t Print::print(double n, int digits)
-{
-  return printFloat(n, digits);
      e04:	29 cf       	rjmp	.-430    	; 0xc58 <_ZN5Print10printFloatEdh>
 
 00000e06 <__vector_23>:
-#if defined(TIM0_OVF_vect)
-ISR(TIM0_OVF_vect)
-#else
-ISR(TIMER0_OVF_vect)
-#endif
-{
      e06:	1f 92       	push	r1
      e08:	0f 92       	push	r0
      e0a:	0f b6       	in	r0, 0x3f	; 63
@@ -2521,52 +2019,29 @@ ISR(TIMER0_OVF_vect)
      e16:	9f 93       	push	r25
      e18:	af 93       	push	r26
      e1a:	bf 93       	push	r27
-	// copy these to local variables so they can be stored in registers
-	// (volatile variables must be read from memory on every access)
-	unsigned long m = timer0_millis;
      e1c:	80 91 81 05 	lds	r24, 0x0581	; 0x800581 <timer0_millis>
      e20:	90 91 82 05 	lds	r25, 0x0582	; 0x800582 <timer0_millis+0x1>
      e24:	a0 91 83 05 	lds	r26, 0x0583	; 0x800583 <timer0_millis+0x2>
      e28:	b0 91 84 05 	lds	r27, 0x0584	; 0x800584 <timer0_millis+0x3>
-	unsigned char f = timer0_fract;
      e2c:	30 91 80 05 	lds	r19, 0x0580	; 0x800580 <timer0_fract>
-
-	m += MILLIS_INC;
-	f += FRACT_INC;
      e30:	23 e0       	ldi	r18, 0x03	; 3
      e32:	23 0f       	add	r18, r19
-	if (f >= FRACT_MAX) {
      e34:	2d 37       	cpi	r18, 0x7D	; 125
      e36:	20 f4       	brcc	.+8      	; 0xe40 <__vector_23+0x3a>
-	// copy these to local variables so they can be stored in registers
-	// (volatile variables must be read from memory on every access)
-	unsigned long m = timer0_millis;
-	unsigned char f = timer0_fract;
-
-	m += MILLIS_INC;
      e38:	01 96       	adiw	r24, 0x01	; 1
      e3a:	a1 1d       	adc	r26, r1
      e3c:	b1 1d       	adc	r27, r1
      e3e:	05 c0       	rjmp	.+10     	; 0xe4a <__vector_23+0x44>
-	f += FRACT_INC;
-	if (f >= FRACT_MAX) {
-		f -= FRACT_MAX;
      e40:	26 e8       	ldi	r18, 0x86	; 134
      e42:	23 0f       	add	r18, r19
-		m += 1;
      e44:	02 96       	adiw	r24, 0x02	; 2
      e46:	a1 1d       	adc	r26, r1
      e48:	b1 1d       	adc	r27, r1
-	}
-
-	timer0_fract = f;
      e4a:	20 93 80 05 	sts	0x0580, r18	; 0x800580 <timer0_fract>
-	timer0_millis = m;
      e4e:	80 93 81 05 	sts	0x0581, r24	; 0x800581 <timer0_millis>
      e52:	90 93 82 05 	sts	0x0582, r25	; 0x800582 <timer0_millis+0x1>
      e56:	a0 93 83 05 	sts	0x0583, r26	; 0x800583 <timer0_millis+0x2>
      e5a:	b0 93 84 05 	sts	0x0584, r27	; 0x800584 <timer0_millis+0x3>
-	timer0_overflow_count++;
      e5e:	80 91 85 05 	lds	r24, 0x0585	; 0x800585 <timer0_overflow_count>
      e62:	90 91 86 05 	lds	r25, 0x0586	; 0x800586 <timer0_overflow_count+0x1>
      e66:	a0 91 87 05 	lds	r26, 0x0587	; 0x800587 <timer0_overflow_count+0x2>
@@ -2578,7 +2053,6 @@ ISR(TIMER0_OVF_vect)
      e78:	90 93 86 05 	sts	0x0586, r25	; 0x800586 <timer0_overflow_count+0x1>
      e7c:	a0 93 87 05 	sts	0x0587, r26	; 0x800587 <timer0_overflow_count+0x2>
      e80:	b0 93 88 05 	sts	0x0588, r27	; 0x800588 <timer0_overflow_count+0x3>
-}
      e84:	bf 91       	pop	r27
      e86:	af 91       	pop	r26
      e88:	9f 91       	pop	r25
@@ -2592,69 +2066,31 @@ ISR(TIMER0_OVF_vect)
      e98:	18 95       	reti
 
 00000e9a <millis>:
-
-unsigned long millis()
-{
-	unsigned long m;
-	uint8_t oldSREG = SREG;
      e9a:	2f b7       	in	r18, 0x3f	; 63
-
-	// disable interrupts while we read timer0_millis or we might get an
-	// inconsistent value (e.g. in the middle of a write to timer0_millis)
-	cli();
      e9c:	f8 94       	cli
-	m = timer0_millis;
      e9e:	60 91 81 05 	lds	r22, 0x0581	; 0x800581 <timer0_millis>
      ea2:	70 91 82 05 	lds	r23, 0x0582	; 0x800582 <timer0_millis+0x1>
      ea6:	80 91 83 05 	lds	r24, 0x0583	; 0x800583 <timer0_millis+0x2>
      eaa:	90 91 84 05 	lds	r25, 0x0584	; 0x800584 <timer0_millis+0x3>
-	SREG = oldSREG;
      eae:	2f bf       	out	0x3f, r18	; 63
-
-	return m;
-}
      eb0:	08 95       	ret
 
 00000eb2 <micros>:
-
-unsigned long micros() {
-	unsigned long m;
-	uint8_t oldSREG = SREG, t;
      eb2:	3f b7       	in	r19, 0x3f	; 63
-	
-	cli();
      eb4:	f8 94       	cli
-	m = timer0_overflow_count;
      eb6:	80 91 85 05 	lds	r24, 0x0585	; 0x800585 <timer0_overflow_count>
      eba:	90 91 86 05 	lds	r25, 0x0586	; 0x800586 <timer0_overflow_count+0x1>
      ebe:	a0 91 87 05 	lds	r26, 0x0587	; 0x800587 <timer0_overflow_count+0x2>
      ec2:	b0 91 88 05 	lds	r27, 0x0588	; 0x800588 <timer0_overflow_count+0x3>
-#if defined(TCNT0)
-	t = TCNT0;
      ec6:	26 b5       	in	r18, 0x26	; 38
-#else
-	#error TIMER 0 not defined
-#endif
-
-#ifdef TIFR0
-	if ((TIFR0 & _BV(TOV0)) && (t < 255))
      ec8:	a8 9b       	sbis	0x15, 0	; 21
      eca:	05 c0       	rjmp	.+10     	; 0xed6 <micros+0x24>
      ecc:	2f 3f       	cpi	r18, 0xFF	; 255
      ece:	19 f0       	breq	.+6      	; 0xed6 <micros+0x24>
-		m++;
      ed0:	01 96       	adiw	r24, 0x01	; 1
      ed2:	a1 1d       	adc	r26, r1
      ed4:	b1 1d       	adc	r27, r1
-#else
-	if ((TIFR & _BV(TOV0)) && (t < 255))
-		m++;
-#endif
-
-	SREG = oldSREG;
      ed6:	3f bf       	out	0x3f, r19	; 63
-	
-	return ((m << 8) + t) * (64 / clockCyclesPerMicrosecond());
      ed8:	ba 2f       	mov	r27, r26
      eda:	a9 2f       	mov	r26, r25
      edc:	98 2f       	mov	r25, r24
@@ -2672,13 +2108,9 @@ unsigned long micros() {
      ef4:	99 1f       	adc	r25, r25
      ef6:	4a 95       	dec	r20
      ef8:	d1 f7       	brne	.-12     	; 0xeee <micros+0x3c>
-}
      efa:	08 95       	ret
 
 00000efc <delay>:
-
-void delay(unsigned long ms)
-{
      efc:	8f 92       	push	r8
      efe:	9f 92       	push	r9
      f00:	af 92       	push	r10
@@ -2689,20 +2121,15 @@ void delay(unsigned long ms)
      f0a:	ff 92       	push	r15
      f0c:	6b 01       	movw	r12, r22
      f0e:	7c 01       	movw	r14, r24
-	uint32_t start = micros();
      f10:	d0 df       	rcall	.-96     	; 0xeb2 <micros>
      f12:	4b 01       	movw	r8, r22
      f14:	5c 01       	movw	r10, r24
-
-	while (ms > 0) {
      f16:	c1 14       	cp	r12, r1
      f18:	d1 04       	cpc	r13, r1
      f1a:	e1 04       	cpc	r14, r1
      f1c:	f1 04       	cpc	r15, r1
      f1e:	f9 f0       	breq	.+62     	; 0xf5e <delay+0x62>
-		yield();
      f20:	0e 94 e6 10 	call	0x21cc	; 0x21cc <yield>
-		while ( ms > 0 && (micros() - start) >= 1000) {
      f24:	c6 df       	rcall	.-116    	; 0xeb2 <micros>
      f26:	dc 01       	movw	r26, r24
      f28:	cb 01       	movw	r24, r22
@@ -2715,36 +2142,23 @@ void delay(unsigned long ms)
      f36:	a1 05       	cpc	r26, r1
      f38:	b1 05       	cpc	r27, r1
      f3a:	68 f3       	brcs	.-38     	; 0xf16 <delay+0x1a>
-			ms--;
      f3c:	21 e0       	ldi	r18, 0x01	; 1
      f3e:	c2 1a       	sub	r12, r18
      f40:	d1 08       	sbc	r13, r1
      f42:	e1 08       	sbc	r14, r1
      f44:	f1 08       	sbc	r15, r1
-			start += 1000;
      f46:	88 ee       	ldi	r24, 0xE8	; 232
      f48:	88 0e       	add	r8, r24
      f4a:	83 e0       	ldi	r24, 0x03	; 3
      f4c:	98 1e       	adc	r9, r24
      f4e:	a1 1c       	adc	r10, r1
      f50:	b1 1c       	adc	r11, r1
-{
-	uint32_t start = micros();
-
-	while (ms > 0) {
-		yield();
-		while ( ms > 0 && (micros() - start) >= 1000) {
      f52:	c1 14       	cp	r12, r1
      f54:	d1 04       	cpc	r13, r1
      f56:	e1 04       	cpc	r14, r1
      f58:	f1 04       	cpc	r15, r1
      f5a:	21 f7       	brne	.-56     	; 0xf24 <delay+0x28>
      f5c:	dc cf       	rjmp	.-72     	; 0xf16 <delay+0x1a>
-			ms--;
-			start += 1000;
-		}
-	}
-}
      f5e:	ff 90       	pop	r15
      f60:	ef 90       	pop	r14
      f62:	df 90       	pop	r13
@@ -2756,244 +2170,118 @@ void delay(unsigned long ms)
      f6e:	08 95       	ret
 
 00000f70 <delayMicroseconds>:
-#elif F_CPU >= 16000000L
-	// for the 16 MHz clock on most Arduino boards
-
-	// for a one-microsecond delay, simply return.  the overhead
-	// of the function call takes 14 (16) cycles, which is 1us
-	if (us <= 1) return; //  = 3 cycles, (4 when true)
      f70:	82 30       	cpi	r24, 0x02	; 2
      f72:	91 05       	cpc	r25, r1
      f74:	38 f0       	brcs	.+14     	; 0xf84 <delayMicroseconds+0x14>
-
-	// the following loop takes 1/4 of a microsecond (4 cycles)
-	// per iteration, so execute it four times for each microsecond of
-	// delay requested.
-	us <<= 2; // x4 us, = 4 cycles
      f76:	88 0f       	add	r24, r24
      f78:	99 1f       	adc	r25, r25
      f7a:	88 0f       	add	r24, r24
      f7c:	99 1f       	adc	r25, r25
-
-	// account for the time taken in the preceeding commands.
-	// we just burned 19 (21) cycles above, remove 5, (5*4=20)
-	// us is at least 8 so we can substract 5
-	us -= 5; // = 2 cycles,
      f7e:	05 97       	sbiw	r24, 0x05	; 5
-	
-
-#endif
-
-	// busy wait
-	__asm__ __volatile__ (
      f80:	01 97       	sbiw	r24, 0x01	; 1
      f82:	f1 f7       	brne	.-4      	; 0xf80 <delayMicroseconds+0x10>
      f84:	08 95       	ret
 
 00000f86 <init>:
-
-void init()
-{
-	// this needs to be called before setup() or some functions won't
-	// work there
-	sei();
      f86:	78 94       	sei
-	
-	// on the ATmega168, timer 0 is also used for fast hardware pwm
-	// (using phase-correct PWM would mean that timer 0 overflowed half as often
-	// resulting in different millis() behavior on the ATmega8 and ATmega168)
-#if defined(TCCR0A) && defined(WGM01)
-	sbi(TCCR0A, WGM01);
      f88:	84 b5       	in	r24, 0x24	; 36
      f8a:	82 60       	ori	r24, 0x02	; 2
      f8c:	84 bd       	out	0x24, r24	; 36
-	sbi(TCCR0A, WGM00);
      f8e:	84 b5       	in	r24, 0x24	; 36
      f90:	81 60       	ori	r24, 0x01	; 1
      f92:	84 bd       	out	0x24, r24	; 36
-	// this combination is for the standard atmega8
-	sbi(TCCR0, CS01);
-	sbi(TCCR0, CS00);
-#elif defined(TCCR0B) && defined(CS01) && defined(CS00)
-	// this combination is for the standard 168/328/1280/2560
-	sbi(TCCR0B, CS01);
      f94:	85 b5       	in	r24, 0x25	; 37
      f96:	82 60       	ori	r24, 0x02	; 2
      f98:	85 bd       	out	0x25, r24	; 37
-	sbi(TCCR0B, CS00);
      f9a:	85 b5       	in	r24, 0x25	; 37
      f9c:	81 60       	ori	r24, 0x01	; 1
      f9e:	85 bd       	out	0x25, r24	; 37
-
-	// enable timer 0 overflow interrupt
-#if defined(TIMSK) && defined(TOIE0)
-	sbi(TIMSK, TOIE0);
-#elif defined(TIMSK0) && defined(TOIE0)
-	sbi(TIMSK0, TOIE0);
      fa0:	ee e6       	ldi	r30, 0x6E	; 110
      fa2:	f0 e0       	ldi	r31, 0x00	; 0
      fa4:	80 81       	ld	r24, Z
      fa6:	81 60       	ori	r24, 0x01	; 1
      fa8:	80 83       	st	Z, r24
-	// this is better for motors as it ensures an even waveform
-	// note, however, that fast pwm mode can achieve a frequency of up
-	// 8 MHz (with a 16 MHz clock) at 50% duty cycle
-
-#if defined(TCCR1B) && defined(CS11) && defined(CS10)
-	TCCR1B = 0;
      faa:	e1 e8       	ldi	r30, 0x81	; 129
      fac:	f0 e0       	ldi	r31, 0x00	; 0
      fae:	10 82       	st	Z, r1
-
-	// set timer 1 prescale factor to 64
-	sbi(TCCR1B, CS11);
      fb0:	80 81       	ld	r24, Z
      fb2:	82 60       	ori	r24, 0x02	; 2
      fb4:	80 83       	st	Z, r24
-#if F_CPU >= 8000000L
-	sbi(TCCR1B, CS10);
      fb6:	80 81       	ld	r24, Z
      fb8:	81 60       	ori	r24, 0x01	; 1
      fba:	80 83       	st	Z, r24
-	sbi(TCCR1, CS10);
-#endif
-#endif
-	// put timer 1 in 8-bit phase correct pwm mode
-#if defined(TCCR1A) && defined(WGM10)
-	sbi(TCCR1A, WGM10);
      fbc:	e0 e8       	ldi	r30, 0x80	; 128
      fbe:	f0 e0       	ldi	r31, 0x00	; 0
      fc0:	80 81       	ld	r24, Z
      fc2:	81 60       	ori	r24, 0x01	; 1
      fc4:	80 83       	st	Z, r24
-
-	// set timer 2 prescale factor to 64
-#if defined(TCCR2) && defined(CS22)
-	sbi(TCCR2, CS22);
-#elif defined(TCCR2B) && defined(CS22)
-	sbi(TCCR2B, CS22);
      fc6:	e1 eb       	ldi	r30, 0xB1	; 177
      fc8:	f0 e0       	ldi	r31, 0x00	; 0
      fca:	80 81       	ld	r24, Z
      fcc:	84 60       	ori	r24, 0x04	; 4
      fce:	80 83       	st	Z, r24
-
-	// configure timer 2 for phase correct pwm (8-bit)
-#if defined(TCCR2) && defined(WGM20)
-	sbi(TCCR2, WGM20);
-#elif defined(TCCR2A) && defined(WGM20)
-	sbi(TCCR2A, WGM20);
      fd0:	e0 eb       	ldi	r30, 0xB0	; 176
      fd2:	f0 e0       	ldi	r31, 0x00	; 0
      fd4:	80 81       	ld	r24, Z
      fd6:	81 60       	ori	r24, 0x01	; 1
      fd8:	80 83       	st	Z, r24
-//#else
-	// Timer 2 not finished (may not be present on this CPU)
-#endif
-
-#if defined(TCCR3B) && defined(CS31) && defined(WGM30)
-	sbi(TCCR3B, CS31);		// set timer 3 prescale factor to 64
      fda:	e1 e9       	ldi	r30, 0x91	; 145
      fdc:	f0 e0       	ldi	r31, 0x00	; 0
      fde:	80 81       	ld	r24, Z
      fe0:	82 60       	ori	r24, 0x02	; 2
      fe2:	80 83       	st	Z, r24
-	sbi(TCCR3B, CS30);
      fe4:	80 81       	ld	r24, Z
      fe6:	81 60       	ori	r24, 0x01	; 1
      fe8:	80 83       	st	Z, r24
-	sbi(TCCR3A, WGM30);		// put timer 3 in 8-bit phase correct pwm mode
      fea:	e0 e9       	ldi	r30, 0x90	; 144
      fec:	f0 e0       	ldi	r31, 0x00	; 0
      fee:	80 81       	ld	r24, Z
      ff0:	81 60       	ori	r24, 0x01	; 1
      ff2:	80 83       	st	Z, r24
-	sbi(TCCR4D, WGM40);		// put timer 4 in phase- and frequency-correct PWM mode	
-	sbi(TCCR4A, PWM4A);		// enable PWM mode for comparator OCR4A
-	sbi(TCCR4C, PWM4D);		// enable PWM mode for comparator OCR4D
-#else /* beginning of timer4 block for ATMEGA1280 and ATMEGA2560 */
-#if defined(TCCR4B) && defined(CS41) && defined(WGM40)
-	sbi(TCCR4B, CS41);		// set timer 4 prescale factor to 64
      ff4:	e1 ea       	ldi	r30, 0xA1	; 161
      ff6:	f0 e0       	ldi	r31, 0x00	; 0
      ff8:	80 81       	ld	r24, Z
      ffa:	82 60       	ori	r24, 0x02	; 2
      ffc:	80 83       	st	Z, r24
-	sbi(TCCR4B, CS40);
      ffe:	80 81       	ld	r24, Z
     1000:	81 60       	ori	r24, 0x01	; 1
     1002:	80 83       	st	Z, r24
-	sbi(TCCR4A, WGM40);		// put timer 4 in 8-bit phase correct pwm mode
     1004:	e0 ea       	ldi	r30, 0xA0	; 160
     1006:	f0 e0       	ldi	r31, 0x00	; 0
     1008:	80 81       	ld	r24, Z
     100a:	81 60       	ori	r24, 0x01	; 1
     100c:	80 83       	st	Z, r24
-#endif
-#endif /* end timer4 block for ATMEGA1280/2560 and similar */	
-
-#if defined(TCCR5B) && defined(CS51) && defined(WGM50)
-	sbi(TCCR5B, CS51);		// set timer 5 prescale factor to 64
     100e:	e1 e2       	ldi	r30, 0x21	; 33
     1010:	f1 e0       	ldi	r31, 0x01	; 1
     1012:	80 81       	ld	r24, Z
     1014:	82 60       	ori	r24, 0x02	; 2
     1016:	80 83       	st	Z, r24
-	sbi(TCCR5B, CS50);
     1018:	80 81       	ld	r24, Z
     101a:	81 60       	ori	r24, 0x01	; 1
     101c:	80 83       	st	Z, r24
-	sbi(TCCR5A, WGM50);		// put timer 5 in 8-bit phase correct pwm mode
     101e:	e0 e2       	ldi	r30, 0x20	; 32
     1020:	f1 e0       	ldi	r31, 0x01	; 1
     1022:	80 81       	ld	r24, Z
     1024:	81 60       	ori	r24, 0x01	; 1
     1026:	80 83       	st	Z, r24
-#endif
-
-#if defined(ADCSRA)
-	// set a2d prescaler so we are inside the desired 50-200 KHz range.
-	#if F_CPU >= 16000000 // 16 MHz / 128 = 125 KHz
-		sbi(ADCSRA, ADPS2);
     1028:	ea e7       	ldi	r30, 0x7A	; 122
     102a:	f0 e0       	ldi	r31, 0x00	; 0
     102c:	80 81       	ld	r24, Z
     102e:	84 60       	ori	r24, 0x04	; 4
     1030:	80 83       	st	Z, r24
-		sbi(ADCSRA, ADPS1);
     1032:	80 81       	ld	r24, Z
     1034:	82 60       	ori	r24, 0x02	; 2
     1036:	80 83       	st	Z, r24
-		sbi(ADCSRA, ADPS0);
     1038:	80 81       	ld	r24, Z
     103a:	81 60       	ori	r24, 0x01	; 1
     103c:	80 83       	st	Z, r24
-		cbi(ADCSRA, ADPS2);
-		cbi(ADCSRA, ADPS1);
-		sbi(ADCSRA, ADPS0);
-	#endif
-	// enable a2d conversions
-	sbi(ADCSRA, ADEN);
     103e:	80 81       	ld	r24, Z
     1040:	80 68       	ori	r24, 0x80	; 128
     1042:	80 83       	st	Z, r24
-	// here so they can be used as normal digital i/o; they will be
-	// reconnected in Serial.begin()
-#if defined(UCSRB)
-	UCSRB = 0;
-#elif defined(UCSR0B)
-	UCSR0B = 0;
     1044:	10 92 c1 00 	sts	0x00C1, r1	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7000c1>
     1048:	08 95       	ret
 
 0000104a <turnOffPWM>:
-//
-//static inline void turnOffPWM(uint8_t timer) __attribute__ ((always_inline));
-//static inline void turnOffPWM(uint8_t timer)
-static void turnOffPWM(uint8_t timer)
-{
-	switch (timer)
     104a:	90 e0       	ldi	r25, 0x00	; 0
     104c:	fc 01       	movw	r30, r24
     104e:	31 97       	sbiw	r30, 0x01	; 1
@@ -3006,142 +2294,75 @@ static void turnOffPWM(uint8_t timer)
     105c:	ff 4f       	sbci	r31, 0xFF	; 255
     105e:	8f 4f       	sbci	r24, 0xFF	; 255
     1060:	0c 94 70 15 	jmp	0x2ae0	; 0x2ae0 <__tablejump2__>
-	{
-		#if defined(TCCR1A) && defined(COM1A1)
-		case TIMER1A:   cbi(TCCR1A, COM1A1);    break;
     1064:	80 91 80 00 	lds	r24, 0x0080	; 0x800080 <__TEXT_REGION_LENGTH__+0x700080>
     1068:	8f 77       	andi	r24, 0x7F	; 127
     106a:	03 c0       	rjmp	.+6      	; 0x1072 <turnOffPWM+0x28>
-		#endif
-		#if defined(TCCR1A) && defined(COM1B1)
-		case TIMER1B:   cbi(TCCR1A, COM1B1);    break;
     106c:	80 91 80 00 	lds	r24, 0x0080	; 0x800080 <__TEXT_REGION_LENGTH__+0x700080>
     1070:	8f 7d       	andi	r24, 0xDF	; 223
     1072:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <__TEXT_REGION_LENGTH__+0x700080>
     1076:	08 95       	ret
-		#endif
-		#if defined(TCCR1A) && defined(COM1C1)
-		case TIMER1C:   cbi(TCCR1A, COM1C1);    break;
     1078:	80 91 80 00 	lds	r24, 0x0080	; 0x800080 <__TEXT_REGION_LENGTH__+0x700080>
     107c:	87 7f       	andi	r24, 0xF7	; 247
     107e:	f9 cf       	rjmp	.-14     	; 0x1072 <turnOffPWM+0x28>
-		#if defined(TCCR2) && defined(COM21)
-		case  TIMER2:   cbi(TCCR2, COM21);      break;
-		#endif
-		
-		#if defined(TCCR0A) && defined(COM0A1)
-		case  TIMER0A:  cbi(TCCR0A, COM0A1);    break;
     1080:	84 b5       	in	r24, 0x24	; 36
     1082:	8f 77       	andi	r24, 0x7F	; 127
     1084:	02 c0       	rjmp	.+4      	; 0x108a <turnOffPWM+0x40>
-		#endif
-		
-		#if defined(TCCR0A) && defined(COM0B1)
-		case  TIMER0B:  cbi(TCCR0A, COM0B1);    break;
     1086:	84 b5       	in	r24, 0x24	; 36
     1088:	8f 7d       	andi	r24, 0xDF	; 223
     108a:	84 bd       	out	0x24, r24	; 36
     108c:	08 95       	ret
-		#endif
-		#if defined(TCCR2A) && defined(COM2A1)
-		case  TIMER2A:  cbi(TCCR2A, COM2A1);    break;
     108e:	80 91 b0 00 	lds	r24, 0x00B0	; 0x8000b0 <__TEXT_REGION_LENGTH__+0x7000b0>
     1092:	8f 77       	andi	r24, 0x7F	; 127
     1094:	03 c0       	rjmp	.+6      	; 0x109c <turnOffPWM+0x52>
-		#endif
-		#if defined(TCCR2A) && defined(COM2B1)
-		case  TIMER2B:  cbi(TCCR2A, COM2B1);    break;
     1096:	80 91 b0 00 	lds	r24, 0x00B0	; 0x8000b0 <__TEXT_REGION_LENGTH__+0x7000b0>
     109a:	8f 7d       	andi	r24, 0xDF	; 223
     109c:	80 93 b0 00 	sts	0x00B0, r24	; 0x8000b0 <__TEXT_REGION_LENGTH__+0x7000b0>
     10a0:	08 95       	ret
-		#endif
-		
-		#if defined(TCCR3A) && defined(COM3A1)
-		case  TIMER3A:  cbi(TCCR3A, COM3A1);    break;
     10a2:	80 91 90 00 	lds	r24, 0x0090	; 0x800090 <__TEXT_REGION_LENGTH__+0x700090>
     10a6:	8f 77       	andi	r24, 0x7F	; 127
     10a8:	07 c0       	rjmp	.+14     	; 0x10b8 <turnOffPWM+0x6e>
-		#endif
-		#if defined(TCCR3A) && defined(COM3B1)
-		case  TIMER3B:  cbi(TCCR3A, COM3B1);    break;
     10aa:	80 91 90 00 	lds	r24, 0x0090	; 0x800090 <__TEXT_REGION_LENGTH__+0x700090>
     10ae:	8f 7d       	andi	r24, 0xDF	; 223
     10b0:	03 c0       	rjmp	.+6      	; 0x10b8 <turnOffPWM+0x6e>
-		#endif
-		#if defined(TCCR3A) && defined(COM3C1)
-		case  TIMER3C:  cbi(TCCR3A, COM3C1);    break;
     10b2:	80 91 90 00 	lds	r24, 0x0090	; 0x800090 <__TEXT_REGION_LENGTH__+0x700090>
     10b6:	87 7f       	andi	r24, 0xF7	; 247
     10b8:	80 93 90 00 	sts	0x0090, r24	; 0x800090 <__TEXT_REGION_LENGTH__+0x700090>
     10bc:	08 95       	ret
-		#endif
-
-		#if defined(TCCR4A) && defined(COM4A1)
-		case  TIMER4A:  cbi(TCCR4A, COM4A1);    break;
     10be:	80 91 a0 00 	lds	r24, 0x00A0	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7000a0>
     10c2:	8f 77       	andi	r24, 0x7F	; 127
     10c4:	07 c0       	rjmp	.+14     	; 0x10d4 <turnOffPWM+0x8a>
-		#endif					
-		#if defined(TCCR4A) && defined(COM4B1)
-		case  TIMER4B:  cbi(TCCR4A, COM4B1);    break;
     10c6:	80 91 a0 00 	lds	r24, 0x00A0	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7000a0>
     10ca:	8f 7d       	andi	r24, 0xDF	; 223
     10cc:	03 c0       	rjmp	.+6      	; 0x10d4 <turnOffPWM+0x8a>
-		#endif
-		#if defined(TCCR4A) && defined(COM4C1)
-		case  TIMER4C:  cbi(TCCR4A, COM4C1);    break;
     10ce:	80 91 a0 00 	lds	r24, 0x00A0	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7000a0>
     10d2:	87 7f       	andi	r24, 0xF7	; 247
     10d4:	80 93 a0 00 	sts	0x00A0, r24	; 0x8000a0 <__TEXT_REGION_LENGTH__+0x7000a0>
     10d8:	08 95       	ret
-		#if defined(TCCR4C) && defined(COM4D1)
-		case TIMER4D:	cbi(TCCR4C, COM4D1);	break;
-		#endif			
-			
-		#if defined(TCCR5A)
-		case  TIMER5A:  cbi(TCCR5A, COM5A1);    break;
     10da:	80 91 20 01 	lds	r24, 0x0120	; 0x800120 <__TEXT_REGION_LENGTH__+0x700120>
     10de:	8f 77       	andi	r24, 0x7F	; 127
     10e0:	07 c0       	rjmp	.+14     	; 0x10f0 <turnOffPWM+0xa6>
-		case  TIMER5B:  cbi(TCCR5A, COM5B1);    break;
     10e2:	80 91 20 01 	lds	r24, 0x0120	; 0x800120 <__TEXT_REGION_LENGTH__+0x700120>
     10e6:	8f 7d       	andi	r24, 0xDF	; 223
     10e8:	03 c0       	rjmp	.+6      	; 0x10f0 <turnOffPWM+0xa6>
-		case  TIMER5C:  cbi(TCCR5A, COM5C1);    break;
     10ea:	80 91 20 01 	lds	r24, 0x0120	; 0x800120 <__TEXT_REGION_LENGTH__+0x700120>
     10ee:	87 7f       	andi	r24, 0xF7	; 247
     10f0:	80 93 20 01 	sts	0x0120, r24	; 0x800120 <__TEXT_REGION_LENGTH__+0x700120>
     10f4:	08 95       	ret
 
 000010f6 <pinMode>:
-#define ARDUINO_MAIN
-#include "wiring_private.h"
-#include "pins_arduino.h"
-
-void pinMode(uint8_t pin, uint8_t mode)
-{
     10f6:	cf 93       	push	r28
     10f8:	df 93       	push	r29
-	uint8_t bit = digitalPinToBitMask(pin);
     10fa:	90 e0       	ldi	r25, 0x00	; 0
     10fc:	fc 01       	movw	r30, r24
     10fe:	e2 5b       	subi	r30, 0xB2	; 178
     1100:	fe 4f       	sbci	r31, 0xFE	; 254
     1102:	24 91       	lpm	r18, Z
-	uint8_t port = digitalPinToPort(pin);
     1104:	fc 01       	movw	r30, r24
     1106:	ec 56       	subi	r30, 0x6C	; 108
     1108:	fe 4f       	sbci	r31, 0xFE	; 254
     110a:	84 91       	lpm	r24, Z
-	volatile uint8_t *reg, *out;
-
-	if (port == NOT_A_PIN) return;
     110c:	88 23       	and	r24, r24
     110e:	61 f1       	breq	.+88     	; 0x1168 <pinMode+0x72>
-
-	// JWS: can I let the optimizer do this?
-	reg = portModeRegister(port);
     1110:	90 e0       	ldi	r25, 0x00	; 0
     1112:	88 0f       	add	r24, r24
     1114:	99 1f       	adc	r25, r25
@@ -3150,108 +2371,69 @@ void pinMode(uint8_t pin, uint8_t mode)
     111a:	fd 4f       	sbci	r31, 0xFD	; 253
     111c:	c5 91       	lpm	r28, Z+
     111e:	d4 91       	lpm	r29, Z
-	out = portOutputRegister(port);
     1120:	fc 01       	movw	r30, r24
     1122:	ec 50       	subi	r30, 0x0C	; 12
     1124:	fe 4f       	sbci	r31, 0xFE	; 254
     1126:	a5 91       	lpm	r26, Z+
     1128:	b4 91       	lpm	r27, Z
-
-	if (mode == INPUT) { 
     112a:	61 11       	cpse	r22, r1
     112c:	09 c0       	rjmp	.+18     	; 0x1140 <pinMode+0x4a>
-		uint8_t oldSREG = SREG;
     112e:	9f b7       	in	r25, 0x3f	; 63
-                cli();
     1130:	f8 94       	cli
-		*reg &= ~bit;
     1132:	88 81       	ld	r24, Y
     1134:	20 95       	com	r18
     1136:	82 23       	and	r24, r18
     1138:	88 83       	st	Y, r24
-		*out &= ~bit;
     113a:	ec 91       	ld	r30, X
     113c:	2e 23       	and	r18, r30
     113e:	0b c0       	rjmp	.+22     	; 0x1156 <pinMode+0x60>
-		SREG = oldSREG;
-	} else if (mode == INPUT_PULLUP) {
     1140:	62 30       	cpi	r22, 0x02	; 2
     1142:	61 f4       	brne	.+24     	; 0x115c <pinMode+0x66>
-		uint8_t oldSREG = SREG;
     1144:	9f b7       	in	r25, 0x3f	; 63
-                cli();
     1146:	f8 94       	cli
-		*reg &= ~bit;
     1148:	88 81       	ld	r24, Y
     114a:	32 2f       	mov	r19, r18
     114c:	30 95       	com	r19
     114e:	83 23       	and	r24, r19
     1150:	88 83       	st	Y, r24
-		*out |= bit;
     1152:	ec 91       	ld	r30, X
     1154:	2e 2b       	or	r18, r30
     1156:	2c 93       	st	X, r18
-		SREG = oldSREG;
     1158:	9f bf       	out	0x3f, r25	; 63
     115a:	06 c0       	rjmp	.+12     	; 0x1168 <pinMode+0x72>
-	} else {
-		uint8_t oldSREG = SREG;
     115c:	8f b7       	in	r24, 0x3f	; 63
-                cli();
     115e:	f8 94       	cli
-		*reg |= bit;
     1160:	e8 81       	ld	r30, Y
     1162:	2e 2b       	or	r18, r30
     1164:	28 83       	st	Y, r18
-		SREG = oldSREG;
     1166:	8f bf       	out	0x3f, r24	; 63
-	}
-}
     1168:	df 91       	pop	r29
     116a:	cf 91       	pop	r28
     116c:	08 95       	ret
 
 0000116e <digitalWrite>:
-		#endif
-	}
-}
-
-void digitalWrite(uint8_t pin, uint8_t val)
-{
     116e:	1f 93       	push	r17
     1170:	cf 93       	push	r28
     1172:	df 93       	push	r29
-	uint8_t timer = digitalPinToTimer(pin);
     1174:	28 2f       	mov	r18, r24
     1176:	30 e0       	ldi	r19, 0x00	; 0
     1178:	f9 01       	movw	r30, r18
     117a:	e8 5f       	subi	r30, 0xF8	; 248
     117c:	fe 4f       	sbci	r31, 0xFE	; 254
     117e:	84 91       	lpm	r24, Z
-	uint8_t bit = digitalPinToBitMask(pin);
     1180:	f9 01       	movw	r30, r18
     1182:	e2 5b       	subi	r30, 0xB2	; 178
     1184:	fe 4f       	sbci	r31, 0xFE	; 254
     1186:	d4 91       	lpm	r29, Z
-	uint8_t port = digitalPinToPort(pin);
     1188:	f9 01       	movw	r30, r18
     118a:	ec 56       	subi	r30, 0x6C	; 108
     118c:	fe 4f       	sbci	r31, 0xFE	; 254
     118e:	c4 91       	lpm	r28, Z
-	volatile uint8_t *out;
-
-	if (port == NOT_A_PIN) return;
     1190:	cc 23       	and	r28, r28
     1192:	b9 f0       	breq	.+46     	; 0x11c2 <digitalWrite+0x54>
     1194:	16 2f       	mov	r17, r22
-
-	// If the pin that support PWM output, we need to turn it off
-	// before doing a digital write.
-	if (timer != NOT_ON_TIMER) turnOffPWM(timer);
     1196:	81 11       	cpse	r24, r1
     1198:	58 df       	rcall	.-336    	; 0x104a <turnOffPWM>
-
-	out = portOutputRegister(port);
     119a:	ec 2f       	mov	r30, r28
     119c:	f0 e0       	ldi	r31, 0x00	; 0
     119e:	ee 0f       	add	r30, r30
@@ -3260,70 +2442,44 @@ void digitalWrite(uint8_t pin, uint8_t val)
     11a4:	fe 4f       	sbci	r31, 0xFE	; 254
     11a6:	a5 91       	lpm	r26, Z+
     11a8:	b4 91       	lpm	r27, Z
-
-	uint8_t oldSREG = SREG;
     11aa:	9f b7       	in	r25, 0x3f	; 63
-	cli();
     11ac:	f8 94       	cli
-
-	if (val == LOW) {
     11ae:	11 11       	cpse	r17, r1
     11b0:	04 c0       	rjmp	.+8      	; 0x11ba <digitalWrite+0x4c>
-		*out &= ~bit;
     11b2:	8c 91       	ld	r24, X
     11b4:	d0 95       	com	r29
     11b6:	d8 23       	and	r29, r24
     11b8:	02 c0       	rjmp	.+4      	; 0x11be <digitalWrite+0x50>
-	} else {
-		*out |= bit;
     11ba:	ec 91       	ld	r30, X
     11bc:	de 2b       	or	r29, r30
     11be:	dc 93       	st	X, r29
-	}
-
-	SREG = oldSREG;
     11c0:	9f bf       	out	0x3f, r25	; 63
-}
     11c2:	df 91       	pop	r29
     11c4:	cf 91       	pop	r28
     11c6:	1f 91       	pop	r17
     11c8:	08 95       	ret
 
 000011ca <digitalRead>:
-
-int digitalRead(uint8_t pin)
-{
     11ca:	cf 93       	push	r28
     11cc:	df 93       	push	r29
-	uint8_t timer = digitalPinToTimer(pin);
     11ce:	28 2f       	mov	r18, r24
     11d0:	30 e0       	ldi	r19, 0x00	; 0
     11d2:	f9 01       	movw	r30, r18
     11d4:	e8 5f       	subi	r30, 0xF8	; 248
     11d6:	fe 4f       	sbci	r31, 0xFE	; 254
     11d8:	84 91       	lpm	r24, Z
-	uint8_t bit = digitalPinToBitMask(pin);
     11da:	f9 01       	movw	r30, r18
     11dc:	e2 5b       	subi	r30, 0xB2	; 178
     11de:	fe 4f       	sbci	r31, 0xFE	; 254
     11e0:	d4 91       	lpm	r29, Z
-	uint8_t port = digitalPinToPort(pin);
     11e2:	f9 01       	movw	r30, r18
     11e4:	ec 56       	subi	r30, 0x6C	; 108
     11e6:	fe 4f       	sbci	r31, 0xFE	; 254
     11e8:	c4 91       	lpm	r28, Z
-
-	if (port == NOT_A_PIN) return LOW;
     11ea:	cc 23       	and	r28, r28
     11ec:	89 f0       	breq	.+34     	; 0x1210 <digitalRead+0x46>
-
-	// If the pin that support PWM output, we need to turn it off
-	// before getting a digital reading.
-	if (timer != NOT_ON_TIMER) turnOffPWM(timer);
     11ee:	81 11       	cpse	r24, r1
     11f0:	2c df       	rcall	.-424    	; 0x104a <turnOffPWM>
-
-	if (*portInputRegister(port) & bit) return HIGH;
     11f2:	ec 2f       	mov	r30, r28
     11f4:	f0 e0       	ldi	r31, 0x00	; 0
     11f6:	ee 0f       	add	r30, r30
@@ -3333,12 +2489,6 @@ int digitalRead(uint8_t pin)
     11fe:	a5 91       	lpm	r26, Z+
     1200:	b4 91       	lpm	r27, Z
     1202:	ec 91       	ld	r30, X
-{
-	uint8_t timer = digitalPinToTimer(pin);
-	uint8_t bit = digitalPinToBitMask(pin);
-	uint8_t port = digitalPinToPort(pin);
-
-	if (port == NOT_A_PIN) return LOW;
     1204:	ed 23       	and	r30, r29
     1206:	81 e0       	ldi	r24, 0x01	; 1
     1208:	90 e0       	ldi	r25, 0x00	; 0
@@ -3347,23 +2497,11 @@ int digitalRead(uint8_t pin)
     120e:	02 c0       	rjmp	.+4      	; 0x1214 <digitalRead+0x4a>
     1210:	80 e0       	ldi	r24, 0x00	; 0
     1212:	90 e0       	ldi	r25, 0x00	; 0
-	// before getting a digital reading.
-	if (timer != NOT_ON_TIMER) turnOffPWM(timer);
-
-	if (*portInputRegister(port) & bit) return HIGH;
-	return LOW;
-}
     1214:	df 91       	pop	r29
     1216:	cf 91       	pop	r28
     1218:	08 95       	ret
 
 0000121a <_ZN6StringD1Ev>:
-/*********************************************/
-
-void String::replace(char find, char replace)
-{
-	if (!buffer) return;
-	for (char *p = buffer; *p; p++) {
     121a:	fc 01       	movw	r30, r24
     121c:	80 81       	ld	r24, Z
     121e:	91 81       	ldd	r25, Z+1	; 0x01
@@ -3648,12 +2786,6 @@ void String::replace(char find, char replace)
     1438:	08 95       	ret
 
 0000143a <_ZN6String7replaceERKS_S1_>:
-		if (*p == find) *p = replace;
-	}
-}
-
-void String::replace(const String& find, const String& replace)
-{
     143a:	2f 92       	push	r2
     143c:	3f 92       	push	r3
     143e:	4f 92       	push	r4
@@ -3672,7 +2804,6 @@ void String::replace(const String& find, const String& replace)
     1458:	1f 93       	push	r17
     145a:	cf 93       	push	r28
     145c:	df 93       	push	r29
-	if (len == 0 || find.len == 0) return;
     145e:	fc 01       	movw	r30, r24
     1460:	44 80       	ldd	r4, Z+4	; 0x04
     1462:	55 80       	ldd	r5, Z+5	; 0x05
@@ -3690,22 +2821,17 @@ void String::replace(const String& find, const String& replace)
     147a:	7a 01       	movw	r14, r20
     147c:	6b 01       	movw	r12, r22
     147e:	8c 01       	movw	r16, r24
-	int diff = replace.len - find.len;
     1480:	fa 01       	movw	r30, r20
     1482:	64 80       	ldd	r6, Z+4	; 0x04
     1484:	75 80       	ldd	r7, Z+5	; 0x05
     1486:	68 18       	sub	r6, r8
     1488:	79 08       	sbc	r7, r9
-	char *readFrom = buffer;
     148a:	fc 01       	movw	r30, r24
     148c:	c0 81       	ld	r28, Z
     148e:	d1 81       	ldd	r29, Z+1	; 0x01
-	char *foundAt;
-	if (diff == 0) {
     1490:	61 14       	cp	r6, r1
     1492:	71 04       	cpc	r7, r1
     1494:	b9 f4       	brne	.+46     	; 0x14c4 <_ZN6String7replaceERKS_S1_+0x8a>
-		while ((foundAt = strstr(readFrom, find.buffer)) != NULL) {
     1496:	f6 01       	movw	r30, r12
     1498:	60 81       	ld	r22, Z
     149a:	71 81       	ldd	r23, Z+1	; 0x01
@@ -3715,35 +2841,21 @@ void String::replace(const String& find, const String& replace)
     14a4:	00 97       	sbiw	r24, 0x00	; 0
     14a6:	09 f4       	brne	.+2      	; 0x14aa <_ZN6String7replaceERKS_S1_+0x70>
     14a8:	ad c0       	rjmp	.+346    	; 0x1604 <_ZN6String7replaceERKS_S1_+0x1ca>
-			memcpy(foundAt, replace.buffer, replace.len);
     14aa:	f7 01       	movw	r30, r14
     14ac:	60 81       	ld	r22, Z
     14ae:	71 81       	ldd	r23, Z+1	; 0x01
     14b0:	44 81       	ldd	r20, Z+4	; 0x04
     14b2:	55 81       	ldd	r21, Z+5	; 0x05
     14b4:	0e 94 79 17 	call	0x2ef2	; 0x2ef2 <memcpy>
-			readFrom = foundAt + replace.len;
     14b8:	f7 01       	movw	r30, r14
     14ba:	84 81       	ldd	r24, Z+4	; 0x04
     14bc:	95 81       	ldd	r25, Z+5	; 0x05
     14be:	c8 0f       	add	r28, r24
     14c0:	d9 1f       	adc	r29, r25
-	if (len == 0 || find.len == 0) return;
-	int diff = replace.len - find.len;
-	char *readFrom = buffer;
-	char *foundAt;
-	if (diff == 0) {
-		while ((foundAt = strstr(readFrom, find.buffer)) != NULL) {
     14c2:	e9 cf       	rjmp	.-46     	; 0x1496 <_ZN6String7replaceERKS_S1_+0x5c>
-			memcpy(foundAt, replace.buffer, replace.len);
-			readFrom = foundAt + replace.len;
-		}
-	} else if (diff < 0) {
     14c4:	77 fe       	sbrs	r7, 7
     14c6:	44 c0       	rjmp	.+136    	; 0x1550 <_ZN6String7replaceERKS_S1_+0x116>
     14c8:	5e 01       	movw	r10, r28
-		char *writeTo = buffer;
-		while ((foundAt = strstr(readFrom, find.buffer)) != NULL) {
     14ca:	f6 01       	movw	r30, r12
     14cc:	60 81       	ld	r22, Z
     14ce:	71 81       	ldd	r23, Z+1	; 0x01
@@ -3752,19 +2864,15 @@ void String::replace(const String& find, const String& replace)
     14d6:	2c 01       	movw	r4, r24
     14d8:	00 97       	sbiw	r24, 0x00	; 0
     14da:	21 f1       	breq	.+72     	; 0x1524 <_ZN6String7replaceERKS_S1_+0xea>
-			unsigned int n = foundAt - readFrom;
     14dc:	4c 01       	movw	r8, r24
     14de:	8a 18       	sub	r8, r10
     14e0:	9b 08       	sbc	r9, r11
-			memcpy(writeTo, readFrom, n);
     14e2:	a4 01       	movw	r20, r8
     14e4:	b5 01       	movw	r22, r10
     14e6:	ce 01       	movw	r24, r28
     14e8:	0e 94 79 17 	call	0x2ef2	; 0x2ef2 <memcpy>
-			writeTo += n;
     14ec:	c8 0d       	add	r28, r8
     14ee:	d9 1d       	adc	r29, r9
-			memcpy(writeTo, replace.buffer, replace.len);
     14f0:	f7 01       	movw	r30, r14
     14f2:	60 81       	ld	r22, Z
     14f4:	71 81       	ldd	r23, Z+1	; 0x01
@@ -3772,19 +2880,16 @@ void String::replace(const String& find, const String& replace)
     14f8:	55 81       	ldd	r21, Z+5	; 0x05
     14fa:	ce 01       	movw	r24, r28
     14fc:	0e 94 79 17 	call	0x2ef2	; 0x2ef2 <memcpy>
-			writeTo += replace.len;
     1500:	f7 01       	movw	r30, r14
     1502:	84 81       	ldd	r24, Z+4	; 0x04
     1504:	95 81       	ldd	r25, Z+5	; 0x05
     1506:	c8 0f       	add	r28, r24
     1508:	d9 1f       	adc	r29, r25
-			readFrom = foundAt + find.len;
     150a:	f6 01       	movw	r30, r12
     150c:	a4 80       	ldd	r10, Z+4	; 0x04
     150e:	b5 80       	ldd	r11, Z+5	; 0x05
     1510:	a4 0c       	add	r10, r4
     1512:	b5 1c       	adc	r11, r5
-			len += diff;
     1514:	f8 01       	movw	r30, r16
     1516:	84 81       	ldd	r24, Z+4	; 0x04
     1518:	95 81       	ldd	r25, Z+5	; 0x05
@@ -3792,27 +2897,9 @@ void String::replace(const String& find, const String& replace)
     151c:	97 1d       	adc	r25, r7
     151e:	95 83       	std	Z+5, r25	; 0x05
     1520:	84 83       	std	Z+4, r24	; 0x04
-			memcpy(foundAt, replace.buffer, replace.len);
-			readFrom = foundAt + replace.len;
-		}
-	} else if (diff < 0) {
-		char *writeTo = buffer;
-		while ((foundAt = strstr(readFrom, find.buffer)) != NULL) {
     1522:	d3 cf       	rjmp	.-90     	; 0x14ca <_ZN6String7replaceERKS_S1_+0x90>
-			memcpy(writeTo, replace.buffer, replace.len);
-			writeTo += replace.len;
-			readFrom = foundAt + find.len;
-			len += diff;
-		}
-		strcpy(writeTo, readFrom);
     1524:	b5 01       	movw	r22, r10
     1526:	ce 01       	movw	r24, r28
-			buffer[len] = 0;
-			memcpy(buffer + index, replace.buffer, replace.len);
-			index--;
-		}
-	}
-}
     1528:	df 91       	pop	r29
     152a:	cf 91       	pop	r28
     152c:	1f 91       	pop	r17
@@ -3831,16 +2918,7 @@ void String::replace(const String& find, const String& replace)
     1546:	4f 90       	pop	r4
     1548:	3f 90       	pop	r3
     154a:	2f 90       	pop	r2
-			memcpy(writeTo, replace.buffer, replace.len);
-			writeTo += replace.len;
-			readFrom = foundAt + find.len;
-			len += diff;
-		}
-		strcpy(writeTo, readFrom);
     154c:	0c 94 93 17 	jmp	0x2f26	; 0x2f26 <strcpy>
-	} else {
-		unsigned int size = len; // compute size needed for result
-		while ((foundAt = strstr(readFrom, find.buffer)) != NULL) {
     1550:	fb 01       	movw	r30, r22
     1552:	20 80       	ld	r2, Z
     1554:	31 80       	ldd	r3, Z+1	; 0x01
@@ -3850,29 +2928,16 @@ void String::replace(const String& find, const String& replace)
     155c:	0e 94 9a 17 	call	0x2f34	; 0x2f34 <strstr>
     1560:	00 97       	sbiw	r24, 0x00	; 0
     1562:	31 f0       	breq	.+12     	; 0x1570 <_ZN6String7replaceERKS_S1_+0x136>
-			readFrom = foundAt + find.len;
     1564:	ec 01       	movw	r28, r24
     1566:	c8 0d       	add	r28, r8
     1568:	d9 1d       	adc	r29, r9
-			size += diff;
     156a:	a6 0c       	add	r10, r6
     156c:	b7 1c       	adc	r11, r7
-			len += diff;
-		}
-		strcpy(writeTo, readFrom);
-	} else {
-		unsigned int size = len; // compute size needed for result
-		while ((foundAt = strstr(readFrom, find.buffer)) != NULL) {
     156e:	f4 cf       	rjmp	.-24     	; 0x1558 <_ZN6String7replaceERKS_S1_+0x11e>
-			readFrom = foundAt + find.len;
-			size += diff;
-		}
-		if (size == len) return;
     1570:	a4 14       	cp	r10, r4
     1572:	b5 04       	cpc	r11, r5
     1574:	09 f4       	brne	.+2      	; 0x1578 <_ZN6String7replaceERKS_S1_+0x13e>
     1576:	46 c0       	rjmp	.+140    	; 0x1604 <_ZN6String7replaceERKS_S1_+0x1ca>
-		if (size > capacity && !changeBuffer(size)) return; // XXX: tell user!
     1578:	f8 01       	movw	r30, r16
     157a:	82 81       	ldd	r24, Z+2	; 0x02
     157c:	93 81       	ldd	r25, Z+3	; 0x03
@@ -3884,24 +2949,11 @@ void String::replace(const String& find, const String& replace)
     1588:	62 de       	rcall	.-828    	; 0x124e <_ZN6String12changeBufferEj>
     158a:	88 23       	and	r24, r24
     158c:	d9 f1       	breq	.+118    	; 0x1604 <_ZN6String7replaceERKS_S1_+0x1ca>
-		int index = len - 1;
     158e:	f8 01       	movw	r30, r16
     1590:	44 81       	ldd	r20, Z+4	; 0x04
     1592:	55 81       	ldd	r21, Z+5	; 0x05
-			readFrom = buffer + index + find.len;
-			memmove(readFrom + diff, readFrom, len - (readFrom - buffer));
-			len += diff;
-			buffer[len] = 0;
-			memcpy(buffer + index, replace.buffer, replace.len);
-			index--;
     1594:	41 50       	subi	r20, 0x01	; 1
     1596:	51 09       	sbc	r21, r1
-			size += diff;
-		}
-		if (size == len) return;
-		if (size > capacity && !changeBuffer(size)) return; // XXX: tell user!
-		int index = len - 1;
-		while (index >= 0 && (index = lastIndexOf(find, index)) >= 0) {
     1598:	57 fd       	sbrc	r21, 7
     159a:	34 c0       	rjmp	.+104    	; 0x1604 <_ZN6String7replaceERKS_S1_+0x1ca>
     159c:	b6 01       	movw	r22, r12
@@ -3910,7 +2962,6 @@ void String::replace(const String& find, const String& replace)
     15a2:	ec 01       	movw	r28, r24
     15a4:	97 fd       	sbrc	r25, 7
     15a6:	2e c0       	rjmp	.+92     	; 0x1604 <_ZN6String7replaceERKS_S1_+0x1ca>
-			readFrom = buffer + index + find.len;
     15a8:	f6 01       	movw	r30, r12
     15aa:	24 81       	ldd	r18, Z+4	; 0x04
     15ac:	35 81       	ldd	r19, Z+5	; 0x05
@@ -3921,7 +2972,6 @@ void String::replace(const String& find, const String& replace)
     15b6:	91 81       	ldd	r25, Z+1	; 0x01
     15b8:	82 0f       	add	r24, r18
     15ba:	93 1f       	adc	r25, r19
-			memmove(readFrom + diff, readFrom, len - (readFrom - buffer));
     15bc:	44 81       	ldd	r20, Z+4	; 0x04
     15be:	55 81       	ldd	r21, Z+5	; 0x05
     15c0:	42 1b       	sub	r20, r18
@@ -3930,7 +2980,6 @@ void String::replace(const String& find, const String& replace)
     15c6:	86 0d       	add	r24, r6
     15c8:	97 1d       	adc	r25, r7
     15ca:	0e 94 82 17 	call	0x2f04	; 0x2f04 <memmove>
-			len += diff;
     15ce:	f8 01       	movw	r30, r16
     15d0:	84 81       	ldd	r24, Z+4	; 0x04
     15d2:	95 81       	ldd	r25, Z+5	; 0x05
@@ -3938,14 +2987,12 @@ void String::replace(const String& find, const String& replace)
     15d6:	97 1d       	adc	r25, r7
     15d8:	95 83       	std	Z+5, r25	; 0x05
     15da:	84 83       	std	Z+4, r24	; 0x04
-			buffer[len] = 0;
     15dc:	20 81       	ld	r18, Z
     15de:	31 81       	ldd	r19, Z+1	; 0x01
     15e0:	f9 01       	movw	r30, r18
     15e2:	e8 0f       	add	r30, r24
     15e4:	f9 1f       	adc	r31, r25
     15e6:	10 82       	st	Z, r1
-			memcpy(buffer + index, replace.buffer, replace.len);
     15e8:	f8 01       	movw	r30, r16
     15ea:	80 81       	ld	r24, Z
     15ec:	91 81       	ldd	r25, Z+1	; 0x01
@@ -3957,12 +3004,8 @@ void String::replace(const String& find, const String& replace)
     15f8:	8c 0f       	add	r24, r28
     15fa:	9d 1f       	adc	r25, r29
     15fc:	0e 94 79 17 	call	0x2ef2	; 0x2ef2 <memcpy>
-			index--;
     1600:	ae 01       	movw	r20, r28
     1602:	c8 cf       	rjmp	.-112    	; 0x1594 <_ZN6String7replaceERKS_S1_+0x15a>
-		}
-	}
-}
     1604:	df 91       	pop	r29
     1606:	cf 91       	pop	r28
     1608:	1f 91       	pop	r17
@@ -3984,12 +3027,6 @@ void String::replace(const String& find, const String& replace)
     1628:	08 95       	ret
 
 0000162a <_ZN16Adafruit_AMG88xx5writeEhPhh>:
-	uint8_t raw[2];
-	this->read(AMG88xx_TTHL, raw, 2);
-	uint16_t recast = ((uint16_t)raw[1] << 8) | ((uint16_t)raw[0]);
-
-	return signedMag12ToFloat(recast) * AMG88xx_THERMISTOR_CONVERSION;
-}
     162a:	ef 92       	push	r14
     162c:	ff 92       	push	r15
     162e:	0f 93       	push	r16
@@ -4186,12 +3223,6 @@ void String::replace(const String& find, const String& replace)
     179c:	08 95       	ret
 
 0000179e <_ZN16Adafruit_AMG88xx10readPixelsEPfh>:
-    @param  size Optionsl number of bytes to read (up to 64). Default is 64 bytes.
-    @return up to 64 bytes of pixel data in buf
-*/
-/**************************************************************************/
-void Adafruit_AMG88xx::readPixels(float *buf, uint8_t size)
-{
     179e:	8f 92       	push	r8
     17a0:	9f 92       	push	r9
     17a2:	af 92       	push	r10
@@ -4209,25 +3240,12 @@ void Adafruit_AMG88xx::readPixels(float *buf, uint8_t size)
     17ba:	f6 2e       	mov	r15, r22
     17bc:	17 2f       	mov	r17, r23
     17be:	04 2f       	mov	r16, r20
-		recast = ((uint16_t)rawArray[pos + 1] << 8) | ((uint16_t)rawArray[pos]);
-		
-		converted = int12ToFloat(recast) * AMG88xx_PIXEL_TEMP_CONVERSION;
-		buf[i] = converted;
-	}
-}
     17c0:	8d b6       	in	r8, 0x3d	; 61
     17c2:	9e b6       	in	r9, 0x3e	; 62
-/**************************************************************************/
-void Adafruit_AMG88xx::readPixels(float *buf, uint8_t size)
-{
-	uint16_t recast;
-	float converted;
-	uint8_t bytesToRead = min((uint8_t)(size << 1), (uint8_t)(AMG88xx_PIXEL_ARRAY_SIZE << 1));
     17c4:	24 2f       	mov	r18, r20
     17c6:	22 0f       	add	r18, r18
     17c8:	46 fd       	sbrc	r20, 6
     17ca:	20 e8       	ldi	r18, 0x80	; 128
-	uint8_t rawArray[bytesToRead];
     17cc:	4d b7       	in	r20, 0x3d	; 61
     17ce:	5e b7       	in	r21, 0x3e	; 62
     17d0:	42 1b       	sub	r20, r18
@@ -4241,30 +3259,22 @@ void Adafruit_AMG88xx::readPixels(float *buf, uint8_t size)
     17e0:	fe b7       	in	r31, 0x3e	; 62
     17e2:	31 96       	adiw	r30, 0x01	; 1
     17e4:	5f 01       	movw	r10, r30
-	this->read(AMG88xx_PIXEL_OFFSET, rawArray, bytesToRead);
     17e6:	af 01       	movw	r20, r30
     17e8:	60 e8       	ldi	r22, 0x80	; 128
     17ea:	86 df       	rcall	.-244    	; 0x16f8 <_ZN16Adafruit_AMG88xx4readEhPhh>
     17ec:	cf 2c       	mov	r12, r15
     17ee:	d1 2e       	mov	r13, r17
-	
-	for(int i=0; i<size; i++){
     17f0:	e1 2c       	mov	r14, r1
     17f2:	f1 2c       	mov	r15, r1
     17f4:	10 e0       	ldi	r17, 0x00	; 0
     17f6:	e0 16       	cp	r14, r16
     17f8:	f1 06       	cpc	r15, r17
     17fa:	54 f5       	brge	.+84     	; 0x1850 <_ZN16Adafruit_AMG88xx10readPixelsEPfh+0xb2>
-		uint8_t pos = i << 1;
-		recast = ((uint16_t)rawArray[pos + 1] << 8) | ((uint16_t)rawArray[pos]);
     17fc:	8e 2d       	mov	r24, r14
     17fe:	88 0f       	add	r24, r24
     1800:	f5 01       	movw	r30, r10
     1802:	e8 0f       	add	r30, r24
     1804:	f1 1d       	adc	r31, r1
-		
-		converted = int12ToFloat(recast) * AMG88xx_PIXEL_TEMP_CONVERSION;
-		buf[i] = converted;
     1806:	61 81       	ldd	r22, Z+1	; 0x01
     1808:	70 e0       	ldi	r23, 0x00	; 0
     180a:	76 2f       	mov	r23, r22
@@ -4297,22 +3307,10 @@ void Adafruit_AMG88xx::readPixels(float *buf, uint8_t size)
     1842:	81 93       	st	Z+, r24
     1844:	91 93       	st	Z+, r25
     1846:	6f 01       	movw	r12, r30
-	float converted;
-	uint8_t bytesToRead = min((uint8_t)(size << 1), (uint8_t)(AMG88xx_PIXEL_ARRAY_SIZE << 1));
-	uint8_t rawArray[bytesToRead];
-	this->read(AMG88xx_PIXEL_OFFSET, rawArray, bytesToRead);
-	
-	for(int i=0; i<size; i++){
     1848:	ff ef       	ldi	r31, 0xFF	; 255
     184a:	ef 1a       	sub	r14, r31
     184c:	ff 0a       	sbc	r15, r31
     184e:	d3 cf       	rjmp	.-90     	; 0x17f6 <_ZN16Adafruit_AMG88xx10readPixelsEPfh+0x58>
-		recast = ((uint16_t)rawArray[pos + 1] << 8) | ((uint16_t)rawArray[pos]);
-		
-		converted = int12ToFloat(recast) * AMG88xx_PIXEL_TEMP_CONVERSION;
-		buf[i] = converted;
-	}
-}
     1850:	0f b6       	in	r0, 0x3f	; 63
     1852:	f8 94       	cli
     1854:	9e be       	out	0x3e, r9	; 62
@@ -4333,12 +3331,6 @@ void Adafruit_AMG88xx::readPixels(float *buf, uint8_t size)
     1872:	08 95       	ret
 
 00001874 <_ZN6HCSR04C1Eiiii>:
-    pinMode(echo, INPUT);
-    _trigger = trigger;
-    _echo = echo;
-}
-
-HCSR04::HCSR04(int trigger, int echo, int minRange, int maxRange)
     1874:	af 92       	push	r10
     1876:	bf 92       	push	r11
     1878:	cf 92       	push	r12
@@ -4361,28 +3353,20 @@ HCSR04::HCSR04(int trigger, int echo, int minRange, int maxRange)
     189a:	8c 83       	std	Y+4, r24	; 0x04
     189c:	9f 83       	std	Y+7, r25	; 0x07
     189e:	8e 83       	std	Y+6, r24	; 0x06
-{
-    pinMode(trigger, OUTPUT);
     18a0:	61 e0       	ldi	r22, 0x01	; 1
     18a2:	8e 2d       	mov	r24, r14
     18a4:	28 dc       	rcall	.-1968   	; 0x10f6 <pinMode>
-    pinMode(echo, INPUT);
     18a6:	60 e0       	ldi	r22, 0x00	; 0
     18a8:	8f 2d       	mov	r24, r15
     18aa:	25 dc       	rcall	.-1974   	; 0x10f6 <pinMode>
-    _trigger = trigger;
     18ac:	e8 82       	st	Y, r14
     18ae:	a9 82       	std	Y+1, r10	; 0x01
-    _echo = echo;
     18b0:	fa 82       	std	Y+2, r15	; 0x02
     18b2:	bb 82       	std	Y+3, r11	; 0x03
-	_minRange = minRange;
     18b4:	dd 82       	std	Y+5, r13	; 0x05
     18b6:	cc 82       	std	Y+4, r12	; 0x04
-    _maxRange = maxRange;
     18b8:	1f 83       	std	Y+7, r17	; 0x07
     18ba:	0e 83       	std	Y+6, r16	; 0x06
-}
     18bc:	df 91       	pop	r29
     18be:	cf 91       	pop	r28
     18c0:	1f 91       	pop	r17
@@ -4396,9 +3380,6 @@ HCSR04::HCSR04(int trigger, int echo, int minRange, int maxRange)
     18d0:	08 95       	ret
 
 000018d2 <_ZN6HCSR0418echoInMicrosecondsEv>:
-
-unsigned int HCSR04::echoInMicroseconds()
-{
     18d2:	cf 92       	push	r12
     18d4:	df 92       	push	r13
     18d6:	ef 92       	push	r14
@@ -4406,50 +3387,35 @@ unsigned int HCSR04::echoInMicroseconds()
     18da:	cf 93       	push	r28
     18dc:	df 93       	push	r29
     18de:	ec 01       	movw	r28, r24
-    digitalWrite(_trigger, LOW);
     18e0:	60 e0       	ldi	r22, 0x00	; 0
     18e2:	88 81       	ld	r24, Y
     18e4:	44 dc       	rcall	.-1912   	; 0x116e <digitalWrite>
-    delayMicroseconds(5);
     18e6:	85 e0       	ldi	r24, 0x05	; 5
     18e8:	90 e0       	ldi	r25, 0x00	; 0
     18ea:	42 db       	rcall	.-2428   	; 0xf70 <delayMicroseconds>
-    digitalWrite(_trigger, HIGH);
     18ec:	61 e0       	ldi	r22, 0x01	; 1
     18ee:	88 81       	ld	r24, Y
     18f0:	3e dc       	rcall	.-1924   	; 0x116e <digitalWrite>
-    delayMicroseconds(10);
     18f2:	8a e0       	ldi	r24, 0x0A	; 10
     18f4:	90 e0       	ldi	r25, 0x00	; 0
     18f6:	3c db       	rcall	.-2440   	; 0xf70 <delayMicroseconds>
-    digitalWrite(_trigger, LOW);  
     18f8:	60 e0       	ldi	r22, 0x00	; 0
     18fa:	88 81       	ld	r24, Y
     18fc:	38 dc       	rcall	.-1936   	; 0x116e <digitalWrite>
-    // Why don't I just use? "return pulseIn(_echo, HIGH);"
-	// Arduino Primo doesn't have access to pulseIn.
-    while(digitalRead(_echo) == LOW);
     18fe:	8a 81       	ldd	r24, Y+2	; 0x02
     1900:	64 dc       	rcall	.-1848   	; 0x11ca <digitalRead>
     1902:	89 2b       	or	r24, r25
     1904:	e1 f3       	breq	.-8      	; 0x18fe <_ZN6HCSR0418echoInMicrosecondsEv+0x2c>
-
-    int pulseStart = micros();
     1906:	d5 da       	rcall	.-2646   	; 0xeb2 <micros>
     1908:	6b 01       	movw	r12, r22
     190a:	7c 01       	movw	r14, r24
-
-    while(digitalRead(_echo) == HIGH);
     190c:	8a 81       	ldd	r24, Y+2	; 0x02
     190e:	5d dc       	rcall	.-1862   	; 0x11ca <digitalRead>
     1910:	01 97       	sbiw	r24, 0x01	; 1
     1912:	e1 f3       	breq	.-8      	; 0x190c <_ZN6HCSR0418echoInMicrosecondsEv+0x3a>
     1914:	ce da       	rcall	.-2660   	; 0xeb2 <micros>
-
-    return micros() - pulseStart;
     1916:	cb 01       	movw	r24, r22
     1918:	8c 19       	sub	r24, r12
-}
     191a:	9d 09       	sbc	r25, r13
     191c:	df 91       	pop	r29
     191e:	cf 91       	pop	r28
@@ -4462,15 +3428,8 @@ unsigned int HCSR04::echoInMicroseconds()
 0000192a <_ZN6HCSR0421distanceInMillimetersEv>:
     192a:	cf 93       	push	r28
     192c:	df 93       	push	r29
-
-int HCSR04::distanceInMillimeters()
-{
     192e:	ec 01       	movw	r28, r24
-    int duration = echoInMicroseconds();
     1930:	d0 df       	rcall	.-96     	; 0x18d2 <_ZN6HCSR0418echoInMicrosecondsEv>
-    
-    // Given the speed of sound in air is 332m/s = 3320cm/s = 0.0332cm/us).
-    int distance = (duration / 2) * 0.332;
     1932:	97 fd       	sbrc	r25, 7
     1934:	01 96       	adiw	r24, 0x01	; 1
     1936:	bc 01       	movw	r22, r24
@@ -4488,8 +3447,6 @@ int HCSR04::distanceInMillimeters()
     194e:	0e 94 cb 14 	call	0x2996	; 0x2996 <__mulsf3>
     1952:	3a d7       	rcall	.+3700   	; 0x27c8 <__fixsfsi>
     1954:	9b 01       	movw	r18, r22
-	
-	if (_minRange == -1 && _maxRange == -1)
     1956:	4c 81       	ldd	r20, Y+4	; 0x04
     1958:	5d 81       	ldd	r21, Y+5	; 0x05
     195a:	4f 3f       	cpi	r20, 0xFF	; 255
@@ -4500,11 +3457,6 @@ int HCSR04::distanceInMillimeters()
     1964:	ff 81       	ldd	r31, Y+7	; 0x07
     1966:	31 96       	adiw	r30, 0x01	; 1
     1968:	59 f0       	breq	.+22     	; 0x1980 <_ZN6HCSR0421distanceInMillimetersEv+0x56>
-	{
-		return distance;
-	}
-	
-	if (distance > _minRange && distance < _maxRange)
     196a:	42 17       	cp	r20, r18
     196c:	53 07       	cpc	r21, r19
     196e:	2c f4       	brge	.+10     	; 0x197a <_ZN6HCSR0421distanceInMillimetersEv+0x50>
@@ -4513,27 +3465,15 @@ int HCSR04::distanceInMillimeters()
     1974:	24 17       	cp	r18, r20
     1976:	35 07       	cpc	r19, r21
     1978:	1c f0       	brlt	.+6      	; 0x1980 <_ZN6HCSR0421distanceInMillimetersEv+0x56>
-	{
-		return distance;
-	}	
-	
-	return -1;
     197a:	8f ef       	ldi	r24, 0xFF	; 255
     197c:	9f ef       	ldi	r25, 0xFF	; 255
     197e:	01 c0       	rjmp	.+2      	; 0x1982 <_ZN6HCSR0421distanceInMillimetersEv+0x58>
     1980:	cb 01       	movw	r24, r22
-}
     1982:	df 91       	pop	r29
     1984:	cf 91       	pop	r28
     1986:	08 95       	ret
 
 00001988 <_ZN6HCSR048ToStringEv>:
-{
-    Serial.println(ToString());
-}
-
-String HCSR04::ToString()
-{
     1988:	ef 92       	push	r14
     198a:	ff 92       	push	r15
     198c:	0f 93       	push	r16
@@ -4550,11 +3490,9 @@ String HCSR04::ToString()
     19a2:	cd bf       	out	0x3d, r28	; 61
     19a4:	8c 01       	movw	r16, r24
     19a6:	7b 01       	movw	r14, r22
-    String distanceString = "{\"Protocol\":\"Bifrost\",\"Device\":\"HCSR04\",\"Driver version\":\"2.0.0\",\"Properties\":{\"Distance\":<<DISTANCE>>}}";
     19a8:	61 e1       	ldi	r22, 0x11	; 17
     19aa:	73 e0       	ldi	r23, 0x03	; 3
     19ac:	a4 dc       	rcall	.-1720   	; 0x12f6 <_ZN6StringC1EPKc>
-    distanceString.replace("<<DISTANCE>>", String(distanceInMillimeters()));
     19ae:	c7 01       	movw	r24, r14
     19b0:	bc df       	rcall	.-136    	; 0x192a <_ZN6HCSR0421distanceInMillimetersEv>
     19b2:	4a e0       	ldi	r20, 0x0A	; 10
@@ -4581,8 +3519,6 @@ String HCSR04::ToString()
     19dc:	ce 01       	movw	r24, r28
     19de:	07 96       	adiw	r24, 0x07	; 7
     19e0:	1c dc       	rcall	.-1992   	; 0x121a <_ZN6StringD1Ev>
-
-    return distanceString;
     19e2:	c8 01       	movw	r24, r16
     19e4:	2c 96       	adiw	r28, 0x0c	; 12
     19e6:	0f b6       	in	r0, 0x3f	; 63
@@ -4599,12 +3535,6 @@ String HCSR04::ToString()
     19fc:	08 95       	ret
 
 000019fe <_ZN14SoftwareSerial4readEv>:
-uint16_t SoftwareSerial::subtract_cap(uint16_t num, uint16_t sub) {
-  if (num > sub)
-    return num - sub;
-  else
-    return 1;
-}
     19fe:	20 91 8b 06 	lds	r18, 0x068B	; 0x80068b <_ZN14SoftwareSerial13active_objectE>
     1a02:	30 91 8c 06 	lds	r19, 0x068C	; 0x80068c <_ZN14SoftwareSerial13active_objectE+0x1>
     1a06:	28 17       	cp	r18, r24
@@ -5061,61 +3991,33 @@ uint16_t SoftwareSerial::subtract_cap(uint16_t num, uint16_t sub) {
     1d9c:	b0 cf       	rjmp	.-160    	; 0x1cfe <_ZN14SoftwareSerial5setRXEh>
 
 00001d9e <_ZN14SoftwareSerial5beginEl>:
-//
-// Public methods
-//
-
-void SoftwareSerial::begin(long speed)
-{
     1d9e:	cf 93       	push	r28
     1da0:	df 93       	push	r29
     1da2:	ec 01       	movw	r28, r24
     1da4:	9a 01       	movw	r18, r20
     1da6:	ab 01       	movw	r20, r22
-  _rx_delay_centering = _rx_delay_intrabit = _rx_delay_stopbit = _tx_delay = 0;
     1da8:	1b 8e       	std	Y+27, r1	; 0x1b
     1daa:	1a 8e       	std	Y+26, r1	; 0x1a
     1dac:	19 8e       	std	Y+25, r1	; 0x19
     1dae:	18 8e       	std	Y+24, r1	; 0x18
     1db0:	1f 8a       	std	Y+23, r1	; 0x17
     1db2:	1e 8a       	std	Y+22, r1	; 0x16
-
-  // Precalculate the various delays, in number of 4-cycle delays
-  uint16_t bit_delay = (F_CPU / speed) / 4;
     1db4:	60 e0       	ldi	r22, 0x00	; 0
     1db6:	79 e0       	ldi	r23, 0x09	; 9
     1db8:	8d e3       	ldi	r24, 0x3D	; 61
     1dba:	90 e0       	ldi	r25, 0x00	; 0
     1dbc:	75 d6       	rcall	.+3306   	; 0x2aa8 <__divmodsi4>
     1dbe:	f9 01       	movw	r30, r18
-  uint8_t port = digitalPinToPort(rx);
-  _receivePortRegister = portInputRegister(port);
-}
-
-uint16_t SoftwareSerial::subtract_cap(uint16_t num, uint16_t sub) {
-  if (num > sub)
     1dc0:	24 30       	cpi	r18, 0x04	; 4
     1dc2:	31 05       	cpc	r19, r1
     1dc4:	18 f0       	brcs	.+6      	; 0x1dcc <_ZN14SoftwareSerial5beginEl+0x2e>
-    return num - sub;
     1dc6:	c9 01       	movw	r24, r18
     1dc8:	03 97       	sbiw	r24, 0x03	; 3
     1dca:	02 c0       	rjmp	.+4      	; 0x1dd0 <_ZN14SoftwareSerial5beginEl+0x32>
-  else
-    return 1;
     1dcc:	81 e0       	ldi	r24, 0x01	; 1
     1dce:	90 e0       	ldi	r25, 0x00	; 0
-  // 12 (gcc 4.8.2) or 13 (gcc 4.3.2) cycles from start bit to first bit,
-  // 15 (gcc 4.8.2) or 16 (gcc 4.3.2) cycles between bits,
-  // 12 (gcc 4.8.2) or 14 (gcc 4.3.2) cycles from last bit to stop bit
-  // These are all close enough to just use 15 cycles, since the inter-bit
-  // timings are the most critical (deviations stack 8 times)
-  _tx_delay = subtract_cap(bit_delay, 15 / 4);
     1dd0:	9d 8f       	std	Y+29, r25	; 0x1d
     1dd2:	8c 8f       	std	Y+28, r24	; 0x1c
-
-  // Only setup rx when we have a valid PCINT for this pin
-  if (digitalPinToPCICR((int8_t)_receivePin)) {
     1dd4:	8c 85       	ldd	r24, Y+12	; 0x0c
     1dd6:	96 ef       	ldi	r25, 0xF6	; 246
     1dd8:	98 0f       	add	r25, r24
@@ -5130,71 +4032,29 @@ uint16_t SoftwareSerial::subtract_cap(uint16_t num, uint16_t sub) {
     1dea:	68 30       	cpi	r22, 0x08	; 8
     1dec:	08 f0       	brcs	.+2      	; 0x1df0 <_ZN14SoftwareSerial5beginEl+0x52>
     1dee:	84 c0       	rjmp	.+264    	; 0x1ef8 <_ZN14SoftwareSerial5beginEl+0x15a>
-    // are 17 more cycles until the pin value is read (excluding the
-    // delay in the loop).
-    // We want to have a total delay of 1.5 bit time. Inside the loop,
-    // we already wait for 1 bit time - 23 cycles, so here we wait for
-    // 0.5 bit time - (71 + 18 - 22) cycles.
-    _rx_delay_centering = subtract_cap(bit_delay / 2, (4 + 4 + 75 + 17 - 23) / 4);
     1df0:	b9 01       	movw	r22, r18
     1df2:	76 95       	lsr	r23
     1df4:	67 95       	ror	r22
-  uint8_t port = digitalPinToPort(rx);
-  _receivePortRegister = portInputRegister(port);
-}
-
-uint16_t SoftwareSerial::subtract_cap(uint16_t num, uint16_t sub) {
-  if (num > sub)
     1df6:	64 31       	cpi	r22, 0x14	; 20
     1df8:	71 05       	cpc	r23, r1
     1dfa:	18 f0       	brcs	.+6      	; 0x1e02 <_ZN14SoftwareSerial5beginEl+0x64>
-    return num - sub;
     1dfc:	63 51       	subi	r22, 0x13	; 19
     1dfe:	71 09       	sbc	r23, r1
     1e00:	02 c0       	rjmp	.+4      	; 0x1e06 <_ZN14SoftwareSerial5beginEl+0x68>
-  else
-    return 1;
     1e02:	61 e0       	ldi	r22, 0x01	; 1
     1e04:	70 e0       	ldi	r23, 0x00	; 0
-    // are 17 more cycles until the pin value is read (excluding the
-    // delay in the loop).
-    // We want to have a total delay of 1.5 bit time. Inside the loop,
-    // we already wait for 1 bit time - 23 cycles, so here we wait for
-    // 0.5 bit time - (71 + 18 - 22) cycles.
-    _rx_delay_centering = subtract_cap(bit_delay / 2, (4 + 4 + 75 + 17 - 23) / 4);
     1e06:	7f 8b       	std	Y+23, r23	; 0x17
     1e08:	6e 8b       	std	Y+22, r22	; 0x16
-  uint8_t port = digitalPinToPort(rx);
-  _receivePortRegister = portInputRegister(port);
-}
-
-uint16_t SoftwareSerial::subtract_cap(uint16_t num, uint16_t sub) {
-  if (num > sub)
     1e0a:	36 97       	sbiw	r30, 0x06	; 6
     1e0c:	20 f0       	brcs	.+8      	; 0x1e16 <_ZN14SoftwareSerial5beginEl+0x78>
-    return num - sub;
     1e0e:	b9 01       	movw	r22, r18
     1e10:	65 50       	subi	r22, 0x05	; 5
     1e12:	71 09       	sbc	r23, r1
     1e14:	02 c0       	rjmp	.+4      	; 0x1e1a <_ZN14SoftwareSerial5beginEl+0x7c>
-  else
-    return 1;
     1e16:	61 e0       	ldi	r22, 0x01	; 1
     1e18:	70 e0       	ldi	r23, 0x00	; 0
-    // we already wait for 1 bit time - 23 cycles, so here we wait for
-    // 0.5 bit time - (71 + 18 - 22) cycles.
-    _rx_delay_centering = subtract_cap(bit_delay / 2, (4 + 4 + 75 + 17 - 23) / 4);
-
-    // There are 23 cycles in each loop iteration (excluding the delay)
-    _rx_delay_intrabit = subtract_cap(bit_delay, 23 / 4);
     1e1a:	79 8f       	std	Y+25, r23	; 0x19
     1e1c:	68 8f       	std	Y+24, r22	; 0x18
-    // mask is enabled again (which _must_ happen during the stopbit).
-    // This delay aims at 3/4 of a bit time, meaning the end of the
-    // delay will be at 1/4th of the stopbit. This allows some extra
-    // time for ISR cleanup, which makes 115200 baud at 16Mhz work more
-    // reliably
-    _rx_delay_stopbit = subtract_cap(bit_delay * 3 / 4, (37 + 11) / 4);
     1e1e:	b9 01       	movw	r22, r18
     1e20:	66 0f       	add	r22, r22
     1e22:	77 1f       	adc	r23, r23
@@ -5204,37 +4064,16 @@ uint16_t SoftwareSerial::subtract_cap(uint16_t num, uint16_t sub) {
     1e2a:	27 95       	ror	r18
     1e2c:	36 95       	lsr	r19
     1e2e:	27 95       	ror	r18
-  uint8_t port = digitalPinToPort(rx);
-  _receivePortRegister = portInputRegister(port);
-}
-
-uint16_t SoftwareSerial::subtract_cap(uint16_t num, uint16_t sub) {
-  if (num > sub)
     1e30:	2d 30       	cpi	r18, 0x0D	; 13
     1e32:	31 05       	cpc	r19, r1
     1e34:	18 f0       	brcs	.+6      	; 0x1e3c <_ZN14SoftwareSerial5beginEl+0x9e>
-    return num - sub;
     1e36:	2c 50       	subi	r18, 0x0C	; 12
     1e38:	31 09       	sbc	r19, r1
     1e3a:	02 c0       	rjmp	.+4      	; 0x1e40 <_ZN14SoftwareSerial5beginEl+0xa2>
-  else
-    return 1;
     1e3c:	21 e0       	ldi	r18, 0x01	; 1
     1e3e:	30 e0       	ldi	r19, 0x00	; 0
-    // mask is enabled again (which _must_ happen during the stopbit).
-    // This delay aims at 3/4 of a bit time, meaning the end of the
-    // delay will be at 1/4th of the stopbit. This allows some extra
-    // time for ISR cleanup, which makes 115200 baud at 16Mhz work more
-    // reliably
-    _rx_delay_stopbit = subtract_cap(bit_delay * 3 / 4, (37 + 11) / 4);
     1e40:	3b 8f       	std	Y+27, r19	; 0x1b
     1e42:	2a 8f       	std	Y+26, r18	; 0x1a
-
-
-    // Enable the PCINT for the entire port here, but never disable it
-    // (others might also need it, so we disable the interrupt by using
-    // the per-pin PCMSK register).
-    *digitalPinToPCICR((int8_t)_receivePin) |= _BV(digitalPinToPCICRbit(_receivePin));
     1e44:	94 30       	cpi	r25, 0x04	; 4
     1e46:	60 f0       	brcs	.+24     	; 0x1e60 <_ZN14SoftwareSerial5beginEl+0xc2>
     1e48:	2e ec       	ldi	r18, 0xCE	; 206
@@ -5268,9 +4107,6 @@ uint16_t SoftwareSerial::subtract_cap(uint16_t num, uint16_t sub) {
     1e80:	81 e0       	ldi	r24, 0x01	; 1
     1e82:	82 2b       	or	r24, r18
     1e84:	8c 93       	st	X, r24
-    // Precalculate the pcint mask register and value, so setRxIntMask
-    // can be used inside the ISR without costing too much time.
-    _pcint_maskreg = digitalPinToPCMSK(_receivePin);
     1e86:	8c 85       	ldd	r24, Y+12	; 0x0c
     1e88:	96 ef       	ldi	r25, 0xF6	; 246
     1e8a:	98 0f       	add	r25, r24
@@ -5294,7 +4130,6 @@ uint16_t SoftwareSerial::subtract_cap(uint16_t num, uint16_t sub) {
     1eae:	30 e0       	ldi	r19, 0x00	; 0
     1eb0:	3c 8b       	std	Y+20, r19	; 0x14
     1eb2:	2b 8b       	std	Y+19, r18	; 0x13
-    _pcint_maskvalue = _BV(digitalPinToPCMSKbit(_receivePin));
     1eb4:	94 30       	cpi	r25, 0x04	; 4
     1eb6:	10 f4       	brcc	.+4      	; 0x1ebc <_ZN14SoftwareSerial5beginEl+0x11e>
     1eb8:	9a ef       	ldi	r25, 0xFA	; 250
@@ -5335,29 +4170,10 @@ uint16_t SoftwareSerial::subtract_cap(uint16_t num, uint16_t sub) {
     1ef2:	9d 8d       	ldd	r25, Y+29	; 0x1d
     1ef4:	01 97       	sbiw	r24, 0x01	; 1
     1ef6:	f1 f7       	brne	.-4      	; 0x1ef4 <_ZN14SoftwareSerial5beginEl+0x156>
-#if _DEBUG
-  pinMode(_DEBUG_PIN1, OUTPUT);
-  pinMode(_DEBUG_PIN2, OUTPUT);
-#endif
-
-  listen();
     1ef8:	ce 01       	movw	r24, r28
-}
     1efa:	df 91       	pop	r29
-#if _DEBUG
-  pinMode(_DEBUG_PIN1, OUTPUT);
-  pinMode(_DEBUG_PIN2, OUTPUT);
-#endif
-
-  listen();
     1efc:	cf 91       	pop	r28
     1efe:	2e ce       	rjmp	.-932    	; 0x1b5c <_ZN14SoftwareSerial6listenEv>
-
-
-    // Enable the PCINT for the entire port here, but never disable it
-    // (others might also need it, so we disable the interrupt by using
-    // the per-pin PCMSK register).
-    *digitalPinToPCICR((int8_t)_receivePin) |= _BV(digitalPinToPCICRbit(_receivePin));
     1f00:	a0 e0       	ldi	r26, 0x00	; 0
     1f02:	b0 e0       	ldi	r27, 0x00	; 0
     1f04:	28 30       	cpi	r18, 0x08	; 8
@@ -5368,12 +4184,6 @@ uint16_t SoftwareSerial::subtract_cap(uint16_t num, uint16_t sub) {
     1f0e:	ac cf       	rjmp	.-168    	; 0x1e68 <_ZN14SoftwareSerial5beginEl+0xca>
 
 00001f10 <_ZN7TwoWire9availableEv>:
-}
-
-// sets function called on slave read
-void TwoWire::onRequest( void (*function)(void) )
-{
-  user_onRequest = function;
     1f10:	80 91 c1 06 	lds	r24, 0x06C1	; 0x8006c1 <_ZN7TwoWire14rxBufferLengthE>
     1f14:	90 e0       	ldi	r25, 0x00	; 0
     1f16:	20 91 c2 06 	lds	r18, 0x06C2	; 0x8006c2 <_ZN7TwoWire13rxBufferIndexE>
@@ -5715,31 +4525,14 @@ void TwoWire::onRequest( void (*function)(void) )
     21c4:	8a cf       	rjmp	.-236    	; 0x20da <_ZN7TwoWire15endTransmissionEh>
 
 000021c6 <_GLOBAL__sub_I__ZN7TwoWire8rxBufferE>:
-}
-
-// Preinstantiate Objects //////////////////////////////////////////////////////
-
-TwoWire Wire = TwoWire();
     21c6:	8d e8       	ldi	r24, 0x8D	; 141
     21c8:	96 e0       	ldi	r25, 0x06	; 6
     21ca:	5e cf       	rjmp	.-324    	; 0x2088 <_ZN7TwoWireC1Ev>
 
 000021cc <yield>:
- * libraries or sketches that supports cooperative threads.
- *
- * Its defined as a weak symbol and it can be redefined to implement a
- * real cooperative scheduler.
- */
-static void __empty() {
     21cc:	08 95       	ret
 
 000021ce <twi_init>:
-{
-  // transmit master read ready signal, with or without ack
-  if(ack){
-    TWCR = _BV(TWEN) | _BV(TWIE) | _BV(TWINT) | _BV(TWEA);
-  }else{
-	  TWCR = _BV(TWEN) | _BV(TWIE) | _BV(TWINT);
     21ce:	10 92 50 07 	sts	0x0750, r1	; 0x800750 <twi_state>
     21d2:	81 e0       	ldi	r24, 0x01	; 1
     21d4:	80 93 4e 07 	sts	0x074E, r24	; 0x80074e <twi_sendStop>
@@ -5937,49 +4730,21 @@ static void __empty() {
     23a8:	08 95       	ret
 
 000023aa <twi_stop>:
- * Output   none
- */
-void twi_stop(void)
-{
-  // send stop condition
-  TWCR = _BV(TWEN) | _BV(TWIE) | _BV(TWEA) | _BV(TWINT) | _BV(TWSTO);
     23aa:	85 ed       	ldi	r24, 0xD5	; 213
     23ac:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7000bc>
-
-  // wait for stop condition to be exectued on bus
-  // TWINT is not set after a stop condition!
-  while(TWCR & _BV(TWSTO)){
     23b0:	80 91 bc 00 	lds	r24, 0x00BC	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7000bc>
     23b4:	84 fd       	sbrc	r24, 4
     23b6:	fc cf       	rjmp	.-8      	; 0x23b0 <twi_stop+0x6>
-    continue;
-  }
-
-  // update twi state
-  twi_state = TWI_READY;
     23b8:	10 92 50 07 	sts	0x0750, r1	; 0x800750 <twi_state>
     23bc:	08 95       	ret
 
 000023be <twi_releaseBus>:
- * Output   none
- */
-void twi_releaseBus(void)
-{
-  // release bus
-  TWCR = _BV(TWEN) | _BV(TWIE) | _BV(TWEA) | _BV(TWINT);
     23be:	85 ec       	ldi	r24, 0xC5	; 197
     23c0:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7000bc>
-
-  // update twi state
-  twi_state = TWI_READY;
     23c4:	10 92 50 07 	sts	0x0750, r1	; 0x800750 <twi_state>
     23c8:	08 95       	ret
 
 000023ca <__vector_39>:
-}
-
-ISR(TWI_vect)
-{
     23ca:	1f 92       	push	r1
     23cc:	0f 92       	push	r0
     23ce:	0f b6       	in	r0, 0x3f	; 63
@@ -5999,7 +4764,6 @@ ISR(TWI_vect)
     23ea:	bf 93       	push	r27
     23ec:	ef 93       	push	r30
     23ee:	ff 93       	push	r31
-  switch(TW_STATUS){
     23f0:	80 91 b9 00 	lds	r24, 0x00B9	; 0x8000b9 <__TEXT_REGION_LENGTH__+0x7000b9>
     23f4:	88 7f       	andi	r24, 0xF8	; 248
     23f6:	80 36       	cpi	r24, 0x60	; 96
@@ -6038,23 +4802,9 @@ ISR(TWI_vect)
     2438:	88 33       	cpi	r24, 0x38	; 56
     243a:	09 f0       	breq	.+2      	; 0x243e <__vector_39+0x74>
     243c:	e1 c0       	rjmp	.+450    	; 0x2600 <__vector_39+0x236>
-    case TW_MT_DATA_NACK: // data sent, nack received
-      twi_error = TW_MT_DATA_NACK;
-      twi_stop();
-      break;
-    case TW_MT_ARB_LOST: // lost bus arbitration
-      twi_error = TW_MT_ARB_LOST;
     243e:	80 93 e3 06 	sts	0x06E3, r24	; 0x8006e3 <twi_error>
-      twi_releaseBus();
     2442:	bd df       	rcall	.-134    	; 0x23be <twi_releaseBus>
-      break;
     2444:	dd c0       	rjmp	.+442    	; 0x2600 <__vector_39+0x236>
-  twi_state = TWI_READY;
-}
-
-ISR(TWI_vect)
-{
-  switch(TW_STATUS){
     2446:	80 35       	cpi	r24, 0x50	; 80
     2448:	09 f4       	brne	.+2      	; 0x244c <__vector_39+0x82>
     244a:	4f c0       	rjmp	.+158    	; 0x24ea <__vector_39+0x120>
@@ -6111,25 +4861,12 @@ ISR(TWI_vect)
     24b0:	09 f4       	brne	.+2      	; 0x24b4 <__vector_39+0xea>
     24b2:	86 c0       	rjmp	.+268    	; 0x25c0 <__vector_39+0x1f6>
     24b4:	a5 c0       	rjmp	.+330    	; 0x2600 <__vector_39+0x236>
-    // All Master
-    case TW_START:     // sent start condition
-    case TW_REP_START: // sent repeated start condition
-      // copy device address and r/w bit to output register and ack
-      TWDR = twi_slarw;
     24b6:	80 91 4f 07 	lds	r24, 0x074F	; 0x80074f <twi_slarw>
     24ba:	10 c0       	rjmp	.+32     	; 0x24dc <__vector_39+0x112>
-
-    // Master Transmitter
-    case TW_MT_SLA_ACK:  // slave receiver acked address
-    case TW_MT_DATA_ACK: // slave receiver acked data
-      // if there is data to send, send it, otherwise stop 
-      if(twi_masterBufferIndex < twi_masterBufferLength){
     24bc:	90 91 28 07 	lds	r25, 0x0728	; 0x800728 <twi_masterBufferIndex>
     24c0:	80 91 27 07 	lds	r24, 0x0727	; 0x800727 <twi_masterBufferLength>
     24c4:	98 17       	cp	r25, r24
     24c6:	70 f5       	brcc	.+92     	; 0x2524 <__vector_39+0x15a>
-        // copy data to output register and ack
-        TWDR = twi_masterBuffer[twi_masterBufferIndex++];
     24c8:	e0 91 28 07 	lds	r30, 0x0728	; 0x800728 <twi_masterBufferIndex>
     24cc:	81 e0       	ldi	r24, 0x01	; 1
     24ce:	8e 0f       	add	r24, r30
@@ -6139,28 +4876,10 @@ ISR(TWI_vect)
     24d8:	f8 4f       	sbci	r31, 0xF8	; 248
     24da:	80 81       	ld	r24, Z
     24dc:	80 93 bb 00 	sts	0x00BB, r24	; 0x8000bb <__TEXT_REGION_LENGTH__+0x7000bb>
- */
-void twi_reply(uint8_t ack)
-{
-  // transmit master read ready signal, with or without ack
-  if(ack){
-    TWCR = _BV(TWEN) | _BV(TWIE) | _BV(TWINT) | _BV(TWEA);
     24e0:	85 ec       	ldi	r24, 0xC5	; 197
     24e2:	82 c0       	rjmp	.+260    	; 0x25e8 <__vector_39+0x21e>
-    case TW_MT_SLA_NACK:  // address sent, nack received
-      twi_error = TW_MT_SLA_NACK;
-      twi_stop();
-      break;
-    case TW_MT_DATA_NACK: // data sent, nack received
-      twi_error = TW_MT_DATA_NACK;
     24e4:	80 93 e3 06 	sts	0x06E3, r24	; 0x8006e3 <twi_error>
     24e8:	8a c0       	rjmp	.+276    	; 0x25fe <__vector_39+0x234>
-      break;
-
-    // Master Receiver
-    case TW_MR_DATA_ACK: // data received, ack sent
-      // put byte into buffer
-      twi_masterBuffer[twi_masterBufferIndex++] = TWDR;
     24ea:	e0 91 28 07 	lds	r30, 0x0728	; 0x800728 <twi_masterBufferIndex>
     24ee:	81 e0       	ldi	r24, 0x01	; 1
     24f0:	8e 0f       	add	r24, r30
@@ -6170,19 +4889,9 @@ void twi_reply(uint8_t ack)
     24fc:	e7 5d       	subi	r30, 0xD7	; 215
     24fe:	f8 4f       	sbci	r31, 0xF8	; 248
     2500:	80 83       	st	Z, r24
-      __attribute__ ((fallthrough));
-    case TW_MR_SLA_ACK:  // address sent, ack received
-      // ack if more bytes are expected, otherwise nack
-      if(twi_masterBufferIndex < twi_masterBufferLength){
     2502:	90 91 28 07 	lds	r25, 0x0728	; 0x800728 <twi_masterBufferIndex>
     2506:	80 91 27 07 	lds	r24, 0x0727	; 0x800727 <twi_masterBufferLength>
     250a:	6a c0       	rjmp	.+212    	; 0x25e0 <__vector_39+0x216>
-        twi_reply(0);
-      }
-      break;
-    case TW_MR_DATA_NACK: // data received, nack sent
-      // put final byte into buffer
-      twi_masterBuffer[twi_masterBufferIndex++] = TWDR;
     250c:	e0 91 28 07 	lds	r30, 0x0728	; 0x800728 <twi_masterBufferIndex>
     2510:	81 e0       	ldi	r24, 0x01	; 1
     2512:	8e 0f       	add	r24, r30
@@ -6192,45 +4901,21 @@ void twi_reply(uint8_t ack)
     251e:	e7 5d       	subi	r30, 0xD7	; 215
     2520:	f8 4f       	sbci	r31, 0xF8	; 248
     2522:	80 83       	st	Z, r24
-	if (twi_sendStop)
     2524:	80 91 4e 07 	lds	r24, 0x074E	; 0x80074e <twi_sendStop>
     2528:	81 11       	cpse	r24, r1
     252a:	69 c0       	rjmp	.+210    	; 0x25fe <__vector_39+0x234>
-          twi_stop();
-	else {
-	  twi_inRepStart = true;	// we're gonna send the START
     252c:	81 e0       	ldi	r24, 0x01	; 1
     252e:	80 93 4d 07 	sts	0x074D, r24	; 0x80074d <twi_inRepStart>
-	  // don't enable the interrupt. We'll generate the start, but we 
-	  // avoid handling the interrupt until we're in the next transaction,
-	  // at the point where we would normally issue the start.
-	  TWCR = _BV(TWINT) | _BV(TWSTA)| _BV(TWEN) ;
     2532:	84 ea       	ldi	r24, 0xA4	; 164
     2534:	5d c0       	rjmp	.+186    	; 0x25f0 <__vector_39+0x226>
-    case TW_SR_SLA_ACK:   // addressed, returned ack
-    case TW_SR_GCALL_ACK: // addressed generally, returned ack
-    case TW_SR_ARB_LOST_SLA_ACK:   // lost arbitration, returned ack
-    case TW_SR_ARB_LOST_GCALL_ACK: // lost arbitration, returned ack
-      // enter slave receiver mode
-      twi_state = TWI_SRX;
     2536:	83 e0       	ldi	r24, 0x03	; 3
     2538:	80 93 50 07 	sts	0x0750, r24	; 0x800750 <twi_state>
-      // indicate that rx buffer can be overwritten and ack
-      twi_rxBufferIndex = 0;
     253c:	10 92 e4 06 	sts	0x06E4, r1	; 0x8006e4 <twi_rxBufferIndex>
     2540:	cf cf       	rjmp	.-98     	; 0x24e0 <__vector_39+0x116>
-      twi_reply(1);
-      break;
-    case TW_SR_DATA_ACK:       // data received, returned ack
-    case TW_SR_GCALL_DATA_ACK: // data received generally, returned ack
-      // if there is still room in the rx buffer
-      if(twi_rxBufferIndex < TWI_BUFFER_LENGTH){
     2542:	80 91 e4 06 	lds	r24, 0x06E4	; 0x8006e4 <twi_rxBufferIndex>
     2546:	80 32       	cpi	r24, 0x20	; 32
     2548:	08 f0       	brcs	.+2      	; 0x254c <__vector_39+0x182>
     254a:	4d c0       	rjmp	.+154    	; 0x25e6 <__vector_39+0x21c>
-        // put byte in buffer and ack
-        twi_rxBuffer[twi_rxBufferIndex++] = TWDR;
     254c:	e0 91 e4 06 	lds	r30, 0x06E4	; 0x8006e4 <twi_rxBufferIndex>
     2550:	81 e0       	ldi	r24, 0x01	; 1
     2552:	8e 0f       	add	r24, r30
@@ -6240,28 +4925,16 @@ void twi_reply(uint8_t ack)
     255e:	eb 51       	subi	r30, 0x1B	; 27
     2560:	f9 4f       	sbci	r31, 0xF9	; 249
     2562:	80 83       	st	Z, r24
-        twi_reply(0);
-      }
-      break;
-    case TW_SR_STOP: // stop or repeated start condition received
-      // ack future responses and leave slave receiver state
-      twi_releaseBus();
     2564:	bd cf       	rjmp	.-134    	; 0x24e0 <__vector_39+0x116>
     2566:	2b df       	rcall	.-426    	; 0x23be <twi_releaseBus>
-      // put a null char after data if there's room
-      if(twi_rxBufferIndex < TWI_BUFFER_LENGTH){
     2568:	80 91 e4 06 	lds	r24, 0x06E4	; 0x8006e4 <twi_rxBufferIndex>
     256c:	80 32       	cpi	r24, 0x20	; 32
     256e:	30 f4       	brcc	.+12     	; 0x257c <__vector_39+0x1b2>
-        twi_rxBuffer[twi_rxBufferIndex] = '\0';
     2570:	e0 91 e4 06 	lds	r30, 0x06E4	; 0x8006e4 <twi_rxBufferIndex>
     2574:	f0 e0       	ldi	r31, 0x00	; 0
     2576:	eb 51       	subi	r30, 0x1B	; 27
     2578:	f9 4f       	sbci	r31, 0xF9	; 249
     257a:	10 82       	st	Z, r1
-      }
-      // callback to user defined callback
-      twi_onSlaveReceive(twi_rxBuffer, twi_rxBufferIndex);
     257c:	60 91 e4 06 	lds	r22, 0x06E4	; 0x8006e4 <twi_rxBufferIndex>
     2580:	70 e0       	ldi	r23, 0x00	; 0
     2582:	e0 91 49 07 	lds	r30, 0x0749	; 0x800749 <twi_onSlaveReceive>
@@ -6269,47 +4942,21 @@ void twi_reply(uint8_t ack)
     258a:	85 ee       	ldi	r24, 0xE5	; 229
     258c:	96 e0       	ldi	r25, 0x06	; 6
     258e:	19 95       	eicall
-      // since we submit rx buffer to "wire" library, we can reset it
-      twi_rxBufferIndex = 0;
     2590:	10 92 e4 06 	sts	0x06E4, r1	; 0x8006e4 <twi_rxBufferIndex>
-      break;
     2594:	35 c0       	rjmp	.+106    	; 0x2600 <__vector_39+0x236>
-    
-    // Slave Transmitter
-    case TW_ST_SLA_ACK:          // addressed, returned ack
-    case TW_ST_ARB_LOST_SLA_ACK: // arbitration lost, returned ack
-      // enter slave transmitter mode
-      twi_state = TWI_STX;
     2596:	84 e0       	ldi	r24, 0x04	; 4
     2598:	80 93 50 07 	sts	0x0750, r24	; 0x800750 <twi_state>
-      // ready the tx buffer index for iteration
-      twi_txBufferIndex = 0;
     259c:	10 92 06 07 	sts	0x0706, r1	; 0x800706 <twi_txBufferIndex>
-      // set tx buffer length to be zero, to verify if user changes it
-      twi_txBufferLength = 0;
     25a0:	10 92 05 07 	sts	0x0705, r1	; 0x800705 <twi_txBufferLength>
-      // request for txBuffer to be filled and length to be set
-      // note: user must call twi_transmit(bytes, length) to do this
-      twi_onSlaveTransmit();
     25a4:	e0 91 4b 07 	lds	r30, 0x074B	; 0x80074b <twi_onSlaveTransmit>
     25a8:	f0 91 4c 07 	lds	r31, 0x074C	; 0x80074c <twi_onSlaveTransmit+0x1>
     25ac:	19 95       	eicall
-      // if they didn't change buffer & length, initialize it
-      if(0 == twi_txBufferLength){
     25ae:	80 91 05 07 	lds	r24, 0x0705	; 0x800705 <twi_txBufferLength>
     25b2:	81 11       	cpse	r24, r1
     25b4:	05 c0       	rjmp	.+10     	; 0x25c0 <__vector_39+0x1f6>
-        twi_txBufferLength = 1;
     25b6:	81 e0       	ldi	r24, 0x01	; 1
     25b8:	80 93 05 07 	sts	0x0705, r24	; 0x800705 <twi_txBufferLength>
-        twi_txBuffer[0] = 0x00;
     25bc:	10 92 07 07 	sts	0x0707, r1	; 0x800707 <twi_txBuffer>
-      }
-      __attribute__ ((fallthrough));		  
-      // transmit first byte from buffer, fall
-    case TW_ST_DATA_ACK: // byte sent, ack returned
-      // copy data to output register
-      TWDR = twi_txBuffer[twi_txBufferIndex++];
     25c0:	e0 91 06 07 	lds	r30, 0x0706	; 0x800706 <twi_txBufferIndex>
     25c4:	81 e0       	ldi	r24, 0x01	; 1
     25c6:	8e 0f       	add	r24, r30
@@ -6319,51 +4966,20 @@ void twi_reply(uint8_t ack)
     25d0:	f8 4f       	sbci	r31, 0xF8	; 248
     25d2:	80 81       	ld	r24, Z
     25d4:	80 93 bb 00 	sts	0x00BB, r24	; 0x8000bb <__TEXT_REGION_LENGTH__+0x7000bb>
-      // if there is more to send, ack, otherwise nack
-      if(twi_txBufferIndex < twi_txBufferLength){
     25d8:	90 91 06 07 	lds	r25, 0x0706	; 0x800706 <twi_txBufferIndex>
     25dc:	80 91 05 07 	lds	r24, 0x0705	; 0x800705 <twi_txBufferLength>
     25e0:	98 17       	cp	r25, r24
     25e2:	08 f4       	brcc	.+2      	; 0x25e6 <__vector_39+0x21c>
     25e4:	7d cf       	rjmp	.-262    	; 0x24e0 <__vector_39+0x116>
-{
-  // transmit master read ready signal, with or without ack
-  if(ack){
-    TWCR = _BV(TWEN) | _BV(TWIE) | _BV(TWINT) | _BV(TWEA);
-  }else{
-	  TWCR = _BV(TWEN) | _BV(TWIE) | _BV(TWINT);
     25e6:	85 e8       	ldi	r24, 0x85	; 133
     25e8:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7000bc>
     25ec:	09 c0       	rjmp	.+18     	; 0x2600 <__vector_39+0x236>
- */
-void twi_reply(uint8_t ack)
-{
-  // transmit master read ready signal, with or without ack
-  if(ack){
-    TWCR = _BV(TWEN) | _BV(TWIE) | _BV(TWINT) | _BV(TWEA);
     25ee:	85 ec       	ldi	r24, 0xC5	; 197
     25f0:	80 93 bc 00 	sts	0x00BC, r24	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7000bc>
-    case TW_ST_DATA_NACK: // received nack, we are done 
-    case TW_ST_LAST_DATA: // received ack, but we are done already!
-      // ack future responses
-      twi_reply(1);
-      // leave slave receiver state
-      twi_state = TWI_READY;
     25f4:	10 92 50 07 	sts	0x0750, r1	; 0x800750 <twi_state>
-      break;
     25f8:	03 c0       	rjmp	.+6      	; 0x2600 <__vector_39+0x236>
-
-    // All
-    case TW_NO_INFO:   // no state information
-      break;
-    case TW_BUS_ERROR: // bus error, illegal stop/start
-      twi_error = TW_BUS_ERROR;
     25fa:	10 92 e3 06 	sts	0x06E3, r1	; 0x8006e3 <twi_error>
-      twi_stop();
     25fe:	d5 de       	rcall	.-598    	; 0x23aa <twi_stop>
-      break;
-  }
-}
     2600:	ff 91       	pop	r31
     2602:	ef 91       	pop	r30
     2604:	bf 91       	pop	r27
