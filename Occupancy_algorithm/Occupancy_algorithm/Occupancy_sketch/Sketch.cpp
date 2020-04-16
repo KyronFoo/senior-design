@@ -67,19 +67,44 @@ int Occupant_detect(){
 	
 	int Object_size = Seat_Distance - Distance;	
 	
-	switch (State)
+	switch (State) //Need to add in CO states
 	{
-		case Running:
+		case Running: //Under 80 deg F
 		case Stopped:
 		case TH0:
+			if ((Object_size > Occupant_thickness) || (Seat_load == 1)){
+				Object = 1;
+			} 
+			if ((PIR == 1)||(Thermal_parsed.detected == 1)){
+				IR = 1;	
+			}
+			if ((Object == 1)&&(IR == 1)){
+				return 1;
+			} else {
+				return 0;
+			}
+		break;
+		
+		case TH1: //Above 80 deg F
+		case TH2:
+		case TH3:
+		case TH4:
 			if ((Object_size > Occupant_thickness) && (Seat_load == 1)){
 				Object = 1;
 			}
+			if ((PIR == 1)||(Thermal_parsed.detected == 1)){
+				IR = 1;
+			}
+			if ((Object == 1)||(IR == 1)){
+				return 1;
+				} else {
+				return 0;
+			} 
 		break;
-	}
-	
-	
-	
+		
+		default:
+		break;
+	}	
 }
 
 void setup() {
@@ -131,7 +156,7 @@ void loop() {
 		
 		break;
 		
-		Default:
+		default:
 		State = Running;
 		break;
 	}
