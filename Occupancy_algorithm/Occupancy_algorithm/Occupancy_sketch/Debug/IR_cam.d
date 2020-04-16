@@ -1,4 +1,4 @@
-Sketch.d Sketch.o: .././Sketch.cpp \
+IR_cam.d IR_cam.o: .././IR_cam.cpp .././IR_cam.h \
  ..\\..\ArduinoCore\include\core/Arduino.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
@@ -34,12 +34,9 @@ Sketch.d Sketch.o: .././Sketch.cpp \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  ..\\..\ArduinoCore\include\core/Arduino.h \
  ..\\..\ArduinoCore\include\variants\mega/pins_arduino.h \
- ..\\..\ArduinoCore\include\libraries\adafruit_gps_library/Adafruit_GPS.h \
- ..\\..\ArduinoCore\include\libraries\SoftwareSerial/SoftwareSerial.h \
- ..\\..\ArduinoCore\include\core/Stream.h \
+ ..\\..\ArduinoCore\include\libraries\adafruit_amg88xx_library/Adafruit_AMG88xx.h \
  ..\\..\ArduinoCore\include\libraries\Wire/Wire.h \
- ..\\..\ArduinoCore\include\libraries\SPI/SPI.h \
- ..\\..\ArduinoCore\include\libraries\Bifrost_library_for_HC-SR04/hcsr04.h \
+ ..\\..\ArduinoCore\include\core/Stream.h \
  ..\\..\ArduinoCore\include\libraries\adafruit_gfx_library/Adafruit_GFX.h \
  ..\\..\ArduinoCore\include\core/Print.h \
  ..\\..\ArduinoCore\include\libraries\adafruit_gfx_library/gfxfont.h \
@@ -47,10 +44,10 @@ Sketch.d Sketch.o: .././Sketch.cpp \
  ..\\..\ArduinoCore\include\libraries\adafruit_st7735_and_st7789_library/Adafruit_ST77xx.h \
  ..\\..\ArduinoCore\include\libraries\adafruit_gfx_library/Adafruit_SPITFT.h \
  ..\\..\ArduinoCore\include\libraries\adafruit_gfx_library/Adafruit_GFX.h \
- ..\\..\ArduinoCore\include\libraries\adafruit_gfx_library/Adafruit_SPITFT_Macros.h \
- ..\\..\ArduinoCore\include\libraries\adafruit_amg88xx_library/Adafruit_AMG88xx.h \
- .././IR_cam.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sleep.h
+ ..\\..\ArduinoCore\include\libraries\SPI/SPI.h \
+ ..\\..\ArduinoCore\include\libraries\adafruit_gfx_library/Adafruit_SPITFT_Macros.h
+
+.././IR_cam.h:
 
 ..\\..\ArduinoCore\include\core/Arduino.h:
 
@@ -122,17 +119,11 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 ..\\..\ArduinoCore\include\variants\mega/pins_arduino.h:
 
-..\\..\ArduinoCore\include\libraries\adafruit_gps_library/Adafruit_GPS.h:
-
-..\\..\ArduinoCore\include\libraries\SoftwareSerial/SoftwareSerial.h:
-
-..\\..\ArduinoCore\include\core/Stream.h:
+..\\..\ArduinoCore\include\libraries\adafruit_amg88xx_library/Adafruit_AMG88xx.h:
 
 ..\\..\ArduinoCore\include\libraries\Wire/Wire.h:
 
-..\\..\ArduinoCore\include\libraries\SPI/SPI.h:
-
-..\\..\ArduinoCore\include\libraries\Bifrost_library_for_HC-SR04/hcsr04.h:
+..\\..\ArduinoCore\include\core/Stream.h:
 
 ..\\..\ArduinoCore\include\libraries\adafruit_gfx_library/Adafruit_GFX.h:
 
@@ -148,10 +139,6 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 ..\\..\ArduinoCore\include\libraries\adafruit_gfx_library/Adafruit_GFX.h:
 
+..\\..\ArduinoCore\include\libraries\SPI/SPI.h:
+
 ..\\..\ArduinoCore\include\libraries\adafruit_gfx_library/Adafruit_SPITFT_Macros.h:
-
-..\\..\ArduinoCore\include\libraries\adafruit_amg88xx_library/Adafruit_AMG88xx.h:
-
-.././IR_cam.h:
-
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sleep.h:

@@ -12,7 +12,7 @@
 #include <Adafruit_ST7735.h> // Hardware-specific library
 #include <SPI.h>
 #include <Adafruit_AMG88xx.h>
-#include "TFT_screen.h"
+#include "IR_cam.h"
 #include <avr/sleep.h>
 //#include "Thermal_camera.h"
 //Beginning of Auto generated function prototypes by Atmel Studio
@@ -30,23 +30,57 @@
 #define Camera_enable_pin 35
 
 HCSR04 hcsr04(TRIG_PIN, ECHO_PIN, 20, 4000); //setup ping sensor
+#define Occupant_thickness 170 //based on Kyron's waist
 
-struct Thermal_SizeTemp_Struct Thermal_size_temp_read;
+struct Thermal_SizeTemp_Struct Thermal_parsed;
 
 int Distance;
+int Seat_Distance = 1000; //to be changed per car based on calibration
+int PIR;
+int Seat_load;
+int IR;
 int Detection_flag = false;
 int Sleep_time = 290000; //4:50 minutes of sleep time
 
 enum states {
-	Idle,
-	Car_Running,
-	Occupant_no_danger,
-	Occupant_1,
-	Occupant_2,
-	Occupant_3,
+	Running, //accelerometer detects movement
+	Stopped, //accelerometer detects no movement and no driver detected, determine if state machine needed or go to sleep
+	CO1, // 70 ppm
+	CO2, // 150 ppm
+	TH0, // No threat
+	TH1, // 80 degrees, send notification
+	TH2, // 86 degrees, lower windows
+	TH3, // 91 degrees, call 911
+	TH4, // 105 degrees, Open door
 };
 
-states State = Idle;
+states State = Stopped;
+
+int Occupant_detect(){
+	Distance = hcsr04.distanceInMillimeters();
+	PIR = digitalRead(PIR_read_pin);
+	Seat_load = 1; // hard coded for positive reading, to be backed by logic when module is designed
+	Thermal_parsed = Thermal_read(); 
+	
+	int Object;
+	int IR;
+	
+	int Object_size = Seat_Distance - Distance;	
+	
+	switch (State)
+	{
+		case Running:
+		case Stopped:
+		case TH0:
+			if ((Object_size > Occupant_thickness) && (Seat_load == 1)){
+				Object = 1;
+			}
+		break;
+	}
+	
+	
+	
+}
 
 void setup() {
 	// put your setup code here, to run once:
@@ -63,43 +97,42 @@ void setup() {
 
 }
 
-int Print_delay = 0;
+//int Print_delay = 0;
 
 void loop() {
 	// put your main code here, to run repeatedly:
 
-	Print_delay++;
+	//Print_delay++;
 	//determine phase, the functions below should be placed in a state machine
 	
-	Thermal_size_temp_read = Thermal_read(); //the values being returned here need to be determined in testing //returns max temp detected and any number of pixels above 25C -3/7 KF
-
-	Distance = hcsr04.distanceInMillimeters();
-	
-	if(Print_delay >= 10){
-		Print_delay = 0;
-		Serial.print("Ping distance: ");
-		Serial.println(Distance);
-
-		//digitalRead(PIR_read_pin);
-		Serial.print("PIR read: ");
-		Serial.println(digitalRead(PIR_read_pin));
-		Serial.print("Max Temp Detected: "); Serial.print(Thermal_size_temp_read.max_temp); Serial.print("\n");
-		Serial.print("Number of pixels above "); Serial.print(DETECTEMP ); Serial.print(": " ); Serial.print(Thermal_size_temp_read.size, DEC); Serial.print("\n\n");
-	}
+	//Thermal_size_temp_read = Thermal_read(); //the values being returned here need to be determined in testing //returns max temp detected and any number of pixels above 25C -3/7 KF
+//
+	//Distance = hcsr04.distanceInMillimeters();
+	//
+	//if(Print_delay >= 10){
+		//Print_delay = 0;
+		//Serial.print("Ping distance: ");
+		//Serial.println(Distance);
+//
+		////digitalRead(PIR_read_pin);
+		//Serial.print("PIR read: ");
+		//Serial.println(digitalRead(PIR_read_pin));
+		//Serial.print("Max Temp Detected: "); Serial.print(Thermal_size_temp_read.max_temp); Serial.print("\n");
+		//Serial.print("Number of pixels above "); Serial.print(DETECTEMP ); Serial.print(": " ); Serial.print(Thermal_size_temp_read.size, DEC); Serial.print("\n\n");
+	//}
 
 	switch (State)
 	{
-		Idle:
-		if ((Thermal_size_temp_read.max_temp = MAXTEMP) || (Thermal_size_temp_read.size > 5)){
-			Detection_flag = true;
-			//check for temp here
-			State = Occupant_no_danger;
-		}
+		case Running:
+		
 		break;
 		
-		Occupant_no_danger:
+		case Stopped:
+		
+		break;
+		
 		Default:
-		State = Idle;
+		State = Running;
 		break;
 	}
 

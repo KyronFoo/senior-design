@@ -6,8 +6,8 @@
  */ 
 
 
-#ifndef TFT_SCREEN_H_
-#define TFT_SCREEN_H_
+#ifndef IR_CAM_H
+#define IR_CAM_H
 
 #include "Arduino.h"
 //#include "Thermal_camera.h"
@@ -26,12 +26,12 @@
 #define MINTEMP 14
 
 //high range of the sensor (this will be red on the screen)
-#define MAXTEMP 27
+#define MAXTEMP 30
 
 #define DETECTEMP 23
 
 struct Thermal_SizeTemp_Struct{
-	int max_temp, size; 
+	int max_temp, size, detected; 
 };
 
 //the colors we will be using

@@ -4,5 +4,5 @@
 
 Sketch.cpp
 
-TFT_screen.cpp
+IR_cam.cpp
 
