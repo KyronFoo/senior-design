@@ -33,7 +33,7 @@ Sketch.d Sketch.o: .././Sketch.cpp \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  ..\\..\ArduinoCore\include\core/Arduino.h \
- ..\\..\ArduinoCore\include\variants\mega/pins_arduino.h \
+ ..\\..\ArduinoCore\include\variants\mega/pins_arduino.h .././Sketch.h \
  ..\\..\ArduinoCore\include\libraries\adafruit_gps_library/Adafruit_GPS.h \
  ..\\..\ArduinoCore\include\libraries\SoftwareSerial/SoftwareSerial.h \
  ..\\..\ArduinoCore\include\core/Stream.h \
@@ -50,7 +50,8 @@ Sketch.d Sketch.o: .././Sketch.cpp \
  ..\\..\ArduinoCore\include\libraries\adafruit_gfx_library/Adafruit_SPITFT_Macros.h \
  ..\\..\ArduinoCore\include\libraries\adafruit_amg88xx_library/Adafruit_AMG88xx.h \
  .././IR_cam.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sleep.h
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sleep.h \
+ .././Environmental.h
 
 ..\\..\ArduinoCore\include\core/Arduino.h:
 
@@ -122,6 +123,8 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 ..\\..\ArduinoCore\include\variants\mega/pins_arduino.h:
 
+.././Sketch.h:
+
 ..\\..\ArduinoCore\include\libraries\adafruit_gps_library/Adafruit_GPS.h:
 
 ..\\..\ArduinoCore\include\libraries\SoftwareSerial/SoftwareSerial.h:
@@ -155,3 +158,5 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 .././IR_cam.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sleep.h:
+
+.././Environmental.h:

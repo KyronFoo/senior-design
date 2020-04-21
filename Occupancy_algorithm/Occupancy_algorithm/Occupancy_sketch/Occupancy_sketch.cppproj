@@ -246,6 +246,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Environment.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Environment.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Sketch.cpp">
       <SubType>compile</SubType>
     </Compile>
@@ -253,6 +259,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="IR_cam.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Sketch.h">
       <SubType>compile</SubType>
     </Compile>
     <Content Include="readme.html">
