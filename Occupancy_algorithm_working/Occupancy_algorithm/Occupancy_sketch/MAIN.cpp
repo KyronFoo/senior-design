@@ -40,7 +40,9 @@ int Seat_load;
 int IR;
 int Detection_flag = false;
 int Sleep_time = 290000; //4:50 minutes of sleep time
-bool User_dismiss = 0; //user overide flag
+bool User_dismiss = 0; //user override flag
+bool Deescalation_dismiss = 0; //software action override flag when temperatures are lowering as opposed to rising
+bool Testing_mode = 0; //set this to 1 to enable testing mode, where all data is inputted and outputted via the serial port. 
 
 enum states {
 	Running, //accelerometer detects movement
@@ -55,6 +57,7 @@ enum states {
 };
 
 states State = Stopped;
+
 
 bool Occupant_detect(){
 	Distance = hcsr04.distanceInMillimeters();
@@ -140,6 +143,8 @@ void setup() {
 float Felt_temp;
 bool Occupant_flag = false;
 
+unsigned long Time_stop_start; // time variables are reserved exclusively for reading the onboard clock. This clock overflows approximately ever 50 days.
+
 int Ping_calibration(){
 	int Sample_size = 10;
 	int Reading;
@@ -155,15 +160,15 @@ int Ping_calibration(){
 	
 };
 
-void loop() {
+void loop() { //main loop here
 	
 	//guardian statement for running car
 	if (State != Running){
-		if ((MPU_read.gForceX + MPU_read.gForceY + MPU_read.gForceZ) >= 1.1){
+		if ((MPU_read.gForceX + MPU_read.gForceY + MPU_read.gForceZ) >= 1.1){ //car is running if g forces read from all three axis is above 1.1G
 			State = Running;
 		}
 	}
-	if (User_dismiss){
+	if (User_dismiss){ //user dismissal flag, resets the next time the car is said to be in use
 		State = TH0;
 	}
 
@@ -174,40 +179,46 @@ void loop() {
 		//reset user dismissal flag when car is in use
 		User_dismiss = false;
 		
+		//guardian statement: car stopped
 		MPU_read = Get_MPU_Data();
 		
-		if ((MPU_read.gForceX + MPU_read.gForceY + MPU_read.gForceZ) <= 1.1){
+		if ((MPU_read.gForceX + MPU_read.gForceY + MPU_read.gForceZ) <= 1.1){ //if total g forces read is less than 1.1 g, the car is stopped. Most often should come out to 1g, the force of gravity
 			State = Stopped;
+			Time_stop_start = millis(); //On transition to stop, record start timer so we only start systems if the accelerometer records 1G for more than 10 seconds.
 		}
-		break; //this does not account for traffic lights and stop signs, need to figure out how to incorporate wifi
+		break; //this does not account for traffic lights and stop signs, need to figure out how to incorporate WiFi to check for the driver
 		
 		case Stopped:
-		//turn on GPS to get fix on location
-		digitalWrite(GPS_enable_pin, HIGH);
 		
-		//check for sun
-		
-		//check temperature
-		Felt_temp = Get_Felt_Temperature();
-		
-		if (Felt_temp > 80){
-			State = TH1;
-			} else {
-			State = TH0;
-		}
-		break;
-		
-		case TH0: //no threat to life
-		//check occupancy
-		if (Occupant_detect()){
-			Occupant_flag = true;
-			} else if (!Occupant_detect()){
-			/*Calibrate Ping sensor*/
-			Seat_Distance = Ping_calibration();
-		}
-		
-		if (Felt_temp > 80){
-			State = TH1;
+		if (abs(millis() - Time_stop_start) > 10000){ //if Accelerometer has been stopped for 10 seconds
+			
+			//turn on GPS to get fix on location
+			digitalWrite(GPS_enable_pin, HIGH);
+			
+			//check for sun
+			
+			//check temperature
+			Felt_temp = Get_Felt_Temperature();
+			
+			if (Felt_temp > 80){
+				State = TH1;
+				} else {
+				State = TH0;
+			}
+			break;
+			
+			case TH0: //no threat to life
+			//check occupancy
+			if (Occupant_detect()){
+				Occupant_flag = true;
+				} else if (!Occupant_detect()){
+				/*Calibrate Ping sensor*/
+				Seat_Distance = Ping_calibration();
+			}
+			
+			if (Felt_temp > 80){
+				State = TH1;
+			}
 		}
 		
 		break;
@@ -220,6 +231,7 @@ void loop() {
 			State = TH2;
 			} else if (Felt_temp < 80){
 			State = Stopped;
+			Deescalation_dismiss = 1;
 		}
 		break;
 		
@@ -232,6 +244,7 @@ void loop() {
 		} else if (Felt_temp < 86)
 		{
 			State = Stopped;
+			Deescalation_dismiss = 1;
 		}
 		break;
 		
@@ -246,6 +259,7 @@ void loop() {
 		} else if (Felt_temp < 91)
 		{
 			State = Stopped;
+			Deescalation_dismiss = 1;
 		}
 		
 		break;
@@ -255,7 +269,10 @@ void loop() {
 		
 		if (Felt_temp < 105){
 			State = Stopped;
+			Deescalation_dismiss = 1;
 		}
+		
+		break;
 		
 		default:
 		State = Running;
