@@ -12,6 +12,10 @@
 #include <avr/sleep.h>
 #include "Accelerometer.h"
 #include "Temp_Humidity.h"
+#include <string.h>
+#include <Stream.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #define Power_pin 23//connects to power pin on telecom module
 #define TRIG_PIN 29
@@ -33,16 +37,21 @@ HCSR04 hcsr04(TRIG_PIN, ECHO_PIN, 20, 4000); //setup ping sensor
 struct Thermal_SizeTemp_Struct Thermal_parsed;
 MPU_data MPU_read;
 
-int Distance;
+struct occupancy_data {
+	int Distance;
+	int Object_size;
+	bool PIR;
+	bool Seat_load;
+	bool IR;
+};
+
 int Seat_Distance = 1000; //to be changed per car based on calibration
-int PIR;
-int Seat_load;
-int IR;
 int Detection_flag = false;
 int Sleep_time = 290000; //4:50 minutes of sleep time
 bool User_dismiss = 0; //user override flag
 bool Deescalation_dismiss = 0; //software action override flag when temperatures are lowering as opposed to rising
-bool Testing_mode = 0; //set this to 1 to enable testing mode, where all data is inputted and outputted via the serial port. 
+
+bool Testing_mode = 1; //set this to 1 to enable testing mode, where all data is inputted and outputted via the serial port.
 
 enum states {
 	Running, //accelerometer detects movement
@@ -56,57 +65,134 @@ enum states {
 	TH4, // 105 degrees, Open door
 };
 
-states State = Stopped;
+states State = Running;
 
+bool Occupant_flag = false; //This flag is used both in occupant detect and in the main loop
+occupancy_data current;
+occupancy_data previous;
 
 bool Occupant_detect(){
-	Distance = hcsr04.distanceInMillimeters();
-	PIR = digitalRead(PIR_read_pin);
-	Seat_load = 1; // hard coded for positive reading, to be backed by logic when module is designed
-	Thermal_parsed = Thermal_read();
+	if (!Testing_mode){
+		current.Distance = hcsr04.distanceInMillimeters();
+		current.PIR = digitalRead(PIR_read_pin);
+		current.Seat_load = 1; // hard coded for positive reading, to be backed by logic when module is designed
+		Thermal_parsed = Thermal_read();
+		current.IR = Thermal_parsed.detected;
+		} else {
+		Serial.println("Occupant_detection");
+		return 0;
+		Occupant_flag = false;
+	}
 	
-	int Object;
-	int IR;
+	bool Object;
+	bool IR;
 	
-	int Object_size = Seat_Distance - Distance;
+	current.Object_size = Seat_Distance - current.Distance;
 	
-	switch (State) //Need to add in CO states
-	{
-		case Running: //Under 80 deg F
-		case Stopped:
-		case TH0:
-		if ((Object_size > Occupant_thickness) || (Seat_load == 1)){
-			Object = 1;
+	if (!Occupant_flag){
+		switch (State) //Need to add in CO states
+		{
+			case Running: //Under 80 deg F`
+			case Stopped:
+			case TH0:
+			if ((current.Object_size > Occupant_thickness) || current.Seat_load){
+				Object = true;
+			}
+			if ((current.PIR)||(Thermal_parsed.detected)){
+				IR = true;
+			}
+			if (Object && IR){
+				return 1;
+				Occupant_flag = true;
+				//since there is a new occupant detected, save the states of the occupancy detection sensors
+				previous = current;
+				} else {
+				return 0;
+			}
+			break;
+			
+			case TH1: //Above 80 deg F
+			case TH2:
+			case TH3:
+			case TH4:
+			if ((current.Object_size > Occupant_thickness) && current.Seat_load){
+				Object = 1;
+			}
+			if (current.PIR || Thermal_parsed.detected){
+				IR = 1;
+			}
+			if (Object || IR){
+				return 1;
+				Occupant_flag = true;
+				} else {
+				return 0;
+			}
+			break;
+			
+			default:
+			break;
 		}
-		if ((PIR == 1)||(Thermal_parsed.detected == 1)){
-			IR = 1;
+	} else if (Occupant_flag){ //if an occupant was detected before, we check if the occupant has left
+		switch (State) //Need to add in CO states
+		{
+			case Running: //Under 80 deg F`
+			case Stopped:
+			case TH0:
+			//PIR will likely turn up negative on a second read if the occupant has kept still, so we do not check if the occupant has left using PIR. PIR only used to transition from no occupant to occupant.
+			//if occupant no longer appears on ping sensor, update memory
+			if(previous.Object_size > Occupant_thickness){
+				if(current.Object_size < Occupant_thickness){
+					Object = false; //since the flag can be set by either object sensor, the change in state of either object sensor can unset the flag
+					previous.Object_size = current.Object_size;
+				}
+			}
+			//if occupant no longer appears on seat load, update memory
+			if(previous.Seat_load){
+				if(!current.Seat_load){
+					Object = false;
+					previous.Seat_load = current.Seat_load;
+				}
+			}
+			if(previous.IR){
+				if(!current.IR){
+					IR = false;
+					previous.IR = current.IR;
+				}
+			}
+			if (!Object && !IR){
+				Occupant_flag = false;
+				previous = current;
+			}
+			
+			break;
+			
+			case TH1: //Above 80 deg F, using only object sensors to show that occupant has moved
+			case TH2:
+			case TH3:
+			case TH4:
+			if(previous.Object_size > Occupant_thickness){
+				if(current.Object_size < Occupant_thickness){
+					Object = false;
+					previous.Object_size = current.Object_size;
+				}
+			}
+			//if occupant no longer appears on seat load, update memory
+			if(previous.Seat_load){
+				if(!current.Seat_load){
+					Object = false;
+					previous.Seat_load = current.Seat_load;
+				}
+			}
+			if (!Object){
+				Occupant_flag = false;
+				previous = current;
+			}
+			
+			break;
+			
+			default:
+			break;
 		}
-		if ((Object == 1)&&(IR == 1)){
-			return 1;
-			} else {
-			return 0;
-		}
-		break;
-		
-		case TH1: //Above 80 deg F
-		case TH2:
-		case TH3:
-		case TH4:
-		if ((Object_size > Occupant_thickness) && (Seat_load == 1)){
-			Object = 1;
-		}
-		if ((PIR == 1)||(Thermal_parsed.detected == 1)){
-			IR = 1;
-		}
-		if ((Object == 1)||(IR == 1)){
-			return 1;
-			} else {
-			return 0;
-		}
-		break;
-		
-		default:
-		break;
 	}
 }
 
@@ -141,7 +227,7 @@ void setup() {
 //int Print_delay = 0;
 
 float Felt_temp;
-bool Occupant_flag = false;
+
 
 unsigned long Time_stop_start; // time variables are reserved exclusively for reading the onboard clock. This clock overflows approximately ever 50 days.
 
@@ -164,6 +250,28 @@ void loop() { //main loop here
 	
 	//guardian statement for running car
 	if (State != Running){
+		
+		//check temperature
+		Felt_temp = Get_Felt_Temperature();
+		
+		if (Testing_mode){
+			Serial.println("input felt temperature");
+			while(!Serial.available());
+			String Testing_input = Serial.readString();
+			Serial.println(Testing_input);
+			Felt_temp = Testing_input.toInt();
+		}
+		
+		if (!Testing_mode){
+			MPU_read = Get_MPU_Data();
+			} else {
+			Serial.println("Car not running accel check");
+			Serial.println("Input MPU force; 1 or 2g");
+			while(!Serial.available()); //block program while waiting for serial input
+			int Testing_input = Serial.read();
+			Serial.println(Testing_input);
+			MPU_read.gForceX = Testing_input - 48;
+		}
 		if ((MPU_read.gForceX + MPU_read.gForceY + MPU_read.gForceZ) >= 1.1){ //car is running if g forces read from all three axis is above 1.1G
 			State = Running;
 		}
@@ -171,6 +279,7 @@ void loop() { //main loop here
 	if (User_dismiss){ //user dismissal flag, resets the next time the car is said to be in use
 		State = TH0;
 	}
+	
 
 	switch (State)
 	{
@@ -180,50 +289,76 @@ void loop() { //main loop here
 		User_dismiss = false;
 		
 		//guardian statement: car stopped
-		MPU_read = Get_MPU_Data();
+		if (!Testing_mode){
+			MPU_read = Get_MPU_Data();
+			} else {
+			Serial.println("Car Running");
+			Serial.println("Input MPU force; 1 or 2g");
+			while(!Serial.available()); //block program while waiting for serial input
+			int Testing_input = Serial.read();
+			Serial.println(Testing_input);
+			MPU_read.gForceX = Testing_input - 48;
+		}
 		
 		if ((MPU_read.gForceX + MPU_read.gForceY + MPU_read.gForceZ) <= 1.1){ //if total g forces read is less than 1.1 g, the car is stopped. Most often should come out to 1g, the force of gravity
 			State = Stopped;
 			Time_stop_start = millis(); //On transition to stop, record start timer so we only start systems if the accelerometer records 1G for more than 10 seconds.
 		}
+		
 		break; //this does not account for traffic lights and stop signs, need to figure out how to incorporate WiFi to check for the driver
 		
 		case Stopped:
 		
+		if (Testing_mode){
+			Serial.println("Car Stopped");
+			//Time_stop_start = 0;
+		}
+		
 		if (abs(millis() - Time_stop_start) > 10000){ //if Accelerometer has been stopped for 10 seconds
 			
 			//turn on GPS to get fix on location
-			digitalWrite(GPS_enable_pin, HIGH);
-			
-			//check for sun
-			
-			//check temperature
-			Felt_temp = Get_Felt_Temperature();
+			if (Occupant_flag){
+				digitalWrite(GPS_enable_pin, HIGH);
+				
+				//check for sun
+			}
 			
 			if (Felt_temp > 80){
 				State = TH1;
 				} else {
 				State = TH0;
 			}
-			break;
-			
-			case TH0: //no threat to life
-			//check occupancy
-			if (Occupant_detect()){
-				Occupant_flag = true;
-				} else if (!Occupant_detect()){
-				/*Calibrate Ping sensor*/
-				Seat_Distance = Ping_calibration();
-			}
-			
-			if (Felt_temp > 80){
-				State = TH1;
-			}
 		}
 		
 		break;
 		
+		case TH0: //no threat to life
+		
+		if (Testing_mode){
+			Serial.println("TH0");
+		}
+		//check occupancy
+		if (Occupant_detect()){
+			Occupant_flag = true;
+			} else if (!Occupant_detect()){
+			/*Calibrate Ping sensor*/
+			
+			if(!Testing_mode)
+			Seat_Distance = Ping_calibration(); //the call to Ping_calibration when the sensor is not connected will crash the system because of its blocking nature
+		}
+		
+		if (Felt_temp > 80){
+			State = TH1;
+		}
+		
+		
+		break;
+		
 		case TH1:
+		
+		if (Testing_mode){
+			Serial.println("TH1");
+		}
 		
 		//send notification
 		
@@ -236,6 +371,10 @@ void loop() { //main loop here
 		break;
 		
 		case TH2:
+		
+		if (Testing_mode){
+			Serial.println("TH2");
+		}
 		
 		//lower windows, send notification to owners
 		
@@ -250,6 +389,10 @@ void loop() { //main loop here
 		
 		case TH3:
 		
+		if (Testing_mode){
+			Serial.println("TH3");
+		}
+		
 		//911 alert, lights and alarms, send notification to owners
 		digitalWrite(Car_unlock_pin, HIGH);
 		digitalWrite(Alarm_Lights_pin, HIGH);
@@ -261,17 +404,20 @@ void loop() { //main loop here
 			State = Stopped;
 			Deescalation_dismiss = 1;
 		}
-		
 		break;
 		
 		case TH4:
+		
+		if (Testing_mode){
+			Serial.println("TH4");
+		}
+		
 		//open car door
 		
 		if (Felt_temp < 105){
 			State = Stopped;
 			Deescalation_dismiss = 1;
 		}
-		
 		break;
 		
 		default:
@@ -283,5 +429,5 @@ void loop() { //main loop here
 	sleep here with delay
 	*/
 	//delay(500);
-	
+
 }
