@@ -13,7 +13,8 @@
 //#define FONA_TX 3
 #define FONA_RST 22
 
-
+void Fona_setup();
+bool Fona_Send_sms();
 
 
 #endif /* FONA_H_ */

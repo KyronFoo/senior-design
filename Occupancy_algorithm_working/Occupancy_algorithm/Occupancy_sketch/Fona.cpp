@@ -73,7 +73,7 @@ void Parse_sms(){
 	
 }
 
-void Fona_Send_sms(){
+bool Fona_Send_sms(){ //need to be programmed with numbers
 	char callerIDbuffer[32];
 	
 	//Send back an automatic response

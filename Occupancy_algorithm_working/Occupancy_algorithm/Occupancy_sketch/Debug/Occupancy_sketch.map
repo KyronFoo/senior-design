@@ -304,6 +304,14 @@ Discarded input sections
  .text          0x00000000        0x0 MAIN.o
  .data          0x00000000        0x0 MAIN.o
  .bss           0x00000000        0x0 MAIN.o
+ .data.TH4_enable
+                0x00000000        0x1 MAIN.o
+ .bss.TH3_enable
+                0x00000000        0x1 MAIN.o
+ .data.TH2_enable
+                0x00000000        0x1 MAIN.o
+ .data.TH1_enable
+                0x00000000        0x1 MAIN.o
  .data.Sleep_time
                 0x00000000        0x2 MAIN.o
  .bss.Detection_flag
@@ -2513,7 +2521,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x5bac
+.text           0x00000000     0x5bda
  *(.vectors)
  .vectors       0x00000000       0xe4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega2560/avr6/crtatmega2560.o
                 0x00000000                __vector_default
@@ -2521,852 +2529,852 @@ END GROUP
  *(.vectors)
  *(.progmem.gcc*)
  .progmem.gcc_sw_table.loop
-                0x000000e4       0x12 MAIN.o
+                0x000000e4       0x14 MAIN.o
  .progmem.gcc_sw_table.turnOffPWM
-                0x000000f6       0x24 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
-                0x0000011a                . = ALIGN (0x2)
-                0x0000011a                __trampolines_start = .
+                0x000000f8       0x24 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
+                0x0000011c                . = ALIGN (0x2)
+                0x0000011c                __trampolines_start = .
  *(.trampolines)
- .trampolines   0x0000011a        0x0 linker stubs
+ .trampolines   0x0000011c        0x0 linker stubs
  *(.trampolines*)
-                0x0000011a                __trampolines_end = .
+                0x0000011c                __trampolines_end = .
  *libprintf_flt.a:*(.progmem.data)
  *libc.a:*(.progmem.data)
  *(.progmem*)
  .progmem.data._ZZ5setupE3__c
-                0x0000011a        0xd MAIN.o
+                0x0000011c        0xd MAIN.o
  .progmem.data.digital_pin_to_timer_PGM
-                0x00000127       0x46 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
-                0x00000127                digital_pin_to_timer_PGM
+                0x00000129       0x46 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
+                0x00000129                digital_pin_to_timer_PGM
  .progmem.data.digital_pin_to_bit_mask_PGM
-                0x0000016d       0x46 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
-                0x0000016d                digital_pin_to_bit_mask_PGM
+                0x0000016f       0x46 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
+                0x0000016f                digital_pin_to_bit_mask_PGM
  .progmem.data.digital_pin_to_port_PGM
-                0x000001b3       0x46 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
-                0x000001b3                digital_pin_to_port_PGM
+                0x000001b5       0x46 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
+                0x000001b5                digital_pin_to_port_PGM
  .progmem.data.port_to_input_PGM
-                0x000001f9       0x1a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
-                0x000001f9                port_to_input_PGM
+                0x000001fb       0x1a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
+                0x000001fb                port_to_input_PGM
  .progmem.data.port_to_output_PGM
-                0x00000213       0x1a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
-                0x00000213                port_to_output_PGM
+                0x00000215       0x1a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
+                0x00000215                port_to_output_PGM
  .progmem.data.port_to_mode_PGM
-                0x0000022d       0x1a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
-                0x0000022d                port_to_mode_PGM
+                0x0000022f       0x1a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
+                0x0000022f                port_to_mode_PGM
  .progmem.data._ZZN13Adafruit_FONAC4EaE3__c_1
-                0x00000247        0x3 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
+                0x00000249        0x3 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
  .progmem.data._ZZN13Adafruit_FONAC4EaE3__c_0
-                0x0000024a        0x5 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
+                0x0000024c        0x5 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
  .progmem.data._ZZN13Adafruit_FONAC4EaE3__c
-                0x0000024f        0x8 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
+                0x00000251        0x8 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
  .progmem.data._ZL4font
-                0x00000257      0x500 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
-                0x00000758                . = ALIGN (0x2)
- *fill*         0x00000757        0x1 
+                0x00000259      0x500 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+                0x0000075a                . = ALIGN (0x2)
+ *fill*         0x00000759        0x1 
  *(.jumptables)
  *(.jumptables*)
  *(.lowtext)
  *(.lowtext*)
-                0x00000758                __ctors_start = .
+                0x0000075a                __ctors_start = .
  *(.ctors)
- .ctors         0x00000758        0x2 Fona.o
- .ctors         0x0000075a        0x2 GPS.o
- .ctors         0x0000075c        0x2 MAIN.o
- .ctors         0x0000075e        0x2 IR_cam.o
- .ctors         0x00000760        0x2 Temp_Humidity.o
- .ctors         0x00000762        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
- .ctors         0x00000764        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial1.o)
- .ctors         0x00000766        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial2.o)
- .ctors         0x00000768        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x0000076a                __ctors_end = .
-                0x0000076a                __dtors_start = .
+ .ctors         0x0000075a        0x2 Fona.o
+ .ctors         0x0000075c        0x2 GPS.o
+ .ctors         0x0000075e        0x2 MAIN.o
+ .ctors         0x00000760        0x2 IR_cam.o
+ .ctors         0x00000762        0x2 Temp_Humidity.o
+ .ctors         0x00000764        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
+ .ctors         0x00000766        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial1.o)
+ .ctors         0x00000768        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial2.o)
+ .ctors         0x0000076a        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x0000076c                __ctors_end = .
+                0x0000076c                __dtors_start = .
  *(.dtors)
-                0x0000076a                __dtors_end = .
+                0x0000076c                __dtors_end = .
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x0000076a        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega2560/avr6/crtatmega2560.o
-                0x0000076a                __init
+ .init0         0x0000076c        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega2560/avr6/crtatmega2560.o
+                0x0000076c                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x0000076a       0x10 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega2560/avr6/crtatmega2560.o
+ .init2         0x0000076c       0x10 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega2560/avr6/crtatmega2560.o
  *(.init2)
  *(.init3)
  *(.init3)
  *(.init4)
- .init4         0x0000077a       0x1a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_copy_data.o)
-                0x0000077a                __do_copy_data
- .init4         0x00000794       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_clear_bss.o)
-                0x00000794                __do_clear_bss
+ .init4         0x0000077c       0x1a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_copy_data.o)
+                0x0000077c                __do_copy_data
+ .init4         0x00000796       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_clear_bss.o)
+                0x00000796                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
  *(.init6)
- .init6         0x000007a4       0x20 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_ctors.o)
-                0x000007a4                __do_global_ctors
+ .init6         0x000007a6       0x20 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_ctors.o)
+                0x000007a6                __do_global_ctors
  *(.init6)
  *(.init7)
  *(.init7)
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x000007c4        0x8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega2560/avr6/crtatmega2560.o
+ .init9         0x000007c6        0x8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega2560/avr6/crtatmega2560.o
  *(.init9)
  *(.text)
- .text          0x000007cc        0x2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega2560/avr6/crtatmega2560.o
-                0x000007cc                __vector_38
-                0x000007cc                __vector_22
-                0x000007cc                __vector_28
-                0x000007cc                __vector_32
-                0x000007cc                __vector_34
-                0x000007cc                __vector_24
-                0x000007cc                __vector_12
-                0x000007cc                __vector_55
-                0x000007cc                __vector_46
-                0x000007cc                __bad_interrupt
-                0x000007cc                __vector_31
-                0x000007cc                __vector_35
-                0x000007cc                __vector_30
-                0x000007cc                __vector_45
-                0x000007cc                __vector_54
-                0x000007cc                __vector_13
-                0x000007cc                __vector_17
-                0x000007cc                __vector_19
-                0x000007cc                __vector_56
-                0x000007cc                __vector_49
-                0x000007cc                __vector_41
-                0x000007cc                __vector_43
-                0x000007cc                __vector_27
-                0x000007cc                __vector_33
-                0x000007cc                __vector_47
-                0x000007cc                __vector_44
-                0x000007cc                __vector_21
-                0x000007cc                __vector_15
-                0x000007cc                __vector_29
-                0x000007cc                __vector_40
-                0x000007cc                __vector_48
-                0x000007cc                __vector_14
-                0x000007cc                __vector_53
-                0x000007cc                __vector_50
-                0x000007cc                __vector_16
-                0x000007cc                __vector_18
-                0x000007cc                __vector_20
-                0x000007cc                __vector_42
-                0x000007ce                . = ALIGN (0x2)
+ .text          0x000007ce        0x2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega2560/avr6/crtatmega2560.o
+                0x000007ce                __vector_38
+                0x000007ce                __vector_22
+                0x000007ce                __vector_28
+                0x000007ce                __vector_32
+                0x000007ce                __vector_34
+                0x000007ce                __vector_24
+                0x000007ce                __vector_12
+                0x000007ce                __vector_55
+                0x000007ce                __vector_46
+                0x000007ce                __bad_interrupt
+                0x000007ce                __vector_31
+                0x000007ce                __vector_35
+                0x000007ce                __vector_30
+                0x000007ce                __vector_45
+                0x000007ce                __vector_54
+                0x000007ce                __vector_13
+                0x000007ce                __vector_17
+                0x000007ce                __vector_19
+                0x000007ce                __vector_56
+                0x000007ce                __vector_49
+                0x000007ce                __vector_41
+                0x000007ce                __vector_43
+                0x000007ce                __vector_27
+                0x000007ce                __vector_33
+                0x000007ce                __vector_47
+                0x000007ce                __vector_44
+                0x000007ce                __vector_21
+                0x000007ce                __vector_15
+                0x000007ce                __vector_29
+                0x000007ce                __vector_40
+                0x000007ce                __vector_48
+                0x000007ce                __vector_14
+                0x000007ce                __vector_53
+                0x000007ce                __vector_50
+                0x000007ce                __vector_16
+                0x000007ce                __vector_18
+                0x000007ce                __vector_20
+                0x000007ce                __vector_42
+                0x000007d0                . = ALIGN (0x2)
  *(.text.*)
  .text._ZN7TwoWire5writeEi
-                0x000007ce        0xe Accelerometer.o
-                0x000007ce                _ZN7TwoWire5writeEi
+                0x000007d0        0xe Accelerometer.o
+                0x000007d0                _ZN7TwoWire5writeEi
  .text._Z16processAccelDatav
-                0x000007dc       0x7a Accelerometer.o
-                0x000007dc                _Z16processAccelDatav
+                0x000007de       0x7a Accelerometer.o
+                0x000007de                _Z16processAccelDatav
  .text._Z15processGyroDatav
-                0x00000856       0x7a Accelerometer.o
-                0x00000856                _Z15processGyroDatav
+                0x00000858       0x7a Accelerometer.o
+                0x00000858                _Z15processGyroDatav
  .text._Z20recordAccelRegistersv
-                0x000008d0       0xdc Accelerometer.o
-                0x000008d0                _Z20recordAccelRegistersv
+                0x000008d2       0xdc Accelerometer.o
+                0x000008d2                _Z20recordAccelRegistersv
  .text._Z19recordGyroRegistersv
-                0x000009ac       0xdc Accelerometer.o
-                0x000009ac                _Z19recordGyroRegistersv
+                0x000009ae       0xdc Accelerometer.o
+                0x000009ae                _Z19recordGyroRegistersv
  .text._Z12Get_MPU_Datav
-                0x00000a88       0x22 Accelerometer.o
-                0x00000a88                _Z12Get_MPU_Datav
+                0x00000a8a       0x22 Accelerometer.o
+                0x00000a8a                _Z12Get_MPU_Datav
  .text._ZN5Print17availableForWriteEv
-                0x00000aaa        0x6 Fona.o
-                0x00000aaa                _ZN5Print17availableForWriteEv
+                0x00000aac        0x6 Fona.o
+                0x00000aac                _ZN5Print17availableForWriteEv
  .text.startup._GLOBAL__sub_I_fonaSerial
-                0x00000ab0       0x1c Fona.o
+                0x00000ab2       0x1c Fona.o
  .text.startup._GLOBAL__sub_I_GPS
-                0x00000acc        0xc GPS.o
+                0x00000ace        0xc GPS.o
  .text._Z15Occupant_detectv
-                0x00000ad8       0xee MAIN.o
-                0x00000ad8                _Z15Occupant_detectv
- .text.setup    0x00000bc6       0x86 MAIN.o
-                0x00000bc6                setup
+                0x00000ada       0xfa MAIN.o
+                0x00000ada                _Z15Occupant_detectv
+ .text.setup    0x00000bd4       0x86 MAIN.o
+                0x00000bd4                setup
  .text._Z16Ping_calibrationv
-                0x00000c4c       0x32 MAIN.o
-                0x00000c4c                _Z16Ping_calibrationv
+                0x00000c5a       0x32 MAIN.o
+                0x00000c5a                _Z16Ping_calibrationv
  .text.startup._GLOBAL__sub_I_hcsr04
-                0x00000c7e       0x22 MAIN.o
- .text.loop     0x00000ca0      0x4a4 MAIN.o
-                0x00000ca0                loop
+                0x00000c8c       0x22 MAIN.o
+ .text.loop     0x00000cae      0x4c4 MAIN.o
+                0x00000cae                loop
  .text._Z13Thermal_setupv
-                0x00001144       0x32 IR_cam.o
-                0x00001144                _Z13Thermal_setupv
+                0x00001172       0x32 IR_cam.o
+                0x00001172                _Z13Thermal_setupv
  .text._Z12Thermal_readv
-                0x00001176       0xe4 IR_cam.o
-                0x00001176                _Z12Thermal_readv
+                0x000011a4       0xe4 IR_cam.o
+                0x000011a4                _Z12Thermal_readv
  .text.startup._GLOBAL__sub_I_displayPixelWidth
-                0x0000125a        0xe IR_cam.o
+                0x00001288        0xe IR_cam.o
  .text._ZN7HIH4030C2Ehf
-                0x00001268       0x14 SparkFun_HIH4030.o
-                0x00001268                _ZN7HIH4030C1Ehf
-                0x00001268                _ZN7HIH4030C2Ehf
+                0x00001296       0x14 SparkFun_HIH4030.o
+                0x00001296                _ZN7HIH4030C1Ehf
+                0x00001296                _ZN7HIH4030C2Ehf
  .text._Z15Get_temperaturev
-                0x0000127c        0x6 Temp_Humidity.o
-                0x0000127c                _Z15Get_temperaturev
+                0x000012aa        0x6 Temp_Humidity.o
+                0x000012aa                _Z15Get_temperaturev
  .text._Z20Get_Felt_Temperaturev
-                0x00001282        0x2 Temp_Humidity.o
-                0x00001282                _Z20Get_Felt_Temperaturev
+                0x000012b0        0x2 Temp_Humidity.o
+                0x000012b0                _Z20Get_Felt_Temperaturev
  .text.startup._GLOBAL__sub_I_myTMP36
-                0x00001284       0x20 Temp_Humidity.o
+                0x000012b2       0x20 Temp_Humidity.o
  .text._ZN5TMP36C2Ehf
-                0x000012a4       0x38 TMP36.o
-                0x000012a4                _ZN5TMP36C1Ehf
-                0x000012a4                _ZN5TMP36C2Ehf
+                0x000012d2       0x38 TMP36.o
+                0x000012d2                _ZN5TMP36C1Ehf
+                0x000012d2                _ZN5TMP36C2Ehf
  .text._ZN5TMP369getValuesEv
-                0x000012dc       0x76 TMP36.o
-                0x000012dc                _ZN5TMP369getValuesEv
+                0x0000130a       0x76 TMP36.o
+                0x0000130a                _ZN5TMP369getValuesEv
  .text._ZN5TMP368getTempFEv
-                0x00001352       0x16 TMP36.o
-                0x00001352                _ZN5TMP368getTempFEv
+                0x00001380       0x16 TMP36.o
+                0x00001380                _ZN5TMP368getTempFEv
  .text.avr-libc.fplib
-                0x00001368        0xa c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(addsf3.o)
-                0x00001368                __subsf3
-                0x0000136a                __addsf3
+                0x00001396        0xa c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(addsf3.o)
+                0x00001396                __subsf3
+                0x00001398                __addsf3
  .text.avr-libc.fplib
-                0x00001372       0xc0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(addsf3x.o)
-                0x0000138c                __addsf3x
+                0x000013a0       0xc0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(addsf3x.o)
+                0x000013ba                __addsf3x
  .text.avr-libc.fplib
-                0x00001432        0x8 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(cmpsf2.o)
-                0x00001432                __nesf2
-                0x00001432                __eqsf2
-                0x00001432                __cmpsf2
-                0x00001432                __ltsf2
-                0x00001432                __lesf2
+                0x00001460        0x8 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(cmpsf2.o)
+                0x00001460                __nesf2
+                0x00001460                __eqsf2
+                0x00001460                __cmpsf2
+                0x00001460                __ltsf2
+                0x00001460                __lesf2
  .text.avr-libc.fplib
-                0x0000143a        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(divsf3.o)
-                0x0000143a                __divsf3
+                0x00001468        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(divsf3.o)
+                0x00001468                __divsf3
  .text.avr-libc.fplib
-                0x0000143e       0xcc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(divsf3x.o)
-                0x00001454                __divsf3x
-                0x00001458                __divsf3_pse
+                0x0000146c       0xcc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(divsf3x.o)
+                0x00001482                __divsf3x
+                0x00001486                __divsf3_pse
  .text.avr-libc.fplib
-                0x0000150a        0xa c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fixsfsi.o)
-                0x0000150a                __fixsfsi
+                0x00001538        0xa c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fixsfsi.o)
+                0x00001538                __fixsfsi
  .text.avr-libc.fplib
-                0x00001514       0x58 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fixunssfsi.o)
-                0x00001514                __fixunssfsi
+                0x00001542       0x58 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fixunssfsi.o)
+                0x00001542                __fixunssfsi
  .text.avr-libc.fplib
-                0x0000156c       0x7a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(floatsisf.o)
-                0x0000156c                __floatunsisf
-                0x00001570                __floatsisf
+                0x0000159a       0x7a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(floatsisf.o)
+                0x0000159a                __floatunsisf
+                0x0000159e                __floatsisf
  .text.avr-libc.fplib
-                0x000015e6       0x48 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_cmp.o)
-                0x000015e6                __fp_cmp
+                0x00001614       0x48 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_cmp.o)
+                0x00001614                __fp_cmp
  .text.avr-libc.fplib
-                0x0000162e        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_inf.o)
-                0x0000162e                __fp_inf
+                0x0000165c        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_inf.o)
+                0x0000165c                __fp_inf
  .text.avr-libc.fplib
-                0x0000163a        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_nan.o)
-                0x0000163a                __fp_nan
+                0x00001668        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_nan.o)
+                0x00001668                __fp_nan
  .text.avr-libc.fplib
-                0x00001640        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_pscA.o)
-                0x00001640                __fp_pscA
+                0x0000166e        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_pscA.o)
+                0x0000166e                __fp_pscA
  .text.avr-libc.fplib
-                0x0000164e        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_pscB.o)
-                0x0000164e                __fp_pscB
+                0x0000167c        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_pscB.o)
+                0x0000167c                __fp_pscB
  .text.avr-libc.fplib
-                0x0000165c       0x22 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_round.o)
-                0x0000165c                __fp_round
+                0x0000168a       0x22 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_round.o)
+                0x0000168a                __fp_round
  .text.avr-libc.fplib
-                0x0000167e       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_split3.o)
-                0x0000167e                __fp_split3
-                0x0000168e                __fp_splitA
+                0x000016ac       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_split3.o)
+                0x000016ac                __fp_split3
+                0x000016bc                __fp_splitA
  .text.avr-libc.fplib
-                0x000016c2        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_zero.o)
-                0x000016c2                __fp_zero
-                0x000016c4                __fp_szero
+                0x000016f0        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(fp_zero.o)
+                0x000016f0                __fp_zero
+                0x000016f2                __fp_szero
  .text.avr-libc.fplib
-                0x000016d0        0x8 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(gesf2.o)
-                0x000016d0                __gesf2
-                0x000016d0                __gtsf2
+                0x000016fe        0x8 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(gesf2.o)
+                0x000016fe                __gesf2
+                0x000016fe                __gtsf2
  .text.avr-libc.fplib
-                0x000016d8        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(mulsf3.o)
-                0x000016d8                __mulsf3
+                0x00001706        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(mulsf3.o)
+                0x00001706                __mulsf3
  .text.avr-libc.fplib
-                0x000016dc       0xc2 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(mulsf3x.o)
-                0x000016f0                __mulsf3x
-                0x000016f4                __mulsf3_pse
+                0x0000170a       0xc2 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a(mulsf3x.o)
+                0x0000171e                __mulsf3x
+                0x00001722                __mulsf3_pse
  .text._ZN14HardwareSerial9availableEv
-                0x0000179e       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
-                0x0000179e                _ZN14HardwareSerial9availableEv
+                0x000017cc       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
+                0x000017cc                _ZN14HardwareSerial9availableEv
  .text._ZN14HardwareSerial4peekEv
-                0x000017b6       0x1c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
-                0x000017b6                _ZN14HardwareSerial4peekEv
+                0x000017e4       0x1c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
+                0x000017e4                _ZN14HardwareSerial4peekEv
  .text._ZN14HardwareSerial4readEv
-                0x000017d2       0x28 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
-                0x000017d2                _ZN14HardwareSerial4readEv
+                0x00001800       0x28 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
+                0x00001800                _ZN14HardwareSerial4readEv
  .text._ZN14HardwareSerial17availableForWriteEv
-                0x000017fa       0x1e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
-                0x000017fa                _ZN14HardwareSerial17availableForWriteEv
+                0x00001828       0x1e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
+                0x00001828                _ZN14HardwareSerial17availableForWriteEv
  .text._Z14serialEventRunv
-                0x00001818       0x74 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
-                0x00001818                _Z14serialEventRunv
+                0x00001846       0x74 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
+                0x00001846                _Z14serialEventRunv
  .text._ZN14HardwareSerial17_tx_udr_empty_irqEv
-                0x0000188c       0x44 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
-                0x0000188c                _ZN14HardwareSerial17_tx_udr_empty_irqEv
+                0x000018ba       0x44 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
+                0x000018ba                _ZN14HardwareSerial17_tx_udr_empty_irqEv
  .text._ZN14HardwareSerial5writeEh
-                0x000018d0       0x98 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
-                0x000018d0                _ZN14HardwareSerial5writeEh
+                0x000018fe       0x98 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
+                0x000018fe                _ZN14HardwareSerial5writeEh
  .text._ZN14HardwareSerial5flushEv
-                0x00001968       0x42 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
-                0x00001968                _ZN14HardwareSerial5flushEv
+                0x00001996       0x42 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
+                0x00001996                _ZN14HardwareSerial5flushEv
  .text._ZN14HardwareSerial5beginEmh
-                0x000019aa       0xca C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
-                0x000019aa                _ZN14HardwareSerial5beginEmh
+                0x000019d8       0xca C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
+                0x000019d8                _ZN14HardwareSerial5beginEmh
  .text._ZN5Print5flushEv
-                0x00001a74        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
-                0x00001a74                _ZN5Print5flushEv
+                0x00001aa2        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
+                0x00001aa2                _ZN5Print5flushEv
  .text.__vector_25
-                0x00001a76       0x6c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
-                0x00001a76                __vector_25
+                0x00001aa4       0x6c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
+                0x00001aa4                __vector_25
  .text.__vector_26
-                0x00001ae2       0x52 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
-                0x00001ae2                __vector_26
+                0x00001b10       0x52 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
+                0x00001b10                __vector_26
  .text._Z17Serial0_availablev
-                0x00001b34       0x12 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
-                0x00001b34                _Z17Serial0_availablev
+                0x00001b62       0x12 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
+                0x00001b62                _Z17Serial0_availablev
  .text.startup._GLOBAL__sub_I___vector_25
-                0x00001b46       0x5a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
+                0x00001b74       0x5a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
  .text.__vector_36
-                0x00001ba0       0x6c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial1.o)
-                0x00001ba0                __vector_36
+                0x00001bce       0x6c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial1.o)
+                0x00001bce                __vector_36
  .text.__vector_37
-                0x00001c0c       0x52 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial1.o)
-                0x00001c0c                __vector_37
+                0x00001c3a       0x52 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial1.o)
+                0x00001c3a                __vector_37
  .text._Z17Serial1_availablev
-                0x00001c5e       0x12 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial1.o)
-                0x00001c5e                _Z17Serial1_availablev
+                0x00001c8c       0x12 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial1.o)
+                0x00001c8c                _Z17Serial1_availablev
  .text.startup._GLOBAL__sub_I___vector_36
-                0x00001c70       0x5a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial1.o)
+                0x00001c9e       0x5a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial1.o)
  .text.__vector_51
-                0x00001cca       0x6c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial2.o)
-                0x00001cca                __vector_51
+                0x00001cf8       0x6c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial2.o)
+                0x00001cf8                __vector_51
  .text.__vector_52
-                0x00001d36       0x52 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial2.o)
-                0x00001d36                __vector_52
+                0x00001d64       0x52 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial2.o)
+                0x00001d64                __vector_52
  .text._Z17Serial2_availablev
-                0x00001d88       0x12 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial2.o)
-                0x00001d88                _Z17Serial2_availablev
+                0x00001db6       0x12 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial2.o)
+                0x00001db6                _Z17Serial2_availablev
  .text.startup._GLOBAL__sub_I___vector_51
-                0x00001d9a       0x5a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial2.o)
+                0x00001dc8       0x5a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial2.o)
  .text.initVariant
-                0x00001df4        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(main.o)
-                0x00001df4                initVariant
+                0x00001e22        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(main.o)
+                0x00001e22                initVariant
  .text.startup.main
-                0x00001df6       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(main.o)
-                0x00001df6                main
+                0x00001e24       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(main.o)
+                0x00001e24                main
  .text._ZN5Print5writeEPKhj
-                0x00001e0e       0x54 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
-                0x00001e0e                _ZN5Print5writeEPKhj
+                0x00001e3c       0x54 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
+                0x00001e3c                _ZN5Print5writeEPKhj
  .text._ZN5Print5writeEPKc
-                0x00001e62       0x2a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
-                0x00001e62                _ZN5Print5writeEPKc
+                0x00001e90       0x2a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
+                0x00001e90                _ZN5Print5writeEPKc
  .text._ZN5Print5printEPK19__FlashStringHelper
-                0x00001e8c       0x48 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
-                0x00001e8c                _ZN5Print5printEPK19__FlashStringHelper
+                0x00001eba       0x48 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
+                0x00001eba                _ZN5Print5printEPK19__FlashStringHelper
  .text._ZN5Print5printERK6String
-                0x00001ed4       0x1c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
-                0x00001ed4                _ZN5Print5printERK6String
+                0x00001f02       0x1c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
+                0x00001f02                _ZN5Print5printERK6String
  .text._ZN5Print5printEc
-                0x00001ef0        0xe C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
-                0x00001ef0                _ZN5Print5printEc
+                0x00001f1e        0xe C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
+                0x00001f1e                _ZN5Print5printEc
  .text._ZN5Print7printlnEv
-                0x00001efe        0x6 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
-                0x00001efe                _ZN5Print7printlnEv
+                0x00001f2c        0x6 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
+                0x00001f2c                _ZN5Print7printlnEv
  .text._ZN5Print7printlnEPK19__FlashStringHelper
-                0x00001f04       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
-                0x00001f04                _ZN5Print7printlnEPK19__FlashStringHelper
+                0x00001f32       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
+                0x00001f32                _ZN5Print7printlnEPK19__FlashStringHelper
  .text._ZN5Print7printlnERK6String
-                0x00001f24       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
-                0x00001f24                _ZN5Print7printlnERK6String
+                0x00001f52       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
+                0x00001f52                _ZN5Print7printlnERK6String
  .text._ZN5Print7printlnEPKc
-                0x00001f44       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
-                0x00001f44                _ZN5Print7printlnEPKc
+                0x00001f72       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
+                0x00001f72                _ZN5Print7printlnEPKc
  .text._ZN5Print11printNumberEmh
-                0x00001f64       0x90 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
-                0x00001f64                _ZN5Print11printNumberEmh
+                0x00001f92       0x90 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
+                0x00001f92                _ZN5Print11printNumberEmh
  .text._ZN5Print5printEli
-                0x00001ff4       0x8a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
-                0x00001ff4                _ZN5Print5printEli
+                0x00002022       0x8a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
+                0x00002022                _ZN5Print5printEli
  .text._ZN5Print5printEii
-                0x0000207e        0xc C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
-                0x0000207e                _ZN5Print5printEii
+                0x000020ac        0xc C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
+                0x000020ac                _ZN5Print5printEii
  .text._ZN5Print7printlnEii
-                0x0000208a       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
-                0x0000208a                _ZN5Print7printlnEii
+                0x000020b8       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
+                0x000020b8                _ZN5Print7printlnEii
  .text._ZN6Stream9timedReadEv
-                0x000020aa       0x5c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Stream.o)
-                0x000020aa                _ZN6Stream9timedReadEv
+                0x000020d8       0x5c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Stream.o)
+                0x000020d8                _ZN6Stream9timedReadEv
  .text._ZN6Stream10readStringEv
-                0x00002106       0x2e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Stream.o)
-                0x00002106                _ZN6Stream10readStringEv
+                0x00002134       0x2e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Stream.o)
+                0x00002134                _ZN6Stream10readStringEv
  .text.__vector_23
-                0x00002134       0x94 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
-                0x00002134                __vector_23
- .text.millis   0x000021c8       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
-                0x000021c8                millis
- .text.micros   0x000021e0       0x4a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
-                0x000021e0                micros
- .text.delay    0x0000222a       0x74 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
-                0x0000222a                delay
+                0x00002162       0x94 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
+                0x00002162                __vector_23
+ .text.millis   0x000021f6       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
+                0x000021f6                millis
+ .text.micros   0x0000220e       0x4a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
+                0x0000220e                micros
+ .text.delay    0x00002258       0x74 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
+                0x00002258                delay
  .text.delayMicroseconds
-                0x0000229e       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
-                0x0000229e                delayMicroseconds
- .text.init     0x000022b4       0xc4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
-                0x000022b4                init
+                0x000022cc       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
+                0x000022cc                delayMicroseconds
+ .text.init     0x000022e2       0xc4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
+                0x000022e2                init
  .text.analogRead
-                0x00002378       0x4a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_analog.o)
-                0x00002378                analogRead
+                0x000023a6       0x4a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_analog.o)
+                0x000023a6                analogRead
  .text.turnOffPWM
-                0x000023c2       0xac C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
- .text.pinMode  0x0000246e       0x78 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
-                0x0000246e                pinMode
+                0x000023f0       0xac C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
+ .text.pinMode  0x0000249c       0x78 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
+                0x0000249c                pinMode
  .text.digitalWrite
-                0x000024e6       0x5c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
-                0x000024e6                digitalWrite
+                0x00002514       0x5c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
+                0x00002514                digitalWrite
  .text.digitalRead
-                0x00002542       0x50 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
-                0x00002542                digitalRead
+                0x00002570       0x50 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
+                0x00002570                digitalRead
  .text._ZN6StringD2Ev
-                0x00002592       0x10 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
-                0x00002592                _ZN6StringD2Ev
-                0x00002592                _ZN6StringD1Ev
+                0x000025c0       0x10 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
+                0x000025c0                _ZN6StringD2Ev
+                0x000025c0                _ZN6StringD1Ev
  .text._ZN6String10invalidateEv
-                0x000025a2       0x24 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
-                0x000025a2                _ZN6String10invalidateEv
+                0x000025d0       0x24 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
+                0x000025d0                _ZN6String10invalidateEv
  .text._ZN6String12changeBufferEj
-                0x000025c6       0x34 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
-                0x000025c6                _ZN6String12changeBufferEj
+                0x000025f4       0x34 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
+                0x000025f4                _ZN6String12changeBufferEj
  .text._ZN6String7reserveEj
-                0x000025fa       0x36 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
-                0x000025fa                _ZN6String7reserveEj
+                0x00002628       0x36 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
+                0x00002628                _ZN6String7reserveEj
  .text._ZN6String4copyEPKcj
-                0x00002630       0x3e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
-                0x00002630                _ZN6String4copyEPKcj
+                0x0000265e       0x3e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
+                0x0000265e                _ZN6String4copyEPKcj
  .text._ZN6StringC2EPKc
-                0x0000266e       0x28 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
-                0x0000266e                _ZN6StringC2EPKc
-                0x0000266e                _ZN6StringC1EPKc
+                0x0000269c       0x28 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
+                0x0000269c                _ZN6StringC2EPKc
+                0x0000269c                _ZN6StringC1EPKc
  .text._ZN6String6concatEPKcj
-                0x00002696       0x5a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
-                0x00002696                _ZN6String6concatEPKcj
+                0x000026c4       0x5a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
+                0x000026c4                _ZN6String6concatEPKcj
  .text._ZN6String6concatEc
-                0x000026f0       0x26 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
-                0x000026f0                _ZN6String6concatEc
+                0x0000271e       0x26 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
+                0x0000271e                _ZN6String6concatEc
  .text._ZNK6String5toIntEv
-                0x00002716       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
-                0x00002716                _ZNK6String5toIntEv
+                0x00002744       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
+                0x00002744                _ZNK6String5toIntEv
  .text._ZN16Adafruit_AMG88xx5writeEhPhh
-                0x0000272c       0x50 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_AMG88xx.o)
-                0x0000272c                _ZN16Adafruit_AMG88xx5writeEhPhh
+                0x0000275a       0x50 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_AMG88xx.o)
+                0x0000275a                _ZN16Adafruit_AMG88xx5writeEhPhh
  .text._ZN16Adafruit_AMG88xx6write8Ehh
-                0x0000277c       0x1e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_AMG88xx.o)
-                0x0000277c                _ZN16Adafruit_AMG88xx6write8Ehh
+                0x000027aa       0x1e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_AMG88xx.o)
+                0x000027aa                _ZN16Adafruit_AMG88xx6write8Ehh
  .text._ZN16Adafruit_AMG88xx16disableInterruptEv
-                0x0000279a       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_AMG88xx.o)
-                0x0000279a                _ZN16Adafruit_AMG88xx16disableInterruptEv
+                0x000027c8       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_AMG88xx.o)
+                0x000027c8                _ZN16Adafruit_AMG88xx16disableInterruptEv
  .text._ZN16Adafruit_AMG88xx5beginEh
-                0x000027b2       0x48 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_AMG88xx.o)
-                0x000027b2                _ZN16Adafruit_AMG88xx5beginEh
+                0x000027e0       0x48 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_AMG88xx.o)
+                0x000027e0                _ZN16Adafruit_AMG88xx5beginEh
  .text._ZN16Adafruit_AMG88xx4readEhPhh
-                0x000027fa       0xa6 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_AMG88xx.o)
-                0x000027fa                _ZN16Adafruit_AMG88xx4readEhPhh
+                0x00002828       0xa6 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_AMG88xx.o)
+                0x00002828                _ZN16Adafruit_AMG88xx4readEhPhh
  .text._ZN16Adafruit_AMG88xx10readPixelsEPfh
-                0x000028a0       0xd8 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_AMG88xx.o)
-                0x000028a0                _ZN16Adafruit_AMG88xx10readPixelsEPfh
+                0x000028ce       0xd8 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_AMG88xx.o)
+                0x000028ce                _ZN16Adafruit_AMG88xx10readPixelsEPfh
  .text._ZN11SPISettingsC2Emhh
-                0x00002978       0x4a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GPS.o)
-                0x00002978                _ZN11SPISettingsC1Emhh
-                0x00002978                _ZN11SPISettingsC2Emhh
+                0x000029a6       0x4a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GPS.o)
+                0x000029a6                _ZN11SPISettingsC1Emhh
+                0x000029a6                _ZN11SPISettingsC2Emhh
  .text._ZN8SPIClass16beginTransactionE11SPISettings
-                0x000029c2       0x34 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GPS.o)
-                0x000029c2                _ZN8SPIClass16beginTransactionE11SPISettings
+                0x000029f0       0x34 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GPS.o)
+                0x000029f0                _ZN8SPIClass16beginTransactionE11SPISettings
  .text._ZN8SPIClass14endTransactionEv
-                0x000029f6       0x22 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GPS.o)
-                0x000029f6                _ZN8SPIClass14endTransactionEv
+                0x00002a24       0x22 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GPS.o)
+                0x00002a24                _ZN8SPIClass14endTransactionEv
  .text._ZN12Adafruit_GPS5writeEh
-                0x00002a18       0xf0 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GPS.o)
-                0x00002a18                _ZN12Adafruit_GPS5writeEh
+                0x00002a46       0xf0 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GPS.o)
+                0x00002a46                _ZN12Adafruit_GPS5writeEh
  .text._ZN12Adafruit_GPS11common_initEv
-                0x00002b08       0xf4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GPS.o)
-                0x00002b08                _ZN12Adafruit_GPS11common_initEv
+                0x00002b36       0xf4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GPS.o)
+                0x00002b36                _ZN12Adafruit_GPS11common_initEv
  .text._ZN12Adafruit_GPSC2EP14HardwareSerial
-                0x00002bfc      0x10a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GPS.o)
-                0x00002bfc                _ZN12Adafruit_GPSC1EP14HardwareSerial
-                0x00002bfc                _ZN12Adafruit_GPSC2EP14HardwareSerial
+                0x00002c2a      0x10a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GPS.o)
+                0x00002c2a                _ZN12Adafruit_GPSC1EP14HardwareSerial
+                0x00002c2a                _ZN12Adafruit_GPSC2EP14HardwareSerial
  .text._ZN15Adafruit_ST773511setRotationEh
-                0x00002d06      0x132 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST7735.o)
-                0x00002d06                _ZN15Adafruit_ST773511setRotationEh
+                0x00002d34      0x132 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST7735.o)
+                0x00002d34                _ZN15Adafruit_ST773511setRotationEh
  .text._ZN15Adafruit_ST7735C2Eaaa
-                0x00002e38       0x2c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST7735.o)
-                0x00002e38                _ZN15Adafruit_ST7735C1Eaaa
-                0x00002e38                _ZN15Adafruit_ST7735C2Eaaa
+                0x00002e66       0x2c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST7735.o)
+                0x00002e66                _ZN15Adafruit_ST7735C1Eaaa
+                0x00002e66                _ZN15Adafruit_ST7735C2Eaaa
  .text._ZN15Adafruit_ST77xx5beginEm
-                0x00002e64       0x32 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST77xx.o)
-                0x00002e64                _ZN15Adafruit_ST77xx5beginEm
+                0x00002e92       0x32 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST77xx.o)
+                0x00002e92                _ZN15Adafruit_ST77xx5beginEm
  .text._ZN15Adafruit_ST77xx13setAddrWindowEjjjj
-                0x00002e96       0xb2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST77xx.o)
-                0x00002e96                _ZN15Adafruit_ST77xx13setAddrWindowEjjjj
+                0x00002ec4       0xb2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST77xx.o)
+                0x00002ec4                _ZN15Adafruit_ST77xx13setAddrWindowEjjjj
  .text._ZN15Adafruit_ST77xx11setRotationEh
-                0x00002f48       0x78 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST77xx.o)
-                0x00002f48                _ZN15Adafruit_ST77xx11setRotationEh
+                0x00002f76       0x78 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST77xx.o)
+                0x00002f76                _ZN15Adafruit_ST77xx11setRotationEh
  .text._ZN15Adafruit_ST77xxC2Ejjaaa
-                0x00002fc0       0x32 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST77xx.o)
-                0x00002fc0                _ZN15Adafruit_ST77xxC2Ejjaaa
-                0x00002fc0                _ZN15Adafruit_ST77xxC1Ejjaaa
+                0x00002fee       0x32 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST77xx.o)
+                0x00002fee                _ZN15Adafruit_ST77xxC2Ejjaaa
+                0x00002fee                _ZN15Adafruit_ST77xxC1Ejjaaa
  .text._ZN6HCSR04C2Eiiii
-                0x00002ff2       0x5e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hcsr04.o)
-                0x00002ff2                _ZN6HCSR04C1Eiiii
-                0x00002ff2                _ZN6HCSR04C2Eiiii
+                0x00003020       0x5e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hcsr04.o)
+                0x00003020                _ZN6HCSR04C1Eiiii
+                0x00003020                _ZN6HCSR04C2Eiiii
  .text._ZN6HCSR0418echoInMicrosecondsEv
-                0x00003050       0x58 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hcsr04.o)
-                0x00003050                _ZN6HCSR0418echoInMicrosecondsEv
+                0x0000307e       0x58 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hcsr04.o)
+                0x0000307e                _ZN6HCSR0418echoInMicrosecondsEv
  .text._ZN6HCSR0421distanceInMillimetersEv
-                0x000030a8       0x62 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hcsr04.o)
-                0x000030a8                _ZN6HCSR0421distanceInMillimetersEv
+                0x000030d6       0x62 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hcsr04.o)
+                0x000030d6                _ZN6HCSR0421distanceInMillimetersEv
  .text.__vector_9
-                0x0000310a       0xf8 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SoftwareSerial.o)
-                0x0000310a                __vector_9
-                0x0000310a                __vector_10
-                0x0000310a                __vector_11
+                0x00003138       0xf8 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SoftwareSerial.o)
+                0x00003138                __vector_9
+                0x00003138                __vector_10
+                0x00003138                __vector_11
  .text._ZN8SPIClass5beginEv
-                0x00003202       0x64 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SPI.o)
-                0x00003202                _ZN8SPIClass5beginEv
+                0x00003230       0x64 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SPI.o)
+                0x00003230                _ZN8SPIClass5beginEv
  .text._ZN7TwoWire9availableEv
-                0x00003266       0x10 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00003266                _ZN7TwoWire9availableEv
+                0x00003294       0x10 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x00003294                _ZN7TwoWire9availableEv
  .text._ZN7TwoWire4readEv
-                0x00003276       0x28 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00003276                _ZN7TwoWire4readEv
+                0x000032a4       0x28 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x000032a4                _ZN7TwoWire4readEv
  .text._ZN7TwoWire4peekEv
-                0x0000329e       0x1e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x0000329e                _ZN7TwoWire4peekEv
+                0x000032cc       0x1e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x000032cc                _ZN7TwoWire4peekEv
  .text._ZN7TwoWire5flushEv
-                0x000032bc        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x000032bc                _ZN7TwoWire5flushEv
+                0x000032ea        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x000032ea                _ZN7TwoWire5flushEv
  .text._ZN7TwoWire16onReceiveServiceEPhi
-                0x000032be       0x54 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x000032be                _ZN7TwoWire16onReceiveServiceEPhi
+                0x000032ec       0x54 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x000032ec                _ZN7TwoWire16onReceiveServiceEPhi
  .text._ZN7TwoWire16onRequestServiceEv
-                0x00003312       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00003312                _ZN7TwoWire16onRequestServiceEv
+                0x00003340       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x00003340                _ZN7TwoWire16onRequestServiceEv
  .text._ZN7TwoWire5writeEPKhj
-                0x0000332a       0x5a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x0000332a                _ZN7TwoWire5writeEPKhj
+                0x00003358       0x5a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x00003358                _ZN7TwoWire5writeEPKhj
  .text._ZN7TwoWire5writeEh
-                0x00003384       0x5e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00003384                _ZN7TwoWire5writeEh
+                0x000033b2       0x5e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x000033b2                _ZN7TwoWire5writeEh
  .text._ZN7TwoWireC2Ev
-                0x000033e2       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x000033e2                _ZN7TwoWireC1Ev
-                0x000033e2                _ZN7TwoWireC2Ev
+                0x00003410       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x00003410                _ZN7TwoWireC1Ev
+                0x00003410                _ZN7TwoWireC2Ev
  .text._ZN7TwoWire5beginEv
-                0x00003402       0x24 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00003402                _ZN7TwoWire5beginEv
+                0x00003430       0x24 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x00003430                _ZN7TwoWire5beginEv
  .text._ZN7TwoWire17beginTransmissionEh
-                0x00003426       0x14 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00003426                _ZN7TwoWire17beginTransmissionEh
+                0x00003454       0x14 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x00003454                _ZN7TwoWire17beginTransmissionEh
  .text._ZN7TwoWire17beginTransmissionEi
-                0x0000343a        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x0000343a                _ZN7TwoWire17beginTransmissionEi
+                0x00003468        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x00003468                _ZN7TwoWire17beginTransmissionEi
  .text._ZN7TwoWire15endTransmissionEh
-                0x0000343c       0x26 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x0000343c                _ZN7TwoWire15endTransmissionEh
+                0x0000346a       0x26 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x0000346a                _ZN7TwoWire15endTransmissionEh
  .text._ZN7TwoWire11requestFromEhhmhh
-                0x00003462       0xa4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00003462                _ZN7TwoWire11requestFromEhhmhh
+                0x00003490       0xa4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x00003490                _ZN7TwoWire11requestFromEhhmhh
  .text._ZN7TwoWire11requestFromEhhh
-                0x00003506       0x1e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00003506                _ZN7TwoWire11requestFromEhhh
+                0x00003534       0x1e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x00003534                _ZN7TwoWire11requestFromEhhh
  .text._ZN7TwoWire11requestFromEhh
-                0x00003524        0x4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00003524                _ZN7TwoWire11requestFromEhh
+                0x00003552        0x4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x00003552                _ZN7TwoWire11requestFromEhh
  .text._ZN7TwoWire11requestFromEii
-                0x00003528        0x4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00003528                _ZN7TwoWire11requestFromEii
+                0x00003556        0x4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x00003556                _ZN7TwoWire11requestFromEii
  .text._ZN7TwoWire15endTransmissionEv
-                0x0000352c        0x4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x0000352c                _ZN7TwoWire15endTransmissionEv
+                0x0000355a        0x4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x0000355a                _ZN7TwoWire15endTransmissionEv
  .text.startup._GLOBAL__sub_I__ZN7TwoWire8rxBufferE
-                0x00003530        0x6 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x0000355e        0x6 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
  .text._ZN13Adafruit_FONA9availableEv
-                0x00003536       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
-                0x00003536                _ZN13Adafruit_FONA9availableEv
+                0x00003564       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
+                0x00003564                _ZN13Adafruit_FONA9availableEv
  .text._ZN13Adafruit_FONA5writeEh
-                0x0000354e       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
-                0x0000354e                _ZN13Adafruit_FONA5writeEh
+                0x0000357c       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
+                0x0000357c                _ZN13Adafruit_FONA5writeEh
  .text._ZN13Adafruit_FONA4readEv
-                0x00003566       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
-                0x00003566                _ZN13Adafruit_FONA4readEv
+                0x00003594       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
+                0x00003594                _ZN13Adafruit_FONA4readEv
  .text._ZN13Adafruit_FONA4peekEv
-                0x0000357e       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
-                0x0000357e                _ZN13Adafruit_FONA4peekEv
+                0x000035ac       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
+                0x000035ac                _ZN13Adafruit_FONA4peekEv
  .text._ZN13Adafruit_FONA5flushEv
-                0x00003596       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
-                0x00003596                _ZN13Adafruit_FONA5flushEv
+                0x000035c4       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
+                0x000035c4                _ZN13Adafruit_FONA5flushEv
  .text._ZN13Adafruit_FONAC2Ea
-                0x000035ae       0x64 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
-                0x000035ae                _ZN13Adafruit_FONAC1Ea
-                0x000035ae                _ZN13Adafruit_FONAC2Ea
+                0x000035dc       0x64 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
+                0x000035dc                _ZN13Adafruit_FONAC1Ea
+                0x000035dc                _ZN13Adafruit_FONAC2Ea
  .text.__cxa_pure_virtual
-                0x00003612        0x4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(abi.o)
-                0x00003612                __cxa_pure_virtual
- .text.__empty  0x00003616        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hooks.o)
-                0x00003616                yield
- .text.nothing  0x00003618        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
+                0x00003640        0x4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(abi.o)
+                0x00003640                __cxa_pure_virtual
+ .text.__empty  0x00003644        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hooks.o)
+                0x00003644                yield
+ .text.nothing  0x00003646        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
  .text.__vector_1
-                0x0000361a       0x56 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
-                0x0000361a                __vector_1
+                0x00003648       0x56 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
+                0x00003648                __vector_1
  .text.__vector_2
-                0x00003670       0x56 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
-                0x00003670                __vector_2
+                0x0000369e       0x56 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
+                0x0000369e                __vector_2
  .text.__vector_3
-                0x000036c6       0x56 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
-                0x000036c6                __vector_3
+                0x000036f4       0x56 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
+                0x000036f4                __vector_3
  .text.__vector_4
-                0x0000371c       0x56 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
-                0x0000371c                __vector_4
+                0x0000374a       0x56 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
+                0x0000374a                __vector_4
  .text.__vector_5
-                0x00003772       0x56 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
-                0x00003772                __vector_5
+                0x000037a0       0x56 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
+                0x000037a0                __vector_5
  .text.__vector_6
-                0x000037c8       0x56 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
-                0x000037c8                __vector_6
+                0x000037f6       0x56 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
+                0x000037f6                __vector_6
  .text.__vector_7
-                0x0000381e       0x56 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
-                0x0000381e                __vector_7
+                0x0000384c       0x56 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
+                0x0000384c                __vector_7
  .text.__vector_8
-                0x00003874       0x56 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
-                0x00003874                __vector_8
+                0x000038a2       0x56 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
+                0x000038a2                __vector_8
  .text._ZN12Adafruit_GFX9writeLineEiiiij
-                0x000038ca      0x162 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
-                0x000038ca                _ZN12Adafruit_GFX9writeLineEiiiij
+                0x000038f8      0x162 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+                0x000038f8                _ZN12Adafruit_GFX9writeLineEiiiij
  .text._ZN12Adafruit_GFX10writePixelEiij
-                0x00003a2c        0xe C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
-                0x00003a2c                _ZN12Adafruit_GFX10writePixelEiij
+                0x00003a5a        0xe C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+                0x00003a5a                _ZN12Adafruit_GFX10writePixelEiij
  .text._ZN12Adafruit_GFX14writeFastVLineEiiij
-                0x00003a3a       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
-                0x00003a3a                _ZN12Adafruit_GFX14writeFastVLineEiiij
+                0x00003a68       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+                0x00003a68                _ZN12Adafruit_GFX14writeFastVLineEiiij
  .text._ZN12Adafruit_GFX14writeFastHLineEiiij
-                0x00003a52       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
-                0x00003a52                _ZN12Adafruit_GFX14writeFastHLineEiiij
+                0x00003a80       0x18 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+                0x00003a80                _ZN12Adafruit_GFX14writeFastHLineEiiij
  .text._ZN12Adafruit_GFX13writeFillRectEiiiij
-                0x00003a6a       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
-                0x00003a6a                _ZN12Adafruit_GFX13writeFillRectEiiiij
+                0x00003a98       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+                0x00003a98                _ZN12Adafruit_GFX13writeFillRectEiiiij
  .text._ZN12Adafruit_GFX8endWriteEv
-                0x00003a8a        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
-                0x00003a8a                _ZN12Adafruit_GFX10startWriteEv
-                0x00003a8a                _ZN12Adafruit_GFX8endWriteEv
+                0x00003ab8        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+                0x00003ab8                _ZN12Adafruit_GFX10startWriteEv
+                0x00003ab8                _ZN12Adafruit_GFX8endWriteEv
  .text._ZN12Adafruit_GFX13drawFastVLineEiiij
-                0x00003a8c       0x72 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
-                0x00003a8c                _ZN12Adafruit_GFX13drawFastVLineEiiij
+                0x00003aba       0x72 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+                0x00003aba                _ZN12Adafruit_GFX13drawFastVLineEiiij
  .text._ZN12Adafruit_GFX13drawFastHLineEiiij
-                0x00003afe       0x72 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
-                0x00003afe                _ZN12Adafruit_GFX13drawFastHLineEiiij
+                0x00003b2c       0x72 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+                0x00003b2c                _ZN12Adafruit_GFX13drawFastHLineEiiij
  .text._ZN12Adafruit_GFX8fillRectEiiiij
-                0x00003b70       0x8a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
-                0x00003b70                _ZN12Adafruit_GFX8fillRectEiiiij
+                0x00003b9e       0x8a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+                0x00003b9e                _ZN12Adafruit_GFX8fillRectEiiiij
  .text._ZN12Adafruit_GFX10fillScreenEj
-                0x00003bfa       0x3a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
-                0x00003bfa                _ZN12Adafruit_GFX10fillScreenEj
+                0x00003c28       0x3a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+                0x00003c28                _ZN12Adafruit_GFX10fillScreenEj
  .text._ZN12Adafruit_GFX8drawLineEiiiij
-                0x00003c34       0xda C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
-                0x00003c34                _ZN12Adafruit_GFX8drawLineEiiiij
+                0x00003c62       0xda C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+                0x00003c62                _ZN12Adafruit_GFX8drawLineEiiiij
  .text._ZN12Adafruit_GFX8drawRectEiiiij
-                0x00003d0e       0xbe C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
-                0x00003d0e                _ZN12Adafruit_GFX8drawRectEiiiij
+                0x00003d3c       0xbe C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+                0x00003d3c                _ZN12Adafruit_GFX8drawRectEiiiij
  .text._ZN12Adafruit_GFX13invertDisplayEb
-                0x00003dcc        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
-                0x00003dcc                _ZN12Adafruit_GFX13invertDisplayEb
+                0x00003dfa        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+                0x00003dfa                _ZN12Adafruit_GFX13invertDisplayEb
  .text._ZN12Adafruit_GFX11setRotationEh
-                0x00003dce       0x2a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
-                0x00003dce                _ZN12Adafruit_GFX11setRotationEh
+                0x00003dfc       0x2a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+                0x00003dfc                _ZN12Adafruit_GFX11setRotationEh
  .text._ZN12Adafruit_GFXC2Eii
-                0x00003df8       0x44 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
-                0x00003df8                _ZN12Adafruit_GFXC2Eii
-                0x00003df8                _ZN12Adafruit_GFXC1Eii
+                0x00003e26       0x44 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+                0x00003e26                _ZN12Adafruit_GFXC2Eii
+                0x00003e26                _ZN12Adafruit_GFXC1Eii
  .text._ZN12Adafruit_GFX8drawCharEiihjjhh
-                0x00003e3c      0x46a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
-                0x00003e3c                _ZN12Adafruit_GFX8drawCharEiihjjhh
+                0x00003e6a      0x46a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+                0x00003e6a                _ZN12Adafruit_GFX8drawCharEiihjjhh
  .text._ZN12Adafruit_GFX5writeEh
-                0x000042a6      0x1ac C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
-                0x000042a6                _ZN12Adafruit_GFX5writeEh
+                0x000042d4      0x1ac C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+                0x000042d4                _ZN12Adafruit_GFX5writeEh
  .text._ZN15Adafruit_SPITFT11SPI_CS_HIGHEv
-                0x00004452       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x00004452                _ZN15Adafruit_SPITFT11SPI_CS_HIGHEv
+                0x00004480       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x00004480                _ZN15Adafruit_SPITFT11SPI_CS_HIGHEv
  .text._ZN15Adafruit_SPITFT8endWriteEv
-                0x00004468       0x24 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x00004468                _ZN15Adafruit_SPITFT8endWriteEv
+                0x00004496       0x24 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x00004496                _ZN15Adafruit_SPITFT8endWriteEv
  .text._ZN15Adafruit_SPITFT10SPI_CS_LOWEv
-                0x0000448c       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x0000448c                _ZN15Adafruit_SPITFT10SPI_CS_LOWEv
+                0x000044ba       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x000044ba                _ZN15Adafruit_SPITFT10SPI_CS_LOWEv
  .text._ZN15Adafruit_SPITFT11SPI_DC_HIGHEv
-                0x000044a2       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x000044a2                _ZN15Adafruit_SPITFT11SPI_DC_HIGHEv
+                0x000044d0       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x000044d0                _ZN15Adafruit_SPITFT11SPI_DC_HIGHEv
  .text._ZN15Adafruit_SPITFT10SPI_DC_LOWEv
-                0x000044b8       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x000044b8                _ZN15Adafruit_SPITFT10SPI_DC_LOWEv
+                0x000044e6       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x000044e6                _ZN15Adafruit_SPITFT10SPI_DC_LOWEv
  .text._ZN15Adafruit_SPITFTC2EjjP8SPIClassaaa
-                0x000044ce       0xbe C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x000044ce                _ZN15Adafruit_SPITFTC2EjjP8SPIClassaaa
-                0x000044ce                _ZN15Adafruit_SPITFTC1EjjP8SPIClassaaa
+                0x000044fc       0xbe C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x000044fc                _ZN15Adafruit_SPITFTC2EjjP8SPIClassaaa
+                0x000044fc                _ZN15Adafruit_SPITFTC1EjjP8SPIClassaaa
  .text._ZN15Adafruit_SPITFTC2Ejjaaa
-                0x0000458c       0x1a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x0000458c                _ZN15Adafruit_SPITFTC1Ejjaaa
-                0x0000458c                _ZN15Adafruit_SPITFTC2Ejjaaa
+                0x000045ba       0x1a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x000045ba                _ZN15Adafruit_SPITFTC1Ejjaaa
+                0x000045ba                _ZN15Adafruit_SPITFTC2Ejjaaa
  .text._ZN15Adafruit_SPITFT7initSPIEmh
-                0x000045a6      0x1b4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x000045a6                _ZN15Adafruit_SPITFT7initSPIEmh
+                0x000045d4      0x1b4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x000045d4                _ZN15Adafruit_SPITFT7initSPIEmh
  .text._ZN15Adafruit_SPITFT21SPI_BEGIN_TRANSACTIONEv
-                0x0000475a       0x40 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x0000475a                _ZN15Adafruit_SPITFT21SPI_BEGIN_TRANSACTIONEv
+                0x00004788       0x40 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x00004788                _ZN15Adafruit_SPITFT21SPI_BEGIN_TRANSACTIONEv
  .text._ZN15Adafruit_SPITFT10startWriteEv
-                0x0000479a       0x1c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x0000479a                _ZN15Adafruit_SPITFT10startWriteEv
+                0x000047c8       0x1c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x000047c8                _ZN15Adafruit_SPITFT10startWriteEv
  .text._ZN15Adafruit_SPITFT13SPI_MOSI_HIGHEv
-                0x000047b6       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x000047b6                _ZN15Adafruit_SPITFT13SPI_MOSI_HIGHEv
+                0x000047e4       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x000047e4                _ZN15Adafruit_SPITFT13SPI_MOSI_HIGHEv
  .text._ZN15Adafruit_SPITFT12SPI_MOSI_LOWEv
-                0x000047cc       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x000047cc                _ZN15Adafruit_SPITFT12SPI_MOSI_LOWEv
+                0x000047fa       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x000047fa                _ZN15Adafruit_SPITFT12SPI_MOSI_LOWEv
  .text._ZN15Adafruit_SPITFT12SPI_SCK_HIGHEv
-                0x000047e2       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x000047e2                _ZN15Adafruit_SPITFT12SPI_SCK_HIGHEv
+                0x00004810       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x00004810                _ZN15Adafruit_SPITFT12SPI_SCK_HIGHEv
  .text._ZN15Adafruit_SPITFT11SPI_SCK_LOWEv
-                0x000047f8       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x000047f8                _ZN15Adafruit_SPITFT11SPI_SCK_LOWEv
+                0x00004826       0x16 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x00004826                _ZN15Adafruit_SPITFT11SPI_SCK_LOWEv
  .text._ZN15Adafruit_SPITFT13TFT_WR_STROBEEv
-                0x0000480e       0x1c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x0000480e                _ZN15Adafruit_SPITFT13TFT_WR_STROBEEv
+                0x0000483c       0x1c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x0000483c                _ZN15Adafruit_SPITFT13TFT_WR_STROBEEv
  .text._ZN15Adafruit_SPITFT8spiWriteEh
-                0x0000482a       0x5a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x0000482a                _ZN15Adafruit_SPITFT8spiWriteEh
+                0x00004858       0x5a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x00004858                _ZN15Adafruit_SPITFT8spiWriteEh
  .text._ZN15Adafruit_SPITFT12writeCommandEh
-                0x00004884       0x1c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x00004884                _ZN15Adafruit_SPITFT12writeCommandEh
+                0x000048b2       0x1c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x000048b2                _ZN15Adafruit_SPITFT12writeCommandEh
  .text._ZN15Adafruit_SPITFT13invertDisplayEb
-                0x000048a0       0x38 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x000048a0                _ZN15Adafruit_SPITFT13invertDisplayEb
+                0x000048ce       0x38 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x000048ce                _ZN15Adafruit_SPITFT13invertDisplayEb
  .text._ZN15Adafruit_SPITFT11SPI_WRITE16Ej
-                0x000048d8       0x78 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x000048d8                _ZN15Adafruit_SPITFT11SPI_WRITE16Ej
+                0x00004906       0x78 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x00004906                _ZN15Adafruit_SPITFT11SPI_WRITE16Ej
  .text._ZN15Adafruit_SPITFT11sendCommandEhPhh
-                0x00004950       0xaa C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x00004950                _ZN15Adafruit_SPITFT11sendCommandEhPhh
+                0x0000497e       0xaa C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x0000497e                _ZN15Adafruit_SPITFT11sendCommandEhPhh
  .text._ZN15Adafruit_SPITFT9drawPixelEiij
-                0x000049fa       0x9e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x000049fa                _ZN15Adafruit_SPITFT9drawPixelEiij
+                0x00004a28       0x9e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x00004a28                _ZN15Adafruit_SPITFT9drawPixelEiij
  .text._ZN15Adafruit_SPITFT10writePixelEiij
-                0x00004a98       0x62 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x00004a98                _ZN15Adafruit_SPITFT10writePixelEiij
+                0x00004ac6       0x62 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x00004ac6                _ZN15Adafruit_SPITFT10writePixelEiij
  .text._ZN15Adafruit_SPITFT11SPI_WRITE32Em
-                0x00004afa       0xd6 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x00004afa                _ZN15Adafruit_SPITFT11SPI_WRITE32Em
+                0x00004b28       0xd6 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x00004b28                _ZN15Adafruit_SPITFT11SPI_WRITE32Em
  .text._ZN15Adafruit_SPITFT10writeColorEjm
-                0x00004bd0      0x10c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x00004bd0                _ZN15Adafruit_SPITFT10writeColorEjm
+                0x00004bfe      0x10c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x00004bfe                _ZN15Adafruit_SPITFT10writeColorEjm
  .text._ZN15Adafruit_SPITFT23writeFillRectPreclippedEiiiij
-                0x00004cdc       0x48 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x00004cdc                _ZN15Adafruit_SPITFT23writeFillRectPreclippedEiiiij
+                0x00004d0a       0x48 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x00004d0a                _ZN15Adafruit_SPITFT23writeFillRectPreclippedEiiiij
  .text._ZN15Adafruit_SPITFT14writeFastVLineEiiij
-                0x00004d24       0x84 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x00004d24                _ZN15Adafruit_SPITFT14writeFastVLineEiiij
+                0x00004d52       0x84 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x00004d52                _ZN15Adafruit_SPITFT14writeFastVLineEiiij
  .text._ZN15Adafruit_SPITFT14writeFastHLineEiiij
-                0x00004da8       0x82 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x00004da8                _ZN15Adafruit_SPITFT14writeFastHLineEiiij
+                0x00004dd6       0x82 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x00004dd6                _ZN15Adafruit_SPITFT14writeFastHLineEiiij
  .text._ZN15Adafruit_SPITFT13drawFastVLineEiiij
-                0x00004e2a       0xe2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x00004e2a                _ZN15Adafruit_SPITFT13drawFastVLineEiiij
+                0x00004e58       0xe2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x00004e58                _ZN15Adafruit_SPITFT13drawFastVLineEiiij
  .text._ZN15Adafruit_SPITFT13drawFastHLineEiiij
-                0x00004f0c       0xe2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x00004f0c                _ZN15Adafruit_SPITFT13drawFastHLineEiiij
+                0x00004f3a       0xe2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x00004f3a                _ZN15Adafruit_SPITFT13drawFastHLineEiiij
  .text._ZN15Adafruit_SPITFT8fillRectEiiiij
-                0x00004fee      0x116 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x00004fee                _ZN15Adafruit_SPITFT8fillRectEiiiij
+                0x0000501c      0x116 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x0000501c                _ZN15Adafruit_SPITFT8fillRectEiiiij
  .text._ZN15Adafruit_SPITFT13writeFillRectEiiiij
-                0x00005104       0xd4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
-                0x00005104                _ZN15Adafruit_SPITFT13writeFillRectEiiiij
+                0x00005132       0xd4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+                0x00005132                _ZN15Adafruit_SPITFT13writeFillRectEiiiij
  .text.twi_init
-                0x000051d8       0x3c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
-                0x000051d8                twi_init
+                0x00005206       0x3c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+                0x00005206                twi_init
  .text.twi_readFrom
-                0x00005214       0x90 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
-                0x00005214                twi_readFrom
+                0x00005242       0x90 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+                0x00005242                twi_readFrom
  .text.twi_writeTo
-                0x000052a4       0xac C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
-                0x000052a4                twi_writeTo
+                0x000052d2       0xac C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+                0x000052d2                twi_writeTo
  .text.twi_transmit
-                0x00005350       0x50 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
-                0x00005350                twi_transmit
+                0x0000537e       0x50 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+                0x0000537e                twi_transmit
  .text.twi_attachSlaveRxEvent
-                0x000053a0        0xa C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
-                0x000053a0                twi_attachSlaveRxEvent
+                0x000053ce        0xa C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+                0x000053ce                twi_attachSlaveRxEvent
  .text.twi_attachSlaveTxEvent
-                0x000053aa        0xa C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
-                0x000053aa                twi_attachSlaveTxEvent
+                0x000053d8        0xa C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+                0x000053d8                twi_attachSlaveTxEvent
  .text.twi_stop
-                0x000053b4       0x14 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
-                0x000053b4                twi_stop
+                0x000053e2       0x14 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+                0x000053e2                twi_stop
  .text.twi_releaseBus
-                0x000053c8        0xc C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
-                0x000053c8                twi_releaseBus
+                0x000053f6        0xc C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+                0x000053f6                twi_releaseBus
  .text.__vector_39
-                0x000053d4      0x25c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
-                0x000053d4                __vector_39
+                0x00005402      0x25c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+                0x00005402                __vector_39
  .text.libgcc.div
-                0x00005630       0x26 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_divmodhi4.o)
-                0x00005630                _div
-                0x00005630                __divmodhi4
+                0x0000565e       0x26 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_divmodhi4.o)
+                0x0000565e                _div
+                0x0000565e                __divmodhi4
  .text.libgcc.div
-                0x00005656       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_udivmodsi4.o)
-                0x00005656                __udivmodsi4
- .text.libgcc   0x0000569a       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_tablejump2.o)
-                0x0000569a                __tablejump2__
+                0x00005684       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_udivmodsi4.o)
+                0x00005684                __udivmodsi4
+ .text.libgcc   0x000056c8       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_tablejump2.o)
+                0x000056c8                __tablejump2__
  .text.libgcc.mul
-                0x000056aa        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_mulhisi3.o)
-                0x000056aa                __mulhisi3
+                0x000056d8        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_mulhisi3.o)
+                0x000056d8                __mulhisi3
  .text.libgcc.mul
-                0x000056b6       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_umulhisi3.o)
-                0x000056b6                __umulhisi3
+                0x000056e4       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_umulhisi3.o)
+                0x000056e4                __umulhisi3
  .text.libgcc.mul
-                0x000056d4        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_usmulhisi3.o)
-                0x000056d4                __usmulhisi3
-                0x000056d6                __usmulhisi3_tail
+                0x00005702        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_usmulhisi3.o)
+                0x00005702                __usmulhisi3
+                0x00005704                __usmulhisi3_tail
  .text.libgcc.div
-                0x000056e0       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_udivmodhi4.o)
-                0x000056e0                __udivmodhi4
+                0x0000570e       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_udivmodhi4.o)
+                0x0000570e                __udivmodhi4
  .text.avr-libc
-                0x00005708      0x242 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(malloc.o)
-                0x00005708                malloc
-                0x00005838                free
+                0x00005736      0x242 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(malloc.o)
+                0x00005736                malloc
+                0x00005866                free
  .text.avr-libc
-                0x0000594a      0x1c0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(realloc.o)
-                0x0000594a                realloc
+                0x00005978      0x1c0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(realloc.o)
+                0x00005978                realloc
  .text.avr-libc
-                0x00005b0a        0x8 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(abort.o)
-                0x00005b0a                abort
+                0x00005b38        0x8 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(abort.o)
+                0x00005b38                abort
  .text.avr-libc
-                0x00005b12       0x4c c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(atol.o)
-                0x00005b12                atol
+                0x00005b40       0x4c c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(atol.o)
+                0x00005b40                atol
  .text.avr-libc
-                0x00005b5e       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(memcpy.o)
-                0x00005b5e                memcpy
+                0x00005b8c       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(memcpy.o)
+                0x00005b8c                memcpy
  .text.avr-libc
-                0x00005b70        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(strcpy.o)
-                0x00005b70                strcpy
+                0x00005b9e        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(strcpy.o)
+                0x00005b9e                strcpy
  .text.avr-libc
-                0x00005b7e       0x2a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(mulsi10.o)
-                0x00005b7e                __mulsi_const_10
-                0x00005ba8                . = ALIGN (0x2)
+                0x00005bac       0x2a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(mulsi10.o)
+                0x00005bac                __mulsi_const_10
+                0x00005bd6                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00005ba8        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_exit.o)
-                0x00005ba8                _exit
-                0x00005ba8                exit
+ .fini9         0x00005bd6        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_exit.o)
+                0x00005bd6                _exit
+                0x00005bd6                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -3385,11 +3393,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00005ba8        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_exit.o)
+ .fini0         0x00005bd6        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_exit.o)
  *(.fini0)
-                0x00005bac                _etext = .
+                0x00005bda                _etext = .
 
-.data           0x00800200      0x2b0 load address 0x00005bac
+.data           0x00800200      0x2b0 load address 0x00005bda
                 0x00800200                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800200        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(malloc.o)
@@ -3455,7 +3463,7 @@ END GROUP
                 0x008004b0                _edata = .
                 0x008004b0                PROVIDE (__data_end, .)
 
-.bss            0x008004b0      0x8e9
+.bss            0x008004b0      0x8ea
                 0x008004b0                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
@@ -3493,146 +3501,149 @@ END GROUP
                 0x00800850                Occupant_flag
  .bss.State     0x00800851        0x1 MAIN.o
                 0x00800851                State
- .bss.Deescalation_dismiss
+ .bss.Calibrate_enable
                 0x00800852        0x1 MAIN.o
-                0x00800852                Deescalation_dismiss
- .bss.User_dismiss
+                0x00800852                Calibrate_enable
+ .bss.Deescalation_dismiss
                 0x00800853        0x1 MAIN.o
-                0x00800853                User_dismiss
- .bss.MPU_read  0x00800854       0x18 MAIN.o
-                0x00800854                MPU_read
+                0x00800853                Deescalation_dismiss
+ .bss.User_dismiss
+                0x00800854        0x1 MAIN.o
+                0x00800854                User_dismiss
+ .bss.MPU_read  0x00800855       0x18 MAIN.o
+                0x00800855                MPU_read
  .bss.Thermal_parsed
-                0x0080086c        0x6 MAIN.o
-                0x0080086c                Thermal_parsed
- .bss.hcsr04    0x00800872        0x8 MAIN.o
-                0x00800872                hcsr04
- .bss.amg       0x0080087a       0x10 IR_cam.o
-                0x0080087a                amg
- .bss.tft       0x0080088a       0x47 IR_cam.o
-                0x0080088a                tft
- .bss.pixels    0x008008d1      0x100 IR_cam.o
-                0x008008d1                pixels
+                0x0080086d        0x6 MAIN.o
+                0x0080086d                Thermal_parsed
+ .bss.hcsr04    0x00800873        0x8 MAIN.o
+                0x00800873                hcsr04
+ .bss.amg       0x0080087b       0x10 IR_cam.o
+                0x0080087b                amg
+ .bss.tft       0x0080088b       0x47 IR_cam.o
+                0x0080088b                tft
+ .bss.pixels    0x008008d2      0x100 IR_cam.o
+                0x008008d2                pixels
  .bss.sensorSpecs
-                0x008009d1        0x5 Temp_Humidity.o
-                0x008009d1                sensorSpecs
- .bss.myTMP36   0x008009d6       0x12 Temp_Humidity.o
-                0x008009d6                myTMP36
- .bss.Serial    0x008009e8       0x9d C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
-                0x008009e8                Serial
- .bss.Serial1   0x00800a85       0x9d C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial1.o)
-                0x00800a85                Serial1
- .bss.Serial2   0x00800b22       0x9d C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial2.o)
-                0x00800b22                Serial2
+                0x008009d2        0x5 Temp_Humidity.o
+                0x008009d2                sensorSpecs
+ .bss.myTMP36   0x008009d7       0x12 Temp_Humidity.o
+                0x008009d7                myTMP36
+ .bss.Serial    0x008009e9       0x9d C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
+                0x008009e9                Serial
+ .bss.Serial1   0x00800a86       0x9d C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial1.o)
+                0x00800a86                Serial1
+ .bss.Serial2   0x00800b23       0x9d C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial2.o)
+                0x00800b23                Serial2
  .bss.timer0_fract
-                0x00800bbf        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
+                0x00800bc0        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
  .bss.timer0_millis
-                0x00800bc0        0x4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
-                0x00800bc0                timer0_millis
+                0x00800bc1        0x4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
+                0x00800bc1                timer0_millis
  .bss.timer0_overflow_count
-                0x00800bc4        0x4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
-                0x00800bc4                timer0_overflow_count
+                0x00800bc5        0x4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
+                0x00800bc5                timer0_overflow_count
  .bss._ZN14SoftwareSerial20_receive_buffer_headE
-                0x00800bc8        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SoftwareSerial.o)
-                0x00800bc8                _ZN14SoftwareSerial20_receive_buffer_headE
- .bss._ZN14SoftwareSerial20_receive_buffer_tailE
                 0x00800bc9        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SoftwareSerial.o)
-                0x00800bc9                _ZN14SoftwareSerial20_receive_buffer_tailE
+                0x00800bc9                _ZN14SoftwareSerial20_receive_buffer_headE
+ .bss._ZN14SoftwareSerial20_receive_buffer_tailE
+                0x00800bca        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SoftwareSerial.o)
+                0x00800bca                _ZN14SoftwareSerial20_receive_buffer_tailE
  .bss._ZN14SoftwareSerial15_receive_bufferE
-                0x00800bca      0x100 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SoftwareSerial.o)
-                0x00800bca                _ZN14SoftwareSerial15_receive_bufferE
+                0x00800bcb      0x100 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SoftwareSerial.o)
+                0x00800bcb                _ZN14SoftwareSerial15_receive_bufferE
  .bss._ZN14SoftwareSerial13active_objectE
-                0x00800cca        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SoftwareSerial.o)
-                0x00800cca                _ZN14SoftwareSerial13active_objectE
+                0x00800ccb        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SoftwareSerial.o)
+                0x00800ccb                _ZN14SoftwareSerial13active_objectE
  .bss._ZN8SPIClass13interruptSaveE
-                0x00800ccc        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SPI.o)
-                0x00800ccc                _ZN8SPIClass13interruptSaveE
- .bss._ZN8SPIClass13interruptMaskE
                 0x00800ccd        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SPI.o)
-                0x00800ccd                _ZN8SPIClass13interruptMaskE
- .bss._ZN8SPIClass13interruptModeE
+                0x00800ccd                _ZN8SPIClass13interruptSaveE
+ .bss._ZN8SPIClass13interruptMaskE
                 0x00800cce        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SPI.o)
-                0x00800cce                _ZN8SPIClass13interruptModeE
- .bss._ZN8SPIClass11initializedE
+                0x00800cce                _ZN8SPIClass13interruptMaskE
+ .bss._ZN8SPIClass13interruptModeE
                 0x00800ccf        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SPI.o)
-                0x00800ccf                _ZN8SPIClass11initializedE
- .bss.SPI       0x00800cd0        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SPI.o)
-                0x00800cd0                SPI
- .bss.Wire      0x00800cd1        0xc C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00800cd1                Wire
+                0x00800ccf                _ZN8SPIClass13interruptModeE
+ .bss._ZN8SPIClass11initializedE
+                0x00800cd0        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SPI.o)
+                0x00800cd0                _ZN8SPIClass11initializedE
+ .bss.SPI       0x00800cd1        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SPI.o)
+                0x00800cd1                SPI
+ .bss.Wire      0x00800cd2        0xc C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x00800cd2                Wire
  .bss._ZN7TwoWire14user_onReceiveE
-                0x00800cdd        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00800cdd                _ZN7TwoWire14user_onReceiveE
+                0x00800cde        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x00800cde                _ZN7TwoWire14user_onReceiveE
  .bss._ZN7TwoWire14user_onRequestE
-                0x00800cdf        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00800cdf                _ZN7TwoWire14user_onRequestE
+                0x00800ce0        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x00800ce0                _ZN7TwoWire14user_onRequestE
  .bss._ZN7TwoWire12transmittingE
-                0x00800ce1        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00800ce1                _ZN7TwoWire12transmittingE
- .bss._ZN7TwoWire14txBufferLengthE
                 0x00800ce2        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00800ce2                _ZN7TwoWire14txBufferLengthE
- .bss._ZN7TwoWire13txBufferIndexE
+                0x00800ce2                _ZN7TwoWire12transmittingE
+ .bss._ZN7TwoWire14txBufferLengthE
                 0x00800ce3        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00800ce3                _ZN7TwoWire13txBufferIndexE
+                0x00800ce3                _ZN7TwoWire14txBufferLengthE
+ .bss._ZN7TwoWire13txBufferIndexE
+                0x00800ce4        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x00800ce4                _ZN7TwoWire13txBufferIndexE
  .bss._ZN7TwoWire8txBufferE
-                0x00800ce4       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00800ce4                _ZN7TwoWire8txBufferE
+                0x00800ce5       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x00800ce5                _ZN7TwoWire8txBufferE
  .bss._ZN7TwoWire9txAddressE
-                0x00800d04        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00800d04                _ZN7TwoWire9txAddressE
- .bss._ZN7TwoWire14rxBufferLengthE
                 0x00800d05        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00800d05                _ZN7TwoWire14rxBufferLengthE
- .bss._ZN7TwoWire13rxBufferIndexE
+                0x00800d05                _ZN7TwoWire9txAddressE
+ .bss._ZN7TwoWire14rxBufferLengthE
                 0x00800d06        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00800d06                _ZN7TwoWire13rxBufferIndexE
+                0x00800d06                _ZN7TwoWire14rxBufferLengthE
+ .bss._ZN7TwoWire13rxBufferIndexE
+                0x00800d07        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x00800d07                _ZN7TwoWire13rxBufferIndexE
  .bss._ZN7TwoWire8rxBufferE
-                0x00800d07       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
-                0x00800d07                _ZN7TwoWire8rxBufferE
+                0x00800d08       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+                0x00800d08                _ZN7TwoWire8rxBufferE
  .bss.twi_error
-                0x00800d27        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
- .bss.twi_rxBufferIndex
                 0x00800d28        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+ .bss.twi_rxBufferIndex
+                0x00800d29        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
  .bss.twi_rxBuffer
-                0x00800d29       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+                0x00800d2a       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
  .bss.twi_txBufferLength
-                0x00800d49        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
- .bss.twi_txBufferIndex
                 0x00800d4a        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+ .bss.twi_txBufferIndex
+                0x00800d4b        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
  .bss.twi_txBuffer
-                0x00800d4b       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+                0x00800d4c       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
  .bss.twi_masterBufferLength
-                0x00800d6b        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
- .bss.twi_masterBufferIndex
                 0x00800d6c        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+ .bss.twi_masterBufferIndex
+                0x00800d6d        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
  .bss.twi_masterBuffer
-                0x00800d6d       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+                0x00800d6e       0x20 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
  .bss.twi_onSlaveReceive
-                0x00800d8d        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+                0x00800d8e        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
  .bss.twi_onSlaveTransmit
-                0x00800d8f        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+                0x00800d90        0x2 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
  .bss.twi_inRepStart
-                0x00800d91        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
- .bss.twi_sendStop
                 0x00800d92        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
- .bss.twi_slarw
+ .bss.twi_sendStop
                 0x00800d93        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
- .bss.twi_state
+ .bss.twi_slarw
                 0x00800d94        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+ .bss.twi_state
+                0x00800d95        0x1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
  *(COMMON)
- COMMON         0x00800d95        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(malloc.o)
-                0x00800d95                __brkval
-                0x00800d97                __flp
-                0x00800d99                PROVIDE (__bss_end, .)
-                0x00005bac                __data_load_start = LOADADDR (.data)
-                0x00005e5c                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00800d96        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libc.a(malloc.o)
+                0x00800d96                __brkval
+                0x00800d98                __flp
+                0x00800d9a                PROVIDE (__bss_end, .)
+                0x00005bda                __data_load_start = LOADADDR (.data)
+                0x00005e8a                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800d99        0x0
+.noinit         0x00800d9a        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800d99                _end = .
-                0x00800d99                PROVIDE (__heap_start, .)
+                0x00800d9a                _end = .
+                0x00800d9a                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -3805,43 +3816,43 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000    0x3b5a2
+.debug_info     0x00000000    0x3b5fa
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0xbbc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega2560/avr6/crtatmega2560.o
  .debug_info    0x00000bbc      0x646 Accelerometer.o
  .debug_info    0x00001202      0x9e9 Fona.o
  .debug_info    0x00001beb      0x563 GPS.o
- .debug_info    0x0000214e     0x24ad MAIN.o
- .debug_info    0x000045fb      0xfb7 IR_cam.o
- .debug_info    0x000055b2      0x3de SparkFun_HIH4030.o
- .debug_info    0x00005990      0x546 Temp_Humidity.o
- .debug_info    0x00005ed6      0x4c0 TMP36.o
- .debug_info    0x00006396     0x205e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
- .debug_info    0x000083f4     0x1b74 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
- .debug_info    0x00009f68     0x1b74 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial1.o)
- .debug_info    0x0000badc     0x1b74 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial2.o)
- .debug_info    0x0000d650      0x295 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(main.o)
- .debug_info    0x0000d8e5     0x295d C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
- .debug_info    0x00010242     0x21b5 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Stream.o)
- .debug_info    0x000123f7      0x329 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
- .debug_info    0x00012720      0x2cd C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_analog.o)
- .debug_info    0x000129ed      0x63a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
- .debug_info    0x00013027     0x4338 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
- .debug_info    0x0001735f     0x1826 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_AMG88xx.o)
- .debug_info    0x00018b85     0x3375 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GPS.o)
- .debug_info    0x0001befa      0xcf0 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST7735.o)
- .debug_info    0x0001cbea     0x102f C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST77xx.o)
- .debug_info    0x0001dc19     0x17c3 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hcsr04.o)
- .debug_info    0x0001f3dc     0x295b C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SoftwareSerial.o)
- .debug_info    0x00021d37      0x6cd C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SPI.o)
- .debug_info    0x00022404     0x27b0 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
- .debug_info    0x00024bb4     0xa1c8 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
- .debug_info    0x0002ed7c       0x76 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(abi.o)
- .debug_info    0x0002edf2       0x3e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hooks.o)
- .debug_info    0x0002ee30      0x301 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
- .debug_info    0x0002f131     0x77fe C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
- .debug_info    0x0003692f     0x4611 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
- .debug_info    0x0003af40      0x662 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+ .debug_info    0x0000214e     0x2505 MAIN.o
+ .debug_info    0x00004653      0xfb7 IR_cam.o
+ .debug_info    0x0000560a      0x3de SparkFun_HIH4030.o
+ .debug_info    0x000059e8      0x546 Temp_Humidity.o
+ .debug_info    0x00005f2e      0x4c0 TMP36.o
+ .debug_info    0x000063ee     0x205e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
+ .debug_info    0x0000844c     0x1b74 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
+ .debug_info    0x00009fc0     0x1b74 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial1.o)
+ .debug_info    0x0000bb34     0x1b74 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial2.o)
+ .debug_info    0x0000d6a8      0x295 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(main.o)
+ .debug_info    0x0000d93d     0x295d C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
+ .debug_info    0x0001029a     0x21b5 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Stream.o)
+ .debug_info    0x0001244f      0x329 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
+ .debug_info    0x00012778      0x2cd C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_analog.o)
+ .debug_info    0x00012a45      0x63a C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
+ .debug_info    0x0001307f     0x4338 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
+ .debug_info    0x000173b7     0x1826 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_AMG88xx.o)
+ .debug_info    0x00018bdd     0x3375 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GPS.o)
+ .debug_info    0x0001bf52      0xcf0 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST7735.o)
+ .debug_info    0x0001cc42     0x102f C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST77xx.o)
+ .debug_info    0x0001dc71     0x17c3 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hcsr04.o)
+ .debug_info    0x0001f434     0x295b C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SoftwareSerial.o)
+ .debug_info    0x00021d8f      0x6cd C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SPI.o)
+ .debug_info    0x0002245c     0x27b0 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+ .debug_info    0x00024c0c     0xa1c8 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
+ .debug_info    0x0002edd4       0x76 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(abi.o)
+ .debug_info    0x0002ee4a       0x3e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hooks.o)
+ .debug_info    0x0002ee88      0x301 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
+ .debug_info    0x0002f189     0x77fe C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+ .debug_info    0x00036987     0x4611 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+ .debug_info    0x0003af98      0x662 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
 
 .debug_abbrev   0x00000000     0x7ec0
  *(.debug_abbrev)
@@ -3881,43 +3892,43 @@ END GROUP
  .debug_abbrev  0x00007640      0x620 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
  .debug_abbrev  0x00007c60      0x260 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
 
-.debug_line     0x00000000     0xe2aa
+.debug_line     0x00000000     0xe2d4
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x1f9 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega2560/avr6/crtatmega2560.o
  .debug_line    0x000001f9      0x310 Accelerometer.o
  .debug_line    0x00000509      0x335 Fona.o
  .debug_line    0x0000083e      0x293 GPS.o
- .debug_line    0x00000ad1      0x565 MAIN.o
- .debug_line    0x00001036      0x2a6 IR_cam.o
- .debug_line    0x000012dc      0x19c SparkFun_HIH4030.o
- .debug_line    0x00001478      0x17c Temp_Humidity.o
- .debug_line    0x000015f4      0x1eb TMP36.o
- .debug_line    0x000017df      0x527 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
- .debug_line    0x00001d06      0x288 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
- .debug_line    0x00001f8e      0x288 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial1.o)
- .debug_line    0x00002216      0x286 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial2.o)
- .debug_line    0x0000249c      0x161 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(main.o)
- .debug_line    0x000025fd      0x681 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
- .debug_line    0x00002c7e      0x5f3 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Stream.o)
- .debug_line    0x00003271      0x2cb C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
- .debug_line    0x0000353c      0x2c4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_analog.o)
- .debug_line    0x00003800      0x284 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
- .debug_line    0x00003a84     0x1360 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
- .debug_line    0x00004de4      0x5c5 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_AMG88xx.o)
- .debug_line    0x000053a9     0x10e4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GPS.o)
- .debug_line    0x0000648d      0x4fe C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST7735.o)
- .debug_line    0x0000698b      0x4b8 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST77xx.o)
- .debug_line    0x00006e43      0x33b C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hcsr04.o)
- .debug_line    0x0000717e      0x831 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SoftwareSerial.o)
- .debug_line    0x000079af      0x2eb C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SPI.o)
- .debug_line    0x00007c9a      0x5ec C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
- .debug_line    0x00008286     0x244b C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
- .debug_line    0x0000a6d1       0xa9 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(abi.o)
- .debug_line    0x0000a77a       0x41 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hooks.o)
- .debug_line    0x0000a7bb      0x2da C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
- .debug_line    0x0000aa95     0x1e13 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
- .debug_line    0x0000c8a8     0x1511 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
- .debug_line    0x0000ddb9      0x4f1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+ .debug_line    0x00000ad1      0x58f MAIN.o
+ .debug_line    0x00001060      0x2a6 IR_cam.o
+ .debug_line    0x00001306      0x19c SparkFun_HIH4030.o
+ .debug_line    0x000014a2      0x17c Temp_Humidity.o
+ .debug_line    0x0000161e      0x1eb TMP36.o
+ .debug_line    0x00001809      0x527 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
+ .debug_line    0x00001d30      0x288 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
+ .debug_line    0x00001fb8      0x288 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial1.o)
+ .debug_line    0x00002240      0x286 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial2.o)
+ .debug_line    0x000024c6      0x161 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(main.o)
+ .debug_line    0x00002627      0x681 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
+ .debug_line    0x00002ca8      0x5f3 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Stream.o)
+ .debug_line    0x0000329b      0x2cb C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
+ .debug_line    0x00003566      0x2c4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_analog.o)
+ .debug_line    0x0000382a      0x284 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
+ .debug_line    0x00003aae     0x1360 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
+ .debug_line    0x00004e0e      0x5c5 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_AMG88xx.o)
+ .debug_line    0x000053d3     0x10e4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GPS.o)
+ .debug_line    0x000064b7      0x4fe C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST7735.o)
+ .debug_line    0x000069b5      0x4b8 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST77xx.o)
+ .debug_line    0x00006e6d      0x33b C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hcsr04.o)
+ .debug_line    0x000071a8      0x831 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SoftwareSerial.o)
+ .debug_line    0x000079d9      0x2eb C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SPI.o)
+ .debug_line    0x00007cc4      0x5ec C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+ .debug_line    0x000082b0     0x244b C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
+ .debug_line    0x0000a6fb       0xa9 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(abi.o)
+ .debug_line    0x0000a7a4       0x41 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hooks.o)
+ .debug_line    0x0000a7e5      0x2da C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
+ .debug_line    0x0000aabf     0x1e13 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+ .debug_line    0x0000c8d2     0x1511 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+ .debug_line    0x0000dde3      0x4f1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
 
 .debug_frame    0x00000000     0x60d4
  *(.debug_frame)
@@ -3956,7 +3967,7 @@ END GROUP
  .debug_frame   0x00005750      0x850 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
  .debug_frame   0x00005fa0      0x134 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
 
-.debug_str      0x00000000     0x963b
+.debug_str      0x00000000     0x9677
  *(.debug_str)
  .debug_str     0x00000000      0x3e6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega2560/avr6/crtatmega2560.o
  .debug_str     0x000003e6      0x41e Accelerometer.o
@@ -3965,67 +3976,67 @@ END GROUP
                                 0x871 (size before relaxing)
  .debug_str     0x00000f1b      0x186 GPS.o
                                 0x47e (size before relaxing)
- .debug_str     0x000010a1     0x12f4 MAIN.o
-                               0x16e6 (size before relaxing)
- .debug_str     0x00002395      0x72b IR_cam.o
+ .debug_str     0x000010a1     0x1337 MAIN.o
+                               0x1729 (size before relaxing)
+ .debug_str     0x000023d8      0x72b IR_cam.o
                                 0xb44 (size before relaxing)
- .debug_str     0x00002ac0       0xcf SparkFun_HIH4030.o
+ .debug_str     0x00002b03       0xcf SparkFun_HIH4030.o
                                 0x341 (size before relaxing)
- .debug_str     0x00002b8f      0x147 Temp_Humidity.o
+ .debug_str     0x00002bd2      0x147 Temp_Humidity.o
                                 0x4bc (size before relaxing)
- .debug_str     0x00002cd6       0x1e TMP36.o
+ .debug_str     0x00002d19       0x1e TMP36.o
                                 0x36f (size before relaxing)
- .debug_str     0x00002cf4      0x4d7 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
+ .debug_str     0x00002d37      0x4d7 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial.o)
                                0x16f7 (size before relaxing)
- .debug_str     0x000031cb       0x67 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
+ .debug_str     0x0000320e       0x67 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial0.o)
                                0x1412 (size before relaxing)
- .debug_str     0x00003232       0x47 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial1.o)
+ .debug_str     0x00003275       0x47 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial1.o)
                                0x1413 (size before relaxing)
- .debug_str     0x00003279       0x47 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial2.o)
+ .debug_str     0x000032bc       0x47 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(HardwareSerial2.o)
                                0x1413 (size before relaxing)
- .debug_str     0x000032c0       0x37 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(main.o)
+ .debug_str     0x00003303       0x37 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(main.o)
                                 0x2be (size before relaxing)
- .debug_str     0x000032f7      0x331 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
+ .debug_str     0x0000333a      0x331 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Print.o)
                                0x124c (size before relaxing)
- .debug_str     0x00003628       0x97 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Stream.o)
+ .debug_str     0x0000366b       0x97 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Stream.o)
                                0x1270 (size before relaxing)
- .debug_str     0x000036bf      0x15e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
+ .debug_str     0x00003702      0x15e C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring.o)
                                 0x254 (size before relaxing)
- .debug_str     0x0000381d       0x67 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_analog.o)
+ .debug_str     0x00003860       0x67 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_analog.o)
                                 0x258 (size before relaxing)
- .debug_str     0x00003884       0x9d C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
+ .debug_str     0x000038c7       0x9d C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(wiring_digital.o)
                                 0x2b9 (size before relaxing)
- .debug_str     0x00003921      0x3d8 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
+ .debug_str     0x00003964      0x3d8 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WString.o)
                                0x119f (size before relaxing)
- .debug_str     0x00003cf9      0x2a4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_AMG88xx.o)
+ .debug_str     0x00003d3c      0x2a4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_AMG88xx.o)
                                 0xd03 (size before relaxing)
- .debug_str     0x00003f9d      0xd61 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GPS.o)
+ .debug_str     0x00003fe0      0xd61 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GPS.o)
                                0x1346 (size before relaxing)
- .debug_str     0x00004cfe      0x2ea C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST7735.o)
+ .debug_str     0x00004d41      0x2ea C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST7735.o)
                                 0x95e (size before relaxing)
- .debug_str     0x00004fe8      0x34f C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST77xx.o)
+ .debug_str     0x0000502b      0x348 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_ST77xx.o)
                                 0xacf (size before relaxing)
- .debug_str     0x00005337       0x7d C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hcsr04.o)
+ .debug_str     0x00005373       0x7d C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hcsr04.o)
                                0x1006 (size before relaxing)
- .debug_str     0x000053b4      0x5a1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SoftwareSerial.o)
+ .debug_str     0x000053f0      0x5a1 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SoftwareSerial.o)
                                0x1949 (size before relaxing)
- .debug_str     0x00005955       0x9f C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SPI.o)
+ .debug_str     0x00005991       0x9f C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(SPI.o)
                                 0x6c4 (size before relaxing)
- .debug_str     0x000059f4      0x441 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
+ .debug_str     0x00005a30      0x441 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Wire.o)
                                0x18d8 (size before relaxing)
- .debug_str     0x00005e35     0x16aa C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
+ .debug_str     0x00005e71     0x16aa C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_FONA.o)
                                0x2f1b (size before relaxing)
- .debug_str     0x000074df       0x30 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(abi.o)
+ .debug_str     0x0000751b       0x30 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(abi.o)
                                 0x1a8 (size before relaxing)
- .debug_str     0x0000750f       0x1c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hooks.o)
+ .debug_str     0x0000754b       0x1c C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(hooks.o)
                                 0x149 (size before relaxing)
- .debug_str     0x0000752b       0xa4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
+ .debug_str     0x00007567       0xa4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(WInterrupts.o)
                                 0x283 (size before relaxing)
- .debug_str     0x000075cf     0x1246 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
+ .debug_str     0x0000760b     0x1246 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_GFX.o)
                                0x2215 (size before relaxing)
- .debug_str     0x00008815      0xbf4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
+ .debug_str     0x00008851      0xbf4 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(Adafruit_SPITFT.o)
                                0x153c (size before relaxing)
- .debug_str     0x00009409      0x232 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
+ .debug_str     0x00009445      0x232 C:\Users\syngr\SDP\senior-design\Occupancy_algorithm_working\Occupancy_algorithm\ArduinoCore\Debug\libArduinoCore.a(twi.o)
                                 0x3df (size before relaxing)
 
 .debug_loc      0x00000000    0x27677
