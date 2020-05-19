@@ -16,6 +16,8 @@
 #include <Stream.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "Fona.h"
+#include "GPS.h"
 
 #define Power_pin 23//connects to power pin on telecom module
 #define TRIG_PIN 29
@@ -59,6 +61,7 @@ bool TH2_enable = 1;
 bool TH3_enable, TH4_enable = 1;
 
 bool Testing_mode = 1; //set this to 1 to enable testing mode, where all data is inputted and outputted via the serial port.
+bool Print_mode = 1; //set this to 1 to enable printout mode, where all data from hardware and decisions are printed out.
 
 enum states {
 	Running, //accelerometer detects movement
@@ -76,8 +79,13 @@ enum states {
 states State = Running;
 
 bool Occupant_flag = false; //This flag is used both in occupant detect and in the main loop
+bool Driver_flag = true; //This flag is set by incoming data from the wifi module. Since we begin in the running state, this flag starts in the positve
+bool PIR_flag = false; //the PIR sensor sets this flag once a minute. Is used to detect positives above 80F
+bool PIR_enable  = false; //determines if PIR is in use logically
+bool PIR_on = false; //used by the sleep loop to bounce between pir on and off
 occupancy_data current;
 occupancy_data previous;
+GPS_data gps; 
 
 bool Occupant_detect(){
 	if (!Testing_mode){
@@ -85,12 +93,12 @@ bool Occupant_detect(){
 		digitalWrite(Ping_enable_pin, HIGH);
 		digitalWrite(Camera_enable_pin, HIGH);
 		delay(1000); //allow camera and Ping to boot
-		Thermal_setup(); 
+		Thermal_setup(); //blocking code, communicate with IR camera
 		//digitalWrite(PIR_enable_pin, LOW);
 		
 		//sun check
 		current.Distance = hcsr04.distanceInMillimeters();
-		//current.PIR = digitalRead(PIR_read_pin); //Tie PIR to ISR and turn on using the sleep timer. 
+		current.PIR = PIR_flag; //Tie PIR to ISR and turn on using the sleep timer. 
 		current.Seat_load = 1; // hard coded for positive reading, to be backed by logic when module is designed
 		Thermal_parsed = Thermal_read();
 		current.IR = Thermal_parsed.detected;
@@ -217,17 +225,14 @@ bool Occupant_detect(){
 
 void setup() {
 	// put your setup code here, to run once:
-
-	//Serial.begin(9600);
-	//Serial.println(F("AMG88xx thermal camera!"));
-
+	
 	pinMode(PIR_read_pin, INPUT);
 	pinMode(PIR_enable_pin, OUTPUT);
 	pinMode(Ping_enable_pin, OUTPUT);
 	pinMode(Alarm_Lights_Unlock_pin, OUTPUT);
 	pinMode(WiFi_wake_pin, OUTPUT);
 	pinMode(GPS_enable_pin, OUTPUT);
-	pinMode(Camera_enable_pin, OUTPUT)
+	pinMode(Camera_enable_pin, OUTPUT);
 	
 	digitalWrite(Ping_enable_pin, LOW);
 	digitalWrite(PIR_enable_pin, LOW);
@@ -238,7 +243,9 @@ void setup() {
 	
 	Serial.begin(9600);
 	Serial.println(F("Hello World!"));
-	Serial1.begin(9600);
+	Fona_serial.begin(9600);
+	GPS_serial.begin(9600);
+	Wifi_serial.begin(9600);
 
 	//Thermal_setup();
 	setupMPU();
@@ -269,18 +276,59 @@ int Ping_calibration(){
 
 void loop() { //main loop here
 	
-	
-	
 	//check wifi, 3G, and GPS
 	if (Fona_serial.available()){ //Implement flow control
 		//insert function here to read and update main device with 3G data
 		//String Read_3G = Serial1.readString();
+		Fona_SMS_recieve(); 
 	}
 	if (Wifi_serial.available()){
+		while (Wifi_serial.available())
+		{
+			char c = Wifi_serial.read();
+			if (Print_mode){
+				Serial.print(c); 
+			}
+			switch (c){
+				case 'D': //driver present
+				Driver_flag = true;
+				break;
+				
+				case 'E': //driver not present
+				Driver_flag = false;
+				break;
+				
+				case 'S': //Seat Load positive
+				current.Seat_load = true;
+				break;
+				
+				case 'T': //Seat Load negative
+				current.Seat_load = false;
+				break; 
+				
+				case 'O': //driver door open received
+				break;
+				
+				default:
+				break;
+			}
+		}
 		
 	}
-	if (GPS_enable_pin && GPS_serial.available()){
-		//need to parse GPS data
+	if (GPS_serial.available()){
+		gps = GPS_read();	
+		if (Print_mode){
+			
+			Serial.print("Fix: "); Serial.print((int)gps.fix);
+			Serial.print(" quality: "); Serial.println((int)gps.quality); 
+			if (gps.fix) {
+				Serial.print("Location: ");
+				Serial.print(gps.latitude, 4); Serial.print(gps.N_S);
+				Serial.print(", ");
+				Serial.print(gps.longitude, 4); Serial.println(gps.E_W);
+				Serial.print("Satellites: "); Serial.println((int)gps.satellites);
+			}
+		}
 	}
 	
 	
@@ -291,6 +339,7 @@ void loop() { //main loop here
 		if (!Occupant_flag){
 			if (digitalRead(GPS_enable_pin)){
 				digitalWrite(GPS_enable_pin, LOW);
+				PIR_enable = false;
 			}
 		}
 		//check temperature
@@ -337,9 +386,12 @@ void loop() { //main loop here
 		//reset user dismissal flag when car is in use
 		User_dismiss = false;
 		
-		//turn off GPS
+		//turn off GPS, WiFi, and PIR
 		if (digitalRead(GPS_enable_pin)){
-			digitalWrite(GPS_enable_pin, LOW)
+			digitalWrite(GPS_enable_pin, LOW);
+		}
+		if (digitalRead(PIR_enable_pin)){
+			digitalWrite(PIR_enable_pin, LOW);
 		}
 		
 		//guardian statement: car stopped
@@ -367,12 +419,17 @@ void loop() { //main loop here
 		if (abs(millis() - Time_stop_start) > 10000){ //if Accelerometer has been stopped for 10 seconds
 			
 			//turn on GPS to get fix on location and run occupant check 
-			Occupant_detect();
+			if(Occupant_detect())
+			{
+				digitalWrite(GPS_enable_pin, HIGH);
+			}
 			
 			//check for driver
+			Serial3.write("C");
 			
-			//if !Driver 
-			State = Stopped;			
+			if(!Driver_flag){ 
+				State = Stopped;	
+			}
 		}
 		
 		break;
@@ -396,6 +453,12 @@ void loop() { //main loop here
 		break;
 		
 		case TH0: //no threat to life
+		
+		//turn off PIR in TH0 to save power
+		if (digitalRead(PIR_enable_pin)){
+			digitalWrite(PIR_enable_pin, LOW);
+			PIR_enable = false;
+		}
 		
 		if (Deescalation_dismiss)
 		{
@@ -435,6 +498,10 @@ void loop() { //main loop here
 		break;
 		
 		case TH1:
+		
+		//turn on PIR from this threat level forward
+		PIR_enable = true;
+		
 		
 		if (Testing_mode){
 			Serial.println("TH1");
@@ -481,7 +548,19 @@ void loop() { //main loop here
 		}
 		
 		//911 alert, lights and alarms, send notification to owners
-		digitalWrite(Alarm_Lights_Unlock_pin, HIGH);
+		if(TH3_enable && Occupant_flag){
+			if (!digitalRead(Alarm_Lights_Unlock_pin))
+			{
+				//press pin for 1 second
+				digitalWrite(Alarm_Lights_Unlock_pin, HIGH);
+				delay (1000);
+				digitalWrite(Alarm_Lights_Unlock_pin, LOW);
+			}
+			
+			Fona_Send_sms();
+			
+			TH3_enable = false;
+		}
 		
 		if (Felt_temp > 105){
 			State = TH4;
@@ -500,6 +579,10 @@ void loop() { //main loop here
 		}
 		
 		//open car door
+		if (TH4_enable && Occupant_flag)
+		{
+			Serial3.write("O");
+		}
 		
 		if (Felt_temp < 105){
 			State = Stopped;
@@ -511,9 +594,20 @@ void loop() { //main loop here
 		State = Running;
 		break;
 	}
+	
 
 	/*
 	sleep here for 1 minute
 	*/
+	
+	if (PIR_on && PIR_enable)
+	{
+		digitalWrite(Ping_enable_pin, HIGH);
+		PIR_on = false;
+	} else if (!PIR_on) {
+		PIR_on = true;
+	}
+	
 
 }
+

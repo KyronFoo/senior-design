@@ -14,6 +14,7 @@
 #define FONA_RST 22
 
 void Fona_setup();
+void Fona_SMS_recieve();
 bool Fona_Send_sms();
 
 
