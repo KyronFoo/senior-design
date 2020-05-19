@@ -102,6 +102,9 @@ bool Occupant_detect(){
 		current.Seat_load = 1; // hard coded for positive reading, to be backed by logic when module is designed
 		Thermal_parsed = Thermal_read();
 		current.IR = Thermal_parsed.detected;
+		if (Print_mode){
+			Serial.print(current.Distance); Serial.print(current.PIR); Serial.print(current.Seat_load); Serial.print(Thermal_parsed.detected);
+		}
 		} else {
 		Serial.println("Occupant_detection");
 		return 0;
@@ -119,6 +122,12 @@ bool Occupant_detect(){
 			case Running: //Under 80 deg F`
 			case Stopped:
 			case TH0:
+			
+			if (Print_mode){
+				Serial.println("Occupancy detection < 80");
+				delay (500);
+			}
+			
 			if ((current.Object_size > Occupant_thickness) || current.Seat_load){
 				Object = true;
 			}
@@ -142,6 +151,12 @@ bool Occupant_detect(){
 			case TH2:
 			case TH3:
 			case TH4:
+			
+			if (Print_mode){
+				Serial.println("Occupancy detection > 80");
+				delay (500);
+			}
+			
 			if ((current.Object_size > Occupant_thickness) && current.Seat_load){
 				Object = 1;
 			}
@@ -165,6 +180,12 @@ bool Occupant_detect(){
 			case Running: //Under 80 deg F`
 			case Stopped:
 			case TH0:
+			
+			if (Print_mode){
+				Serial.println("Occupancy cancel <80");
+				delay(500);
+			}
+			
 			//PIR will likely turn up negative on a second read if the occupant has kept still, so we do not check if the occupant has left using PIR. PIR only used to transition from no occupant to occupant.
 			//if occupant no longer appears on ping sensor, update memory
 			if(previous.Object_size > Occupant_thickness){
@@ -197,6 +218,12 @@ bool Occupant_detect(){
 			case TH2:
 			case TH3:
 			case TH4:
+			
+			if (Print_mode){
+				Serial.println("Occupancy cancel > 80");
+				delay(500);
+			}
+			
 			if(previous.Object_size > Occupant_thickness){
 				if(current.Object_size < Occupant_thickness){
 					Object = false;
@@ -235,14 +262,18 @@ void setup() {
 	pinMode(Camera_enable_pin, OUTPUT);
 	
 	digitalWrite(Ping_enable_pin, LOW);
-	digitalWrite(PIR_enable_pin, LOW);
+	digitalWrite(PIR_enable_pin, HIGH); //PIR pin is high for testing. set low for impelementation
 	digitalWrite(Alarm_Lights_Unlock_pin, LOW);
 	digitalWrite(WiFi_wake_pin, LOW);
 	digitalWrite(GPS_enable_pin, LOW);
 	digitalWrite(Camera_enable_pin, LOW);
 	
 	Serial.begin(9600);
-	Serial.println(F("Hello World!"));
+	if (Print_mode)
+	{
+		Serial.println(F("Setting up"));
+	}
+	
 	Fona_serial.begin(9600);
 	GPS_serial.begin(9600);
 	Wifi_serial.begin(9600);
@@ -260,8 +291,17 @@ float Felt_temp;
 unsigned long Time_stop_start; // time variables are reserved exclusively for reading the onboard clock. This clock overflows approximately ever 50 days.
 
 int Ping_calibration(){
+	
+	if (Print_mode)
+	{
+		Serial.println("Ping calibration");
+	}
+	
 	int Sample_size = 10;
 	int Reading;
+	
+	digitalWrite(Ping_enable_pin, HIGH);
+	delay(500); //allow sensor to stabilize
 	
 	for (int i = 0; i < Sample_size ; i++)
 	{
@@ -269,6 +309,8 @@ int Ping_calibration(){
 	}
 	
 	Reading = Reading/Sample_size;
+	
+	digitalWrite(Ping_enable_pin, LOW); //turn off sensor after calibration
 	
 	return Reading;
 	
@@ -281,8 +323,18 @@ void loop() { //main loop here
 		//insert function here to read and update main device with 3G data
 		//String Read_3G = Serial1.readString();
 		Fona_SMS_recieve(); 
+		
+		if (Print_mode){
+			Serial.println("receiving SMS");
+		}
+		
 	}
 	if (Wifi_serial.available()){
+		
+		if (Print_mode){
+			Serial.println("receiving WiFi char");
+		}
+		
 		while (Wifi_serial.available())
 		{
 			char c = Wifi_serial.read();
@@ -316,6 +368,11 @@ void loop() { //main loop here
 		
 	}
 	if (GPS_serial.available()){
+		
+		if (Print_mode){
+			Serial.println("receiving GPS");
+		}
+		
 		gps = GPS_read();	
 		if (Print_mode){
 			
@@ -366,6 +423,12 @@ void loop() { //main loop here
 		}
 		if ((MPU_read.gForceX + MPU_read.gForceY + MPU_read.gForceZ) >= 1.1){ //car is running if g forces read from all three axis is above 1.1G
 			State = Running;
+			
+			if (Print_mode)
+			{
+				Serial.print("Movement detected"); 
+			}
+			
 		}
 	}
 	if (User_dismiss){ //user dismissal flag, resets the next time the car is said to be in use
@@ -378,6 +441,11 @@ void loop() { //main loop here
 	switch (State)
 	{
 		case Running:
+		
+		if (Print_mode){
+			Serial.println("State: Running");
+			delay(500);
+		}
 		
 		if (!TH1_enable){ //all actions will result in TH1 having activated
 			TH1_enable, TH2_enable, TH3_enable, TH4_enable = true;
@@ -410,11 +478,20 @@ void loop() { //main loop here
 		if ((MPU_read.gForceX + MPU_read.gForceY + MPU_read.gForceZ) <= 1.1){ //if total g forces read is less than 1.1 g, the car is stopped. Most often should come out to 1g, the force of gravity
 			State = Pause;
 			Time_stop_start = millis(); //On transition to stop, record start timer so we only start systems if the accelerometer records 1G for more than 10 seconds.
+			if (Print_mode){
+				Serial.println("No movement and no driver");
+				delay(500);
+			}
 		}
 		
 		break; //this does not account for traffic lights and stop signs, need to figure out how to incorporate WiFi to check for the driver
 		
 		case Pause:
+		
+		if (Print_mode){
+			Serial.println("State: Pause");
+			delay(500);
+		}
 		
 		if (abs(millis() - Time_stop_start) > 10000){ //if Accelerometer has been stopped for 10 seconds
 			
@@ -436,6 +513,11 @@ void loop() { //main loop here
 		
 		case Stopped:
 		
+		if (Print_mode){
+			Serial.println("State: Stopped");
+			delay(500);
+		}
+		
 		if (Testing_mode){
 			Serial.println("Car Stopped");
 			//Time_stop_start = 0;
@@ -453,6 +535,11 @@ void loop() { //main loop here
 		break;
 		
 		case TH0: //no threat to life
+		
+		if (Print_mode){
+			Serial.println("State: TH0");
+			delay(500);
+		}
 		
 		//turn off PIR in TH0 to save power
 		if (digitalRead(PIR_enable_pin)){
@@ -499,6 +586,11 @@ void loop() { //main loop here
 		
 		case TH1:
 		
+		if (Print_mode){
+			Serial.println("State: TH1");
+			delay(500);
+		}
+		
 		//turn on PIR from this threat level forward
 		PIR_enable = true;
 		
@@ -511,6 +603,11 @@ void loop() { //main loop here
 		if (Occupant_flag && TH1_enable){
 			Fona_Send_sms();
 			TH1_enable = false;
+			
+			if (Print_mode){
+				Serial.println("Sending SMS");
+				delay(500);
+			}
 		}
 		
 		if (Felt_temp > 86){
@@ -524,12 +621,21 @@ void loop() { //main loop here
 		
 		case TH2:
 		
+		if (Print_mode){
+			Serial.println("State: TH2");
+			delay(500);
+		}
+		
 		if (Testing_mode){
 			Serial.println("TH2");
 		}
 		
 		//lower windows, send notification to owners
 		//lower windows never implemented
+		if (Print_mode){
+			Serial.println("Lower Windows");
+			delay(500);
+		}
 		
 		if (Felt_temp > 91){
 			State = TH3;
@@ -543,12 +649,23 @@ void loop() { //main loop here
 		
 		case TH3:
 		
+		if (Print_mode){
+			Serial.println("State: TH3");
+			delay(500);
+		}
+		
 		if (Testing_mode){
 			Serial.println("TH3");
 		}
 		
 		//911 alert, lights and alarms, send notification to owners
 		if(TH3_enable && Occupant_flag){
+			
+			if (Print_mode){
+				Serial.println("911 alert");
+				delay(500);
+			}
+			
 			if (!digitalRead(Alarm_Lights_Unlock_pin))
 			{
 				//press pin for 1 second
@@ -574,6 +691,11 @@ void loop() { //main loop here
 		
 		case TH4:
 		
+		if (Print_mode){
+			Serial.println("State: TH4");
+			delay(500);
+		}
+		
 		if (Testing_mode){
 			Serial.println("TH4");
 		}
@@ -582,6 +704,12 @@ void loop() { //main loop here
 		if (TH4_enable && Occupant_flag)
 		{
 			Serial3.write("O");
+			
+			if (Print_mode){
+				Serial.println("Open Door");
+				delay(500);
+			}
+			
 		}
 		
 		if (Felt_temp < 105){
@@ -599,15 +727,16 @@ void loop() { //main loop here
 	/*
 	sleep here for 1 minute
 	*/
+	delay(10000); //delay 10 seconds for testing
 	
-	if (PIR_on && PIR_enable)
-	{
-		digitalWrite(Ping_enable_pin, HIGH);
-		PIR_on = false;
-	} else if (!PIR_on) {
-		PIR_on = true;
-	}
-	
+	//if (PIR_on && PIR_enable)
+	//{
+		//digitalWrite(Ping_enable_pin, HIGH);
+		//PIR_on = false;
+	//} else if (!PIR_on) {
+		//PIR_on = true;
+	//}
+	//
 
 }
 
