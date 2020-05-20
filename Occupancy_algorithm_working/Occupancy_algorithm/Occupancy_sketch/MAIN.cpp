@@ -20,8 +20,8 @@
 #include "GPS.h"
 
 #define Power_pin 23//connects to power pin on telecom module
-#define TRIG_PIN 29
-#define ECHO_PIN 27
+#define TRIG_PIN 27
+#define ECHO_PIN 29
 #define PIR_read_pin 31
 #define CO_read_pin A3
 //#define Telecom_enable_pin 49
@@ -60,7 +60,7 @@ bool TH1_enable = 1;
 bool TH2_enable = 1;
 bool TH3_enable, TH4_enable = 1;
 
-bool Testing_mode = 1; //set this to 1 to enable testing mode, where all data is inputted and outputted via the serial port.
+bool Testing_mode = false; //set this to 1 to enable testing mode, where all data is inputted and outputted via the serial port.
 bool Print_mode = 1; //set this to 1 to enable printout mode, where all data from hardware and decisions are printed out.
 
 enum states {
@@ -88,6 +88,12 @@ occupancy_data previous;
 GPS_data gps; 
 
 bool Occupant_detect(){
+	
+	if (Print_mode)
+	{
+		Serial.println("occupant detect");
+	}
+	
 	if (!Testing_mode){
 		//turn on Ping and IR camera
 		digitalWrite(Ping_enable_pin, HIGH);
@@ -98,6 +104,9 @@ bool Occupant_detect(){
 		
 		//sun check
 		current.Distance = hcsr04.distanceInMillimeters();
+		if (Print_mode){
+			Serial.println(current.Distance);
+		}
 		current.PIR = PIR_flag; //Tie PIR to ISR and turn on using the sleep timer. 
 		current.Seat_load = 1; // hard coded for positive reading, to be backed by logic when module is designed
 		Thermal_parsed = Thermal_read();
@@ -280,6 +289,9 @@ void setup() {
 
 	//Thermal_setup();
 	setupMPU();
+	if (Print_mode){
+		Serial.println("MPU in");
+	}
 	//3G setup is not here, 3G setup is placed in TH0 and turns on if there is an occupant
 	//wifi setup
 }
@@ -490,10 +502,11 @@ void loop() { //main loop here
 		
 		if (Print_mode){
 			Serial.println("State: Pause");
+			Serial.println("time:"); Serial.println(Time_stop_start);
 			delay(500);
 		}
 		
-		if (abs(millis() - Time_stop_start) > 10000){ //if Accelerometer has been stopped for 10 seconds
+		if (abs(millis() - Time_stop_start) > 1000){ //if Accelerometer has been stopped for 10 seconds
 			
 			//turn on GPS to get fix on location and run occupant check 
 			if(Occupant_detect())
@@ -727,7 +740,7 @@ void loop() { //main loop here
 	/*
 	sleep here for 1 minute
 	*/
-	delay(10000); //delay 10 seconds for testing
+	delay(1000); //delay 10 seconds for testing
 	
 	//if (PIR_on && PIR_enable)
 	//{

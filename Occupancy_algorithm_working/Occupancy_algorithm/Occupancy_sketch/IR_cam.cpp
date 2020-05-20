@@ -50,6 +50,7 @@ int Thermal_setup(){
 //int Temp_print_delay;
 
 Thermal_SizeTemp_Struct Thermal_read(){
+	
 	amg.readPixels(pixels);
 	struct Thermal_SizeTemp_Struct Size_temp_read;
 	//int cold = 40;
