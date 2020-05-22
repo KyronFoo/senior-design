@@ -502,11 +502,15 @@ void loop() { //main loop here
 		
 		if (Print_mode){
 			Serial.println("State: Pause");
-			Serial.println("time:"); Serial.println(Time_stop_start);
+			//Serial.println("time:"); Serial.println(Time_stop_start);
 			delay(500);
 		}
 		
-		if (abs(millis() - Time_stop_start) > 1000){ //if Accelerometer has been stopped for 10 seconds
+		if ((millis() - Time_stop_start) > 1000){ //if Accelerometer has been stopped for 10 seconds
+			
+			if (Print_mode){
+				Serial.println("timeout accelerometer");
+			}
 			
 			//turn on GPS to get fix on location and run occupant check 
 			if(Occupant_detect())
@@ -516,6 +520,9 @@ void loop() { //main loop here
 			
 			//check for driver
 			Serial3.write("C");
+			
+			//for testing, set Driver_flag low
+			Driver_flag = false;
 			
 			if(!Driver_flag){ 
 				State = Stopped;	

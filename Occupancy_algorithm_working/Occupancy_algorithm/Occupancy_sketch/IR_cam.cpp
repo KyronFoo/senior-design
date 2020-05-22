@@ -78,7 +78,7 @@ Thermal_SizeTemp_Struct Thermal_read(){
 		//Print_raw_data = false;
 	//}
 
-	
+	//search for the max temperature
 	for(int i=0; i<AMG88xx_PIXEL_ARRAY_SIZE; i++){
 		if(pixels[i] > Size_temp_read.max_temp){
 			Size_temp_read.max_temp = pixels[i];
@@ -88,10 +88,27 @@ Thermal_SizeTemp_Struct Thermal_read(){
 		}
 	}
 	
-	if ((Size_temp_read.max_temp > DETECTEMP) && (Size_temp_read.size > 4)){
-		Size_temp_read.detected = 1;
-	}
+	int top_temps[5]; 
+	int j = 0; //index for top temps
+	int pixels_sum;
+	top_temps[0] =  Size_temp_read.max_temp; //save max temp to start of array
 	
+	//find top 5 temperatures in the array
+	for (j=1; j<5; j++){
+		for(int i=0; i <AMG88xx_PIXEL_ARRAY_SIZE; i++){
+			if((pixels[i] > top_temps[j]) && (pixels[i] < top_temps[j-1])){ //each consecutive value will be lower than before
+				top_temps[j] = pixels[i];
+			} else { //otherwise, add it to the average sum
+				pixels_sum = pixels_sum + pixels[i];
+			}
+		}
+	}
+	//calculate the average temperature excluding the 5 highest temperatures
+	int average_temperature = pixels_sum / (AMG88xx_PIXEL_ARRAY_SIZE - 5);
+	
+	if ((Size_temp_read.max_temp - 2) > average_temperature){ //check if hottest pixel is hotter than the background temperature by 2 celcius
+		Size_temp_read.detected = true;
+	}
 	////modify array for display
 	//for(int i=0; i<AMG88xx_PIXEL_ARRAY_SIZE; i++){
 		//if(pixels[i] > MAXTEMP){
