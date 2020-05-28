@@ -67,14 +67,14 @@ Thermal_SizeTemp_Struct Thermal_read(){
 		//Temp_print_delay = 0;
 		//} 
 		//if(Print_raw_data == true) {
-		//Serial.print("[");
-		//for(int i=1; i<=AMG88xx_PIXEL_ARRAY_SIZE; i++){
-			//Serial.print(pixels[i-1]);
-			//Serial.print(", ");
-			//if( i%8 == 0 ) Serial.println();
-		//}
-		//Serial.println("]");
-		//Serial.println();
+		Serial.print("[");
+		for(int i=1; i<=AMG88xx_PIXEL_ARRAY_SIZE; i++){
+			Serial.print(pixels[i-1]);
+			Serial.print(", ");
+			if( i%8 == 0 ) Serial.println();
+		}
+		Serial.println("]");
+		Serial.println();
 		//Print_raw_data = false;
 	//}
 

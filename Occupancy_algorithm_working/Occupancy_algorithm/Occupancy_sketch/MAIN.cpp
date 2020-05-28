@@ -105,6 +105,7 @@ bool Occupant_detect(){
 		//sun check
 		current.Distance = hcsr04.distanceInMillimeters();
 		if (Print_mode){
+			Serial.print("distance read: "); 
 			Serial.println(current.Distance);
 		}
 		current.PIR = PIR_flag; //Tie PIR to ISR and turn on using the sleep timer. 
@@ -271,10 +272,10 @@ void setup() {
 	pinMode(Camera_enable_pin, OUTPUT);
 	
 	digitalWrite(Ping_enable_pin, LOW);
-	digitalWrite(PIR_enable_pin, HIGH); //PIR pin is high for testing. set low for impelementation
+	digitalWrite(PIR_enable_pin, HIGH); //PIR pin is high for testing. set low for implementation
 	digitalWrite(Alarm_Lights_Unlock_pin, LOW);
 	digitalWrite(WiFi_wake_pin, LOW);
-	digitalWrite(GPS_enable_pin, LOW);
+	digitalWrite(GPS_enable_pin, HIGH); //pin is high for testing, set low for implementation
 	digitalWrite(Camera_enable_pin, LOW);
 	
 	Serial.begin(9600);
@@ -414,6 +415,10 @@ void loop() { //main loop here
 		//check temperature
 		Felt_temp = Get_Felt_Temperature();
 		
+		if(Print_mode){
+			Serial.print("temperature "); Serial.println(Felt_temp);
+		}
+		
 		if (Testing_mode){ //receive serial inputs in testing mode
 			Serial.println("input felt temperature");
 			while(!Serial.available());
@@ -425,6 +430,9 @@ void loop() { //main loop here
 		//In real mode, get MPU data
 		if (!Testing_mode){
 			MPU_read = Get_MPU_Data();
+			if (Print_mode){
+				Serial.print("MPU: "); Serial.print(MPU_read.gForceX); Serial.print(MPU_read.gForceY); Serial.println(MPU_read.gForceZ);
+			}
 			} else {
 			Serial.println("Car not running accel check");
 			Serial.println("Input MPU force; 1 or 2g");
@@ -477,6 +485,9 @@ void loop() { //main loop here
 		//guardian statement: car stopped
 		if (!Testing_mode){
 			MPU_read = Get_MPU_Data();
+			if (Print_mode){
+				Serial.print("MPU"); Serial.println(MPU_read.gForceZ); 
+			}
 			//Occupant_flag = Occupant_detect(); 
 			} else {
 			Serial.println("Car Running");
