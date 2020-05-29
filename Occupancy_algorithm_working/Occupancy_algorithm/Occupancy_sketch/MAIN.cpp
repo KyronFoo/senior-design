@@ -60,7 +60,7 @@ bool TH1_enable = 1;
 bool TH2_enable = 1;
 bool TH3_enable, TH4_enable = 1;
 
-bool Testing_mode = false; //set this to 1 to enable testing mode, where all data is inputted and outputted via the serial port.
+bool Testing_mode = true; //set this to 1 to enable testing mode, where all data is inputted and outputted via the serial port.
 bool Print_mode = 1; //set this to 1 to enable printout mode, where all data from hardware and decisions are printed out.
 
 enum states {
@@ -85,7 +85,7 @@ bool PIR_enable  = false; //determines if PIR is in use logically
 bool PIR_on = false; //used by the sleep loop to bounce between pir on and off
 occupancy_data current;
 occupancy_data previous;
-GPS_data gps; 
+GPS_data gps;
 
 bool Occupant_detect(){
 	
@@ -105,18 +105,18 @@ bool Occupant_detect(){
 		//sun check
 		current.Distance = hcsr04.distanceInMillimeters();
 		if (Print_mode){
-			Serial.print("distance read: "); 
+			Serial.print("distance read: ");
 			Serial.println(current.Distance);
 		}
-		current.PIR = PIR_flag; //Tie PIR to ISR and turn on using the sleep timer. 
+		current.PIR = PIR_flag; //Tie PIR to ISR and turn on using the sleep timer.
 		current.Seat_load = 1; // hard coded for positive reading, to be backed by logic when module is designed
 		Thermal_parsed = Thermal_read();
 		current.IR = Thermal_parsed.detected;
+		
 		if (Print_mode){
 			Serial.print(current.Distance); Serial.print(current.PIR); Serial.print(current.Seat_load); Serial.print(Thermal_parsed.detected);
 		}
-		} else {
-		Serial.println("Occupant_detection");
+		} else {		
 		return 0;
 		Occupant_flag = false;
 	}
@@ -184,7 +184,7 @@ bool Occupant_detect(){
 			default:
 			break;
 		}
-	} else if (Occupant_flag){ //if an occupant was detected before, we check if the occupant has left
+		} else if (Occupant_flag){ //if an occupant was detected before, we check if the occupant has left
 		switch (State) //Need to add in CO states
 		{
 			case Running: //Under 80 deg F`
@@ -331,11 +331,13 @@ int Ping_calibration(){
 
 void loop() { //main loop here
 	
+	bool Go_to_sleep = false; //start with this false, to be set true by state dependent logic. This variable is declared inside the loop because it does not have be consistent between loops.
+	
 	//check wifi, 3G, and GPS
 	if (Fona_serial.available()){ //Implement flow control
 		//insert function here to read and update main device with 3G data
 		//String Read_3G = Serial1.readString();
-		Fona_SMS_recieve(); 
+		Fona_SMS_recieve();
 		
 		if (Print_mode){
 			Serial.println("receiving SMS");
@@ -352,7 +354,7 @@ void loop() { //main loop here
 		{
 			char c = Wifi_serial.read();
 			if (Print_mode){
-				Serial.print(c); 
+				Serial.print(c);
 			}
 			switch (c){
 				case 'D': //driver present
@@ -369,7 +371,7 @@ void loop() { //main loop here
 				
 				case 'T': //Seat Load negative
 				current.Seat_load = false;
-				break; 
+				break;
 				
 				case 'O': //driver door open received
 				break;
@@ -386,11 +388,11 @@ void loop() { //main loop here
 			Serial.println("receiving GPS");
 		}
 		
-		gps = GPS_read();	
+		gps = GPS_read();
 		if (Print_mode){
 			
 			Serial.print("Fix: "); Serial.print((int)gps.fix);
-			Serial.print(" quality: "); Serial.println((int)gps.quality); 
+			Serial.print(" quality: "); Serial.println((int)gps.quality);
 			if (gps.fix) {
 				Serial.print("Location: ");
 				Serial.print(gps.latitude, 4); Serial.print(gps.N_S);
@@ -438,7 +440,7 @@ void loop() { //main loop here
 			Serial.println("Input MPU force; 1 or 2g");
 			while(!Serial.available()); //block program while waiting for serial input
 			int Testing_input = Serial.read();
-			Serial.println(Testing_input);
+			//Serial.println(Testing_input);
 			MPU_read.gForceX = Testing_input - 48;
 		}
 		if ((MPU_read.gForceX + MPU_read.gForceY + MPU_read.gForceZ) >= 1.1){ //car is running if g forces read from all three axis is above 1.1G
@@ -446,7 +448,7 @@ void loop() { //main loop here
 			
 			if (Print_mode)
 			{
-				Serial.print("Movement detected"); 
+				Serial.print("Movement detected");
 			}
 			
 		}
@@ -456,7 +458,7 @@ void loop() { //main loop here
 	}
 	
 	//Run Occupancy sensors each wake up
-	Occupant_detect();	
+	Occupant_detect();
 
 	switch (State)
 	{
@@ -486,9 +488,9 @@ void loop() { //main loop here
 		if (!Testing_mode){
 			MPU_read = Get_MPU_Data();
 			if (Print_mode){
-				Serial.print("MPU"); Serial.println(MPU_read.gForceZ); 
+				Serial.print("MPU"); Serial.println((MPU_read.gForceZ + MPU_read.gForceY + MPU_read.gForceX));
 			}
-			//Occupant_flag = Occupant_detect(); 
+			//Occupant_flag = Occupant_detect();
 			} else {
 			Serial.println("Car Running");
 			Serial.println("Input MPU force; 1 or 2g");
@@ -505,11 +507,13 @@ void loop() { //main loop here
 				Serial.println("No movement and no driver");
 				delay(500);
 			}
+			} else { //if the MPU reads 1G, we transition to the next state, otherwise we go to sleep
+			Go_to_sleep = true;
 		}
 		
 		break; //this does not account for traffic lights and stop signs, need to figure out how to incorporate WiFi to check for the driver
 		
-		case Pause:
+		case Pause: //This state does not go to sleep because it needs to wait 10 seconds for the MPU
 		
 		if (Print_mode){
 			Serial.println("State: Pause");
@@ -517,13 +521,13 @@ void loop() { //main loop here
 			delay(500);
 		}
 		
-		if ((millis() - Time_stop_start) > 1000){ //if Accelerometer has been stopped for 10 seconds
+		if ((millis() - Time_stop_start) > 10000){ //if Accelerometer has been stopped for 10 seconds
 			
 			if (Print_mode){
 				Serial.println("timeout accelerometer");
 			}
 			
-			//turn on GPS to get fix on location and run occupant check 
+			//turn on GPS to get fix on location and run occupant check
 			if(Occupant_detect())
 			{
 				digitalWrite(GPS_enable_pin, HIGH);
@@ -535,14 +539,14 @@ void loop() { //main loop here
 			//for testing, set Driver_flag low
 			Driver_flag = false;
 			
-			if(!Driver_flag){ 
-				State = Stopped;	
+			if(!Driver_flag){
+				State = Stopped;
 			}
 		}
 		
 		break;
 		
-		case Stopped:
+		case Stopped: //this state does not go to sleep either. simply goes through the transition to th0 or th1
 		
 		if (Print_mode){
 			Serial.println("State: Stopped");
@@ -555,11 +559,11 @@ void loop() { //main loop here
 		}
 		
 		if (Felt_temp >= 80){
-				State = TH1;
-				} else {
-				State = TH0;
-			}
-			
+			State = TH1;
+			} else {
+			State = TH0;
+		}
+		
 		Calibrate_enable = true; //enable calibration in TH0
 		Deescalation_dismiss = false;
 		
@@ -587,14 +591,14 @@ void loop() { //main loop here
 			Serial.println("TH0");
 		}
 		
-		if (!Occupant_flag && Calibrate_enable){			
+		if (!Occupant_flag && Calibrate_enable){
 			/*Calibrate Ping sensor*/
 			Calibrate_enable = false; //run calibration only once
 			
 			if(!Testing_mode)
 			Seat_Distance = Ping_calibration(); //the call to Ping_calibration when the sensor is not connected will crash the system because of its blocking nature
 			
-		} else if (Occupant_flag){ //if occupant detected, check that GPS and 3G modules are turned on. 
+			} else if (Occupant_flag){ //if occupant detected, check that GPS and 3G modules are turned on.
 			
 			if (!digitalRead(GPS_enable_pin))
 			{
@@ -610,6 +614,8 @@ void loop() { //main loop here
 		if (Felt_temp >= 80 && !User_dismiss){
 			State = TH1;
 			Deescalation_dismiss = false;
+			} else { //if there is no transition, go to sleep
+			Go_to_sleep = true;
 		}
 		
 		
@@ -647,6 +653,8 @@ void loop() { //main loop here
 			} else if (Felt_temp < 80){
 			State = Stopped;
 			Deescalation_dismiss = true;
+			} else { //if there is no transition, go to sleep
+			Go_to_sleep = true;
 		}
 		break;
 		
@@ -675,6 +683,8 @@ void loop() { //main loop here
 		{
 			State = Stopped;
 			Deescalation_dismiss = true;
+			}else { //if there is no transition, go to sleep
+			Go_to_sleep = true;
 		}
 		break;
 		
@@ -717,6 +727,8 @@ void loop() { //main loop here
 		{
 			State = Stopped;
 			Deescalation_dismiss = 1;
+			}else { //if there is no transition, go to sleep
+			Go_to_sleep = true;
 		}
 		break;
 		
@@ -747,10 +759,14 @@ void loop() { //main loop here
 			State = Stopped;
 			Deescalation_dismiss = 1;
 		}
+		else { //if there is no transition, go to sleep
+			Go_to_sleep = true;
+		}
 		break;
 		
 		default:
 		State = Running;
+		Go_to_sleep = true;
 		break;
 	}
 	
@@ -758,14 +774,25 @@ void loop() { //main loop here
 	/*
 	sleep here for 1 minute
 	*/
-	delay(1000); //delay 10 seconds for testing
+	
+	
+	
+	if (Go_to_sleep)
+	{
+		
+		if(Testing_mode || Print_mode){
+			Serial.println("Sleep");
+		}
+		delay(1000); //delay 10 seconds for testing
+		
+	}
 	
 	//if (PIR_on && PIR_enable)
 	//{
-		//digitalWrite(Ping_enable_pin, HIGH);
-		//PIR_on = false;
+	//digitalWrite(Ping_enable_pin, HIGH);
+	//PIR_on = false;
 	//} else if (!PIR_on) {
-		//PIR_on = true;
+	//PIR_on = true;
 	//}
 	//
 
