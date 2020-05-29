@@ -61,7 +61,7 @@ bool TH2_enable = 1;
 bool TH3_enable, TH4_enable = 1;
 
 bool Testing_mode = true; //set this to 1 to enable testing mode, where all data is inputted and outputted via the serial port.
-bool Print_mode = 1; //set this to 1 to enable printout mode, where all data from hardware and decisions are printed out.
+bool Print_mode = true; //set this to 1 to enable printout mode, where all data from hardware and decisions are printed out.
 
 enum states {
 	Running, //accelerometer detects movement
@@ -76,7 +76,13 @@ enum states {
 	TH4, // 105 degrees, Open door
 };
 
+enum Temp_zone {
+	Cool,
+	Hot,
+};
+
 states State = Running;
+Temp_zone Temperature_zone = Cool;
 
 bool Occupant_flag = false; //This flag is used both in occupant detect and in the main loop
 bool Driver_flag = true; //This flag is set by incoming data from the wifi module. Since we begin in the running state, this flag starts in the positve
@@ -116,9 +122,7 @@ bool Occupant_detect(){
 		if (Print_mode){
 			Serial.print(current.Distance); Serial.print(current.PIR); Serial.print(current.Seat_load); Serial.print(Thermal_parsed.detected);
 		}
-		} else {		
-		return 0;
-		Occupant_flag = false;
+		
 	}
 	
 	bool Object;
@@ -127,11 +131,9 @@ bool Occupant_detect(){
 	current.Object_size = Seat_Distance - current.Distance;
 	
 	if (!Occupant_flag){
-		switch (State) //Need to add in CO states
+		switch (Temperature_zone) //Need to add in CO states
 		{
-			case Running: //Under 80 deg F`
-			case Stopped:
-			case TH0:
+			case Cool: //under 80 degrees
 			
 			if (Print_mode){
 				Serial.println("Occupancy detection < 80");
@@ -143,24 +145,34 @@ bool Occupant_detect(){
 			}
 			if ((current.PIR)||(Thermal_parsed.detected)){
 				IR = true;
+				
+			}
+			if (Testing_mode){
+				Serial.println("Enter occupant flag 1 or 0");
+				while(!Serial.available());
+				Object = Serial.read() - 48;
+				Serial.println("Enter IR flag");
+				while(!Serial.available());
+				IR = Serial.read() - 48;
 			}
 			if (Object && IR){
-				return 1;
+				
 				Occupant_flag = true;
+				if (Print_mode)
+				{
+					Serial.print("occupant flag: "); Serial.println(Occupant_flag);
+				}
 				//since there is a new occupant detected, save the states of the occupancy detection sensors
 				previous = current;
-				State = TH0;
+				//State = TH0; //there is no need to reset under 80 degrees
 				TH2_enable, TH1_enable, TH3_enable, TH4_enable = true;
-				
+				return 1;
 				} else {
 				return 0;
 			}
 			break;
 			
-			case TH1: //Above 80 deg F
-			case TH2:
-			case TH3:
-			case TH4:
+			case Hot: //above 80 degrees
 			
 			if (Print_mode){
 				Serial.println("Occupancy detection > 80");
@@ -173,9 +185,26 @@ bool Occupant_detect(){
 			if (current.PIR || Thermal_parsed.detected){
 				IR = 1;
 			}
+			if (Testing_mode){
+				Serial.println("Enter object flag 1 or 0");
+				while(!Serial.available());
+				Object = Serial.read() - 48;
+				Serial.println("Enter IR flag");
+				while(!Serial.available());
+				IR = Serial.read() - 48;
+			}
 			if (Object || IR){
-				return 1;
+				switch (State){
+					case TH1:
+					case TH2:
+					case TH3:
+					case TH4:
+						State = TH0;
+					break;
+				}
+				
 				Occupant_flag = true;
+				return 1;
 				} else {
 				return 0;
 			}
@@ -185,11 +214,9 @@ bool Occupant_detect(){
 			break;
 		}
 		} else if (Occupant_flag){ //if an occupant was detected before, we check if the occupant has left
-		switch (State) //Need to add in CO states
+		switch (Temperature_zone) //Need to add in CO states
 		{
-			case Running: //Under 80 deg F`
-			case Stopped:
-			case TH0:
+			case Cool: //under 80
 			
 			if (Print_mode){
 				Serial.println("Occupancy cancel <80");
@@ -217,6 +244,14 @@ bool Occupant_detect(){
 					previous.IR = current.IR;
 				}
 			}
+			if (Testing_mode){
+				Serial.println("Enter object flag 1 or 0");
+				while(!Serial.available());
+				Object = Serial.read() - 48;
+				Serial.println("Enter IR flag");
+				while(!Serial.available());
+				IR = Serial.read() - 48;
+			}
 			if (!Object && !IR){
 				Occupant_flag = false;
 				previous = current;
@@ -224,10 +259,7 @@ bool Occupant_detect(){
 			
 			break;
 			
-			case TH1: //Above 80 deg F, using only object sensors to show that occupant has moved
-			case TH2:
-			case TH3:
-			case TH4:
+			case Hot: //above 80
 			
 			if (Print_mode){
 				Serial.println("Occupancy cancel > 80");
@@ -246,6 +278,11 @@ bool Occupant_detect(){
 					Object = false;
 					previous.Seat_load = current.Seat_load;
 				}
+			}
+			if (Testing_mode){
+				Serial.println("Enter occupant flag 1 or 0");
+				while(!Serial.available());
+				Object = Serial.read() - 48;
 			}
 			if (!Object){
 				Occupant_flag = false;
@@ -418,7 +455,7 @@ void loop() { //main loop here
 		Felt_temp = Get_Felt_Temperature();
 		
 		if(Print_mode){
-			Serial.print("temperature "); Serial.println(Felt_temp);
+			Serial.print("temperature "); Serial.println((int) Felt_temp);
 		}
 		
 		if (Testing_mode){ //receive serial inputs in testing mode
@@ -427,6 +464,13 @@ void loop() { //main loop here
 			String Testing_input = Serial.readString();
 			Serial.println(Testing_input);
 			Felt_temp = Testing_input.toInt();
+		}
+		
+		if (Felt_temp < 80){
+			Temperature_zone = Cool;
+		} else if (Felt_temp >= 80)
+		{
+			Temperature_zone = Hot;
 		}
 		
 		//In real mode, get MPU data
@@ -606,7 +650,8 @@ void loop() { //main loop here
 			}
 			if (!digitalRead(Fona_power_status_pin))
 			{
-				Fona_setup(); //turns on and sets up 3G. Is blocking for 7 seconds. We do not receive GPS during this time. PIR should be attached to an interrupt to detect motion
+				//Fona connection is not ready yet
+				//Fona_setup(); //turns on and sets up 3G. Is blocking for 7 seconds. We do not receive GPS during this time. PIR should be attached to an interrupt to detect motion
 			}
 			
 		}
