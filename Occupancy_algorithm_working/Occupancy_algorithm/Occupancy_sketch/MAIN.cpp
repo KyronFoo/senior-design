@@ -683,7 +683,7 @@ void loop() { //main loop here
 		
 		//send notification
 		if (Occupant_flag && TH1_enable){
-			Fona_Send_sms();
+			//Fona_Send_sms();
 			TH1_enable = false;
 			
 			if (Print_mode){
