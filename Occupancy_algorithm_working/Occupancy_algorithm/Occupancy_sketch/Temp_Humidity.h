@@ -14,5 +14,7 @@
 #define HIH4030_SUPPLY 5
 
 float Get_Felt_Temperature();
+float Get_temperature();
+float Get_humidity();
 
 #endif /* TEMP_HUMIDITY_H_ */

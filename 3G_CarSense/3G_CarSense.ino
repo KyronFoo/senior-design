@@ -2,7 +2,7 @@
 
 #define FONA_RX 2
 #define FONA_TX 10
-#define FONA_RST 4
+#define FONA_RST 22
 
 
 char replybuffer[255]; //Buffer for SMS
@@ -22,9 +22,11 @@ int stateInt = 4; //Used to store warning Level
 
 */
 
-#include <SoftwareSerial.h>
-SoftwareSerial fonaSS = SoftwareSerial(FONA_TX, FONA_RX);
-SoftwareSerial *fonaSerial = &fonaSS;
+//#include <SoftwareSerial.h>
+//SoftwareSerial fonaSS = SoftwareSerial(FONA_TX, FONA_RX);
+//SoftwareSerial *fonaSerial = &fonaSS;
+
+HardwareSerial *fonaSerial = &Serial1;
 
 Adafruit_FONA_3G fona = Adafruit_FONA_3G(FONA_RST);
 

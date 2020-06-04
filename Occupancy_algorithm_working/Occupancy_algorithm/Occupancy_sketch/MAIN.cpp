@@ -62,8 +62,8 @@ bool TH1_enable = 1;
 bool TH2_enable = 1;
 bool TH3_enable, TH4_enable = 1;
 
-bool Testing_mode = false; //set this to 1 to enable testing mode, where all data is inputted and outputted via the serial port.
-bool Print_mode = false; //set this to 1 to enable printout mode, where all data from hardware and decisions are printed out.
+bool Testing_mode = true; //set this to 1 to enable testing mode, where all data is inputted and outputted via the serial port.
+bool Print_mode = true; //set this to 1 to enable printout mode, where all data from hardware and decisions are printed out.
 
 enum states {
 	Running, //accelerometer detects movement
@@ -328,7 +328,7 @@ void setup() {
 	digitalWrite(GPS_enable_pin, HIGH); //pin is high for testing, set low for implementation
 	digitalWrite(Camera_enable_pin, LOW);
 	
-	Serial.begin(9600);
+	Serial.begin(115200);
 	if (Print_mode)
 	{
 		Serial.println(F("Setting up"));
@@ -343,12 +343,14 @@ void setup() {
 	if (Print_mode){
 		Serial.println("MPU in");
 	}
-	Fona_setup();
+	//Fona_setup();
 }
 
 //int Print_delay = 0;
 
 float Felt_temp;
+int C_O;
+
 
 unsigned long Time_stop_start; // time variables are reserved exclusively for reading the onboard clock. This clock overflows approximately ever 50 days.
 
@@ -644,6 +646,12 @@ void loop() { //main loop here
 				delay(1000);
 			}
 			
+			if (Testing_mode){
+				Serial.println("input driver flag");
+				while(!Serial.available());
+				Driver_flag = Serial.read() - 48;
+			}
+			
 			if(!Driver_flag){
 				State = Stopped; // if there is no driver found, turn on the wifi module again to check seat loaders
 				//digitalWrite(WiFi_wake_pin, HIGH); //first step is rewrite high to the wake pin
@@ -756,7 +764,7 @@ void loop() { //main loop here
 		
 		//send notification
 		if (Occupant_flag && TH1_enable){
-			Fona_Send_sms();
+			Fona_Send_sms((int) Felt_temp, (int) Get_humidity(), C_O, Occupant_flag, gps.latitude, gps.N_S, gps.longitude, gps.E_W);
 			TH1_enable = false;
 			
 			if (Print_mode){
@@ -837,7 +845,7 @@ void loop() { //main loop here
 				digitalWrite(Alarm_Lights_Unlock_pin, LOW);
 			}
 			
-			Fona_Send_sms();
+			Fona_Send_sms((int) Felt_temp, (int) Get_humidity(), C_O, Occupant_flag, gps.latitude, gps.N_S, gps.longitude, gps.E_W);
 			
 			TH3_enable = false;
 		}
@@ -910,6 +918,14 @@ void loop() { //main loop here
 		delay(1000); //delay 10 seconds for testing
 		
 	}
+	
+	 //char text[140];
+	 ////char state[32];
+	//
+	 //int Humidity = 50;
+	 //sprintf(text, "FT = %d, H = %d, CO = %d, OC = %d, lat = %f, NS = %c, lon = %f, EW = %c", Felt_temp, Humidity, C_O, Occupant_flag, gps.latitude, gps.N_S, gps.longitude, gps.E_W);
+	 //
+	 //Serial.println(text);
 	
 	//if (PIR_on && PIR_enable)
 	//{

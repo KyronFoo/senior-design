@@ -15,7 +15,7 @@
 
 void Fona_setup();
 void Fona_SMS_recieve();
-bool Fona_Send_sms();
+bool Fona_Send_sms(int Felt_temp, int Humidity, int C_O, bool Occupant_flag, float latitude, char N_S, float longitude, char E_W);
 
 
 #endif /* FONA_H_ */

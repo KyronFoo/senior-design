@@ -25,7 +25,7 @@ void Fona_setup(){
   fonaSerial->begin(4800); //Set baud rate to 4800
   if (! fona.begin(*fonaSerial)) {
     Serial.println(F("Couldn't find FONA"));
-    while (1);
+    //while (1);
   }
   Serial.println(F("FONA is CONNECTED"));
 
@@ -134,34 +134,37 @@ void Parse_sms(){
 	
 }
 
-bool Fona_Send_sms(){ //need to be programmed with numbers
-	char callerIDbuffer[32];
+bool Fona_Send_sms(int Felt_temp, int Humidity, int C_O, bool Occupant_flag, float latitude, char N_S, float longitude, char E_W){ //need to be programmed with numbers
+	  char callerIDbuffer[32];
 	
-	  Serial.println("Sending reponse...");
+	  Serial.println("Sending response...");
 	  //if (!fona.sendSMS(callerIDbuffer, "Confirmation")) {
 
-	  char level[32] = "TH1 = ";
-	  char state[32];
+	  char text[140];
+	  //char state[32];
 
-	  sprintf(state, "%d, ", stateInt);
-	  char Heat[32] = "Heat Index = ";
-
-
-	  strcat(level, state);
+	  sprintf(text, "FT = %d, H = %d, CO = %d, OC = %d, lat = %f, NS = %c, lon = %f, EW = %c", Felt_temp, Humidity, C_O, Occupant_flag, latitude, N_S, longitude, E_W);
+	  //char Heat[32] = "Heat Index = ";
+	  
+	  //Serial.println(text);
+	  
+	  //String Text; 
+	  
+	  //strcat( state);
 	  //s.concat(3);
-	  if (!fona.sendSMS(callerIDbuffer, level)) {
-		  Serial.println(F("Failed"));
-		  } else {
-		  Serial.println(F("Sent!"));
-	  }
+	  //if (!fona.sendSMS(callerIDbuffer, level)) {
+		  //Serial.println(F("Failed"));
+		  //} else {
+		  //Serial.println(F("Sent!"));
+	  //}
 
 	  // delete the original msg after it is processed
 	  //   otherwise, we will fill up all the slots
 	  //   and then we won't be able to receive SMS anymore
-	  if (fona.deleteSMS(slot)) {
-		  Serial.println(F("OK!"));
-		  } else {
-		  Serial.print(F("Couldn't delete SMS in slot ")); Serial.println(slot);
-		  fona.print(F("AT+CMGD=?\r\n"));
-	  }
+	  //if (fona.deleteSMS(slot)) {
+		  //Serial.println(F("OK!"));
+		  //} else {
+		  //Serial.print(F("Couldn't delete SMS in slot ")); Serial.println(slot);
+		  //fona.print(F("AT+CMGD=?\r\n"));
+	  //}
 }

@@ -15,9 +15,9 @@
 struct GPS_data{
 	bool fix;
 	int quality;
-	int latitude;
+	float latitude;
 	char N_S; //north or south specifier for latitude
-	int longitude;
+	float longitude;
 	char E_W; //east west specifier for longitude
 	int satellites;
 	bool error;
