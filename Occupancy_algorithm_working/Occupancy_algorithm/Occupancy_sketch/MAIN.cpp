@@ -10,6 +10,8 @@
 #include <Adafruit_AMG88xx.h>
 #include "IR_cam.h"
 #include <avr/sleep.h>
+#include <avr/interrupt.h>
+#include <avr/power.h>
 #include "Accelerometer.h"
 #include "Temp_Humidity.h"
 #include <string.h>
@@ -19,19 +21,20 @@
 #include "Fona.h"
 #include "GPS.h"
 
-#define Power_pin 23//connects to power pin on telecom module
+#define Power_pin 36//connects to power pin on telecom module
 #define TRIG_PIN 27
 #define ECHO_PIN 29
 #define PIR_read_pin 31
 #define CO_read_pin A3
 //#define Telecom_enable_pin 49
-#define Ping_enable_pin 39
-#define PIR_enable_pin 34
+#define Ping_enable_pin 49
+#define PIR_enable_pin 53
 #define Camera_enable_pin 35
-#define Alarm_Lights_Unlock_pin 41
-#define GPS_enable_pin 37
-#define WiFi_wake_pin 45
-#define Fona_power_status_pin 25
+#define Alarm_Lights_Unlock_pin 50
+#define GPS_enable_pin 39
+#define WiFi_wake_pin 30
+#define Fona_power_status_pin 29
+#define MPU_enable_pin 33
 #define Fona_serial Serial1
 #define GPS_serial Serial2
 #define Wifi_serial Serial3
@@ -62,7 +65,7 @@ bool TH1_enable = 1;
 bool TH2_enable = 1;
 bool TH3_enable, TH4_enable = 1;
 
-bool Testing_mode = true; //set this to 1 to enable testing mode, where all data is inputted and outputted via the serial port.
+bool Testing_mode = false; //set this to 1 to enable testing mode, where all data is inputted and outputted via the serial port.
 bool Print_mode = true; //set this to 1 to enable printout mode, where all data from hardware and decisions are printed out.
 
 enum states {
@@ -83,8 +86,15 @@ enum Temp_zone {
 	Hot,
 };
 
+enum Wifi_command{
+	Driver_check,
+	Open_door,
+	Seat_check
+};
+
 states State = Running;
 Temp_zone Temperature_zone = Cool;
+Wifi_command Wee_command = Driver_check;
 
 bool Occupant_flag = false; //This flag is used both in occupant detect and in the main loop
 int Driver_flag = 3; //This flag is set by incoming data from the wifi module. Since we begin in the running state, this flag starts in the positve
@@ -94,6 +104,8 @@ bool PIR_on = false; //used by the sleep loop to bounce between pir on and off
 occupancy_data current;
 occupancy_data previous;
 GPS_data gps;
+
+bool Wifi_comms(Wifi_command command);
 
 bool Occupant_detect(){
 	
@@ -312,7 +324,12 @@ bool Occupant_detect(){
 
 void setup() {
 	// put your setup code here, to run once:
-	
+	 set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+	 cli();
+	 
+	 TCCR1B = (1<<CS10) | (1<<CS12);
+	 
+	pinMode(LED_BUILTIN, OUTPUT);	
 	pinMode(PIR_read_pin, INPUT);
 	pinMode(PIR_enable_pin, OUTPUT);
 	pinMode(Ping_enable_pin, OUTPUT);
@@ -321,6 +338,7 @@ void setup() {
 	pinMode(GPS_enable_pin, OUTPUT);
 	pinMode(Camera_enable_pin, OUTPUT);
 	
+	digitalWrite(LED_BUILTIN, LOW);
 	digitalWrite(Ping_enable_pin, LOW);
 	digitalWrite(PIR_enable_pin, HIGH); //PIR pin is high for testing. set low for implementation
 	digitalWrite(Alarm_Lights_Unlock_pin, LOW);
@@ -328,7 +346,7 @@ void setup() {
 	digitalWrite(GPS_enable_pin, HIGH); //pin is high for testing, set low for implementation
 	digitalWrite(Camera_enable_pin, LOW);
 	
-	Serial.begin(115200);
+	Serial.begin(9600);
 	if (Print_mode)
 	{
 		Serial.println(F("Setting up"));
@@ -400,61 +418,7 @@ void loop() { //main loop here
 		}
 		
 	}
-	if (Wifi_serial.available()){
-		
-		
-			
-		//String S = Wifi_serial.readString();	
-		
-		
-		//String S = Wifi_serial.readString();
-		char c = Wifi_serial.read();//S[0]; //take the first character of the string
-		if (Print_mode){
-			Serial.print(c);
-		}
-		
-		if (Print_mode){
-			Serial.println("receiving WiFi char");
-		}
-		
-		digitalWrite(WiFi_wake_pin, HIGH); //The AP SM puts the device to sleep after sending feedback, so write high to prepare to wake the wifi module later.
-		
-		
-		switch (c){
-			case 'Y': //driver present
-			Driver_flag = true;
-			break;
-			
-			case 'N': //driver not present
-			Driver_flag = false;
-			break;
-			
-			case 'S': //Seat Load positive
-			current.Seat_load = true;
-			break;
-			
-			case 's': //Seat Load negative
-			current.Seat_load = false;
-			break;
-			
-			case 'O': //driver door open successful
-			break;
-			
-			case 'R': //order received
-			break;
-			
-			case 'B': //baby
-			break;
-			
-			case 'b': //no baby
-			break;
-			
-			default:
-			break;
-			
-		}
-		
-	}
+	
 	if (GPS_serial.available()){
 		
 		if (Print_mode){
@@ -489,6 +453,9 @@ void loop() { //main loop here
 		}
 		//check temperature
 		Felt_temp = Get_Felt_Temperature();
+		if (Thermal_parsed.sunlight){
+			Felt_temp = Felt_temp + 15;
+		}
 		
 		//check CO level
 		
@@ -621,24 +588,11 @@ void loop() { //main loop here
 			
 			//turn on GPS
 			digitalWrite(WiFi_wake_pin, LOW);
-			//int Wifi_start = millis();
-			//check for driver
+			Wee_command = Driver_check;
+			while(!Wifi_comms(Wee_command)); //wait until wifi is finished checking
 			
 			Serial3.write('D');
-			//if (Serial3.readString() == "Y"){
-				//Driver_flag = true;
-				//if (Print_mode){
-					//Serial.print("Driver");
-				//}
-				//} else if (Serial3.readString() == "N"){
-				//Driver_flag = false;
-				//if (Print_mode){
-					//Serial.print("No Driver");
-				//}
-			//}
 			
-			//for testing, set Driver_flag low
-			//Driver_flag = false;
 			
 			if (Print_mode){
 				Serial.print(Serial3.read());
@@ -654,12 +608,12 @@ void loop() { //main loop here
 			
 			if(!Driver_flag){
 				State = Stopped; // if there is no driver found, turn on the wifi module again to check seat loaders
-				//digitalWrite(WiFi_wake_pin, HIGH); //first step is rewrite high to the wake pin
+				
 			} else if (Driver_flag == true) //if a driver is found, go to sleep
 			{
 				Go_to_sleep = true;
 				State = Pause;
-				//digitalWrite(WiFi_wake_pin, HIGH); //turn off wifi module
+				
 			} //if nothing has been received from the wifi module, run through the loop again
 		}
 		
@@ -668,7 +622,8 @@ void loop() { //main loop here
 		case Stopped: //this state does not go to sleep either. simply goes through the transition to th0 or th1
 		
 		digitalWrite(WiFi_wake_pin, LOW); //wake wifi to check for seat load
-		Serial3.print('S'); //write an S to the wifi module, receive corresponding char outside of the state machine
+		Wee_command = Seat_check;
+		while (!Wifi_comms(Wee_command)); //wait until seat check is finished
 		
 		if (Print_mode){
 			Serial.println("State: Stopped");
@@ -739,7 +694,8 @@ void loop() { //main loop here
 			Deescalation_dismiss = false;
 			//turn on wifi module for check of seat loaders
 			digitalWrite(WiFi_wake_pin, LOW);
-			Serial3.print('S');
+			Wee_command = Seat_check;
+			while(!Wifi_comms(Wee_command));
 			} else { //if there is no transition, go to sleep
 			Go_to_sleep = true;
 		}
@@ -777,7 +733,8 @@ void loop() { //main loop here
 			State = TH2;
 			Deescalation_dismiss = false;
 			digitalWrite(WiFi_wake_pin, LOW);
-			Serial3.print('S');
+			Wee_command = Seat_check;
+			while(!Wifi_comms(Wee_command));
 			} else if (Felt_temp < 80){
 			State = Stopped;
 			Deescalation_dismiss = true;
@@ -808,7 +765,8 @@ void loop() { //main loop here
 			State = TH3;
 			Deescalation_dismiss = false;
 			digitalWrite(WiFi_wake_pin, LOW);
-			Serial3.print('S');
+			Wee_command = Seat_check;
+			while(!Wifi_comms(Wee_command));
 		} else if (Felt_temp < 86)
 		{
 			State = Stopped;
@@ -853,7 +811,9 @@ void loop() { //main loop here
 		if (Felt_temp > 105){
 			State = TH4;
 			Deescalation_dismiss = false;
-			Serial3.print('S');
+			digitalWrite(WiFi_wake_pin, LOW);
+			Wee_command = Seat_check;
+			while(!Wifi_comms(Wee_command));
 		} else if (Felt_temp < 91)
 		{
 			State = Stopped;
@@ -913,19 +873,25 @@ void loop() { //main loop here
 	{
 		
 		if(Testing_mode || Print_mode){
-			Serial.println("Sleep");
-			} 
+			Serial.println("Sleep");		
 		delay(1000); //delay 10 seconds for testing
-		
+		} else {			
+				 sleep_enable();
+				 sei();
+				 sleep_cpu();
+				 sleep_disable();
+			 			 
+		sei();
+		}
 	}
 	
-	 //char text[140];
-	 ////char state[32];
+	//char text[140];
+	////char state[32];
 	//
-	 //int Humidity = 50;
-	 //sprintf(text, "FT = %d, H = %d, CO = %d, OC = %d, lat = %f, NS = %c, lon = %f, EW = %c", Felt_temp, Humidity, C_O, Occupant_flag, gps.latitude, gps.N_S, gps.longitude, gps.E_W);
-	 //
-	 //Serial.println(text);
+	//int Humidity = 50;
+	//sprintf(text, "FT = %d, H = %d, CO = %d, OC = %d, lat = %f, NS = %c, lon = %f, EW = %c", Felt_temp, Humidity, C_O, Occupant_flag, gps.latitude, gps.N_S, gps.longitude, gps.E_W);
+	//
+	//Serial.println(text);
 	
 	//if (PIR_on && PIR_enable)
 	//{
@@ -938,3 +904,104 @@ void loop() { //main loop here
 
 }
 
+int sleep=0;
+
+ISR(TIMER1_OVF_vect){
+	//wake up Arduino when Timer 1 overflows, with 1024 pre-scalar, overflows every 4 seconds
+	if (sleep < 15){ //if a minute isn't up yet, go back to sleep
+		sleep_cpu();
+	} else {
+		sleep = 0; //reset the sleep counter and go through the rest of the program
+	}
+}
+
+
+
+
+
+bool Wifi_comms(Wifi_command command){
+	if (Wifi_serial.available()){
+		
+		String S = Wifi_serial.readString();
+		
+		switch(command){
+			case Open_door: //open the drivers door
+			if (S == "UPDATING2" || S == "OPTION2"){ //these indicate that the CDOM is ready to take the command to open the door
+				Serial3.write('O'); //open door
+				} else {
+				Serial3.write('D'); //the CDOM is commanded to check for a driver first
+			}
+			break;
+			
+			case Driver_check:
+			Serial3.write('D'); //the CDOM is commanded to check for a driver
+			break;
+			
+			case Seat_check:
+			Serial3.write('S');
+			break;
+		}
+		
+		char c = S[0]; //take the first character of the string
+		if (Print_mode){
+			Serial.print(c);
+		}
+		
+		if (Print_mode){
+			Serial.println("receiving WiFi char");
+		}
+		
+		digitalWrite(WiFi_wake_pin, HIGH); //The AP SM puts the device to sleep after sending feedback, so write high to prepare to wake the wifi module later.
+		
+		
+		switch (c){
+			case 'Y': //driver present
+			Driver_flag = true;
+			if (command = Driver_check){
+				return 1;
+			}
+			break;
+			
+			case 'N': //driver not present
+			Driver_flag = false;
+			if (command = Driver_check){
+				return 1;
+			}
+			break;
+			
+			case 'S': //Seat Load positive
+			current.Seat_load = true;
+			return 1;
+			break;
+			
+			case 's': //Seat Load negative
+			current.Seat_load = false;
+			return 1;
+			break;
+			
+			case 'O': //driver door open successful
+			return 1;
+			break;
+			
+			case 'R': //order received
+			return 1;
+			break;
+			
+			case 'B': //baby
+			return 1;
+			break;
+			
+			case 'b': //no baby
+			return 1;
+			break;
+			
+			default:
+			break;
+			
+		}
+		
+	}
+	
+	return 0;
+	
+}

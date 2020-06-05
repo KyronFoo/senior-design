@@ -88,29 +88,6 @@ Thermal_SizeTemp_Struct Thermal_read(){
 		}
 	}
 	
-	//parse data for sunlight
-	//parse left side of the image. In this case the top half of the image. 
-	
-	int Left_average_temperature;
-	
-	for(int i=0; i<(AMG88xx_PIXEL_ARRAY_SIZE/2); i++){
-		Left_average_temperature += pixels[i]; //sum up temperatures on the top half of the image
-	}
-	Left_average_temperature = Left_average_temperature / (AMG88xx_PIXEL_ARRAY_SIZE/2);
-	
-	int Right_average_temperature;
-	
-	for (int i = AMG88xx_PIXEL_ARRAY_SIZE/2; i<AMG88xx_PIXEL_ARRAY_SIZE; i++)
-	{
-		Right_average_temperature += pixels[i]; //sum up temperatures on the bottom half of the image
-	}
-	Right_average_temperature = Right_average_temperature / (AMG88xx_PIXEL_ARRAY_SIZE/2); 
-	
-	//if the two sides are unequal in temperature, we likely have sunlight
-	if ((Left_average_temperature - Right_average_temperature) > 3)
-	{
-		//flag sunlight
-	}
 	
 	//parse data for occupant
 	int top_temps[5]; 
@@ -130,6 +107,11 @@ Thermal_SizeTemp_Struct Thermal_read(){
 	}
 	//calculate the average temperature excluding the 5 highest temperatures
 	int average_temperature = pixels_sum / (AMG88xx_PIXEL_ARRAY_SIZE - 5);
+	
+	//Sunlight
+	if (average_temperature > amg.readThermistor()){
+		Size_temp_read.sunlight = true;
+	}
 	
 	if ((Size_temp_read.max_temp - 2) > average_temperature){ //check if hottest pixel is hotter than the background temperature by 2 celcius
 		Size_temp_read.detected = true;

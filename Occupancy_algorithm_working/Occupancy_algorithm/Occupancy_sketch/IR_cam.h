@@ -31,7 +31,7 @@
 #define DETECTEMP 23
 
 struct Thermal_SizeTemp_Struct{
-	int max_temp, size, detected; 
+	int max_temp, size, detected, sunlight; 
 };
 
 //the colors we will be using

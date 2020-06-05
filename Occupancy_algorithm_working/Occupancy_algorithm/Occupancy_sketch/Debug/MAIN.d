@@ -48,6 +48,7 @@ MAIN.d MAIN.o: .././MAIN.cpp ..\\..\ArduinoCore\include\core/Arduino.h \
  ..\\..\ArduinoCore\include\libraries\adafruit_gfx_library/Adafruit_GFX.h \
  ..\\..\ArduinoCore\include\libraries\adafruit_gfx_library/Adafruit_SPITFT_Macros.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sleep.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\power.h \
  .././Accelerometer.h .././Temp_Humidity.h .././Fona.h .././GPS.h
 
 ..\\..\ArduinoCore\include\core/Arduino.h:
@@ -151,6 +152,8 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ..\\..\ArduinoCore\include\libraries\adafruit_gfx_library/Adafruit_SPITFT_Macros.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sleep.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\power.h:
 
 .././Accelerometer.h:
 
